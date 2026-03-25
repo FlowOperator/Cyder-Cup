@@ -1,0 +1,3205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Cyder Cup</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1a4a2e;
+    --green-mid: #2d7a4f;
+    --green-light: #4aad72;
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --cream: #f5f0e8;
+    --charcoal: #1c1c1c;
+    --muted: #6b6b6b;
+    --red: #d63030;
+    --pink: #d63030;
+    --blue: #3b7dd8;
+    --card-bg: #ffffff;
+    --border: #e0dbd0;
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    min-height: 100vh;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    background: var(--green);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    padding: 12px 0;
+  }
+  .nav-links {
+    display: flex;
+    gap: 4px;
+    list-style: none;
+  }
+  .nav-links li a {
+    display: block;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 18px 14px;
+    transition: all 0.2s;
+    border-bottom: 3px solid transparent;
+  }
+  .nav-links li a:hover, .nav-links li a.active {
+    color: var(--gold-light);
+    border-bottom-color: var(--gold);
+  }
+
+  /* ===== VIEWS ===== */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: linear-gradient(135deg, var(--green) 0%, #0f2e1a 100%);
+    padding: 60px 32px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.15) 0%, transparent 70%);
+  }
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(60px, 10vw, 110px);
+    color: white;
+    letter-spacing: 4px;
+    line-height: 0.9;
+    position: relative;
+  }
+  .hero h1 span {
+    display: block;
+    color: var(--gold);
+    font-size: clamp(40px, 6vw, 72px);
+    letter-spacing: 8px;
+  }
+  .hero-sub {
+    color: rgba(255,255,255,0.6);
+    font-size: 16px;
+    margin-top: 16px;
+    font-weight: 300;
+    position: relative;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 100px;
+    padding: 8px 20px;
+    color: var(--gold-light);
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 24px;
+    letter-spacing: 1px;
+    position: relative;
+  }
+
+  /* ===== SECTION ===== */
+  .section { padding: 40px 32px; max-width: 1300px; margin: 0 auto; }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    color: var(--green);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+  .section-subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+  .divider {
+    width: 48px;
+    height: 3px;
+    background: var(--gold);
+    margin-bottom: 24px;
+  }
+
+  /* ===== TEAMS CARD ===== */
+  .teams-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .team-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 2px solid transparent;
+  }
+  .team-card.pink { border-color: var(--pink); }
+  .team-card.blue { border-color: var(--blue); }
+  .team-header {
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .team-header.pink { background: linear-gradient(135deg, var(--red), #a01818); }
+  .team-header.blue { background: linear-gradient(135deg, var(--blue), #1e5aab); }
+  .team-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: white;
+    letter-spacing: 2px;
+  }
+  .team-captain {
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .team-captain span {
+    display: block;
+    font-size: 14px;
+    color: white;
+    font-weight: 700;
+  }
+  .team-players { padding: 8px 0; }
+  .team-player-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 24px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+  .team-player-row:last-child { border-bottom: none; }
+  .player-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    color: white;
+    flex-shrink: 0;
+  }
+  .pink .player-avatar { background: var(--pink); }
+  .blue .player-avatar { background: var(--blue); }
+  .player-info { flex: 1; }
+  .player-name { font-weight: 600; font-size: 14px; }
+  .player-hcap { font-size: 12px; color: var(--muted); }
+  .player-role {
+    font-size: 10px;
+    background: var(--gold);
+    color: var(--green);
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .rookie-badge {
+    font-size: 10px;
+    background: #f0e8d0;
+    color: #8b6914;
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .team-player-clickable {
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .team-player-clickable:hover {
+    background: #f5f5f5;
+  }
+  .team-card.pink .team-player-clickable:hover { background: rgba(214,48,48,0.04); }
+  .team-card.blue .team-player-clickable:hover { background: rgba(59,125,216,0.04); }
+  .player-arrow {
+    font-size: 20px;
+    color: #ccc;
+    font-weight: 300;
+    margin-left: auto;
+    transition: color 0.15s, transform 0.15s;
+  }
+  .team-player-clickable:hover .player-arrow {
+    color: var(--muted);
+    transform: translateX(2px);
+  }
+
+  /* ===== TOUR GRID ===== */
+  .tours-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .tour-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--border);
+  }
+  .tour-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  }
+  .tour-card-header {
+    background: var(--green);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .tour-card-header::before {
+    content: '';
+    position: absolute;
+    right: -20px; top: -20px;
+    width: 100px; height: 100px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+  }
+  .tour-flag { font-size: 32px; margin-bottom: 8px; }
+  .tour-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+  .tour-location {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  .tour-card-body { padding: 20px; }
+  .tour-result {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .tour-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+  }
+  .score-pink { color: var(--pink); }
+  .score-blue { color: var(--blue); }
+  .score-sep { color: var(--muted); font-size: 20px; }
+  .winner-badge {
+    font-size: 11px;
+    background: var(--green);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  .tour-stats-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .tour-stat { font-size: 12px; color: var(--muted); }
+  .tour-stat strong { color: var(--charcoal); font-weight: 600; }
+  .trophy-icon { font-size: 16px; }
+
+  /* ===== STATS ===== */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .stat-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--gold);
+    text-align: center;
+  }
+  .stat-card.green { border-top-color: var(--green-light); }
+  .stat-card.pink { border-top-color: var(--pink); }
+  .stat-card.blue { border-top-color: var(--blue); }
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--green);
+    letter-spacing: 2px;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+  .leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .leaderboard-table th {
+    background: var(--green);
+    color: rgba(255,255,255,0.7);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 14px 16px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .leaderboard-table th:hover { background: var(--green-mid); color: white; }
+  .leaderboard-table th.sort-asc::after { content: ' ▲'; color: var(--gold); }
+  .leaderboard-table th.sort-desc::after { content: ' ▼'; color: var(--gold); }
+  .leaderboard-table th:first-child { color: white; cursor: default; }
+  .leaderboard-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .leaderboard-table tr:last-child td { border-bottom: none; }
+  .leaderboard-table tr:hover td { background: #faf8f4; }
+  .rank-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--muted);
+    width: 30px;
+    text-align: center;
+  }
+  .rank-num.gold { color: #c9a84c; }
+  .rank-num.silver { color: #9ba3ad; }
+  .rank-num.bronze { color: #cd7f32; }
+  .win-pct {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .win-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    max-width: 80px;
+  }
+  .win-bar-fill {
+    height: 100%;
+    background: var(--green-mid);
+    border-radius: 3px;
+    transition: width 1s ease;
+  }
+  .star-count { color: var(--gold); font-size: 12px; }
+  .points-chip {
+    background: var(--green);
+    color: white;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    display: inline-block;
+  }
+
+  /* ===== TOUR DETAIL ===== */
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--green);
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 8px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+    border: none;
+    background: none;
+  }
+  .back-btn:hover { color: var(--green-mid); }
+  .tour-hero {
+    background: linear-gradient(135deg, var(--green), #0f2e1a);
+    border-radius: var(--radius);
+    padding: 32px;
+    margin-bottom: 28px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .tour-hero::before {
+    content: '';
+    position: absolute;
+    right: -40px; top: -40px;
+    width: 200px; height: 200px;
+    background: rgba(201,168,76,0.1);
+    border-radius: 50%;
+  }
+  .tour-hero-flag { font-size: 48px; margin-bottom: 8px; }
+  .tour-hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    letter-spacing: 3px;
+    color: white;
+    line-height: 1;
+  }
+  .tour-hero-sub { color: rgba(255,255,255,0.6); font-size: 15px; margin-top: 6px; }
+  .tour-scoreboard {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 20px;
+  }
+  .ts-team { text-align: center; }
+  .ts-team-name {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 4px;
+  }
+  .ts-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: 2px;
+  }
+  .ts-score.pink { color: var(--pink); }
+  .ts-score.blue { color: #6ab0ff; }
+  .ts-divider { font-family: 'Bebas Neue', sans-serif; font-size: 36px; opacity: 0.4; }
+  .ts-winner-label {
+    font-size: 11px;
+    background: var(--gold);
+    color: var(--green);
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-top: 8px;
+    display: inline-block;
+  }
+  .rounds-container { margin-bottom: 28px; }
+  .round-block {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+  }
+  .round-header {
+    background: var(--green);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .round-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .round-course {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    font-style: italic;
+  }
+  .round-score-chip {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: var(--gold);
+  }
+  .match-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+  .match-row:last-child { border-bottom: none; }
+  .match-format {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: var(--muted);
+    min-width: 60px;
+  }
+  .match-players {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .match-result {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    min-width: 50px;
+    text-align: center;
+    color: var(--charcoal);
+  }
+  .match-score-chip {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 100px;
+    min-width: 50px;
+    text-align: center;
+  }
+  .chip-pink { background: rgba(214,48,48,0.12); color: var(--red); }
+  .chip-blue { background: rgba(59,125,216,0.15); color: var(--blue); }
+  .chip-draw { background: rgba(107,107,107,0.12); color: var(--muted); }
+  .player-stats-section { margin-top: 28px; }
+  .player-stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .player-stats-table th {
+    background: var(--green);
+    color: rgba(255,255,255,0.7);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 12px 14px;
+    font-family: 'Barlow Condensed', sans-serif;
+    text-align: left;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .player-stats-table th:hover { background: var(--green-mid); color: white; }
+  .player-stats-table th.sort-asc::after { content: ' ▲'; color: var(--gold); }
+  .player-stats-table th.sort-desc::after { content: ' ▼'; color: var(--gold); }
+  .player-stats-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .player-stats-table tr:last-child td { border-bottom: none; }
+  .star { color: var(--gold); }
+  .player-link {
+    color: var(--green);
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 2px;
+    transition: text-decoration-color 0.2s, color 0.2s;
+  }
+  .player-link:hover {
+    color: var(--green-mid);
+    text-decoration-color: var(--green-mid);
+  }
+
+  /* ===== ENTRY FORM ===== */
+  /* ===== ENTRY VIEW - NEW ===== */
+  .entry-setup-card {
+    background: #fff;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .entry-setup-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+  }
+  .entry-setup-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+  .entry-field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+  .entry-field input {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    color: var(--charcoal);
+    background: var(--cream);
+    box-sizing: border-box;
+  }
+  .entry-field input:focus { outline: none; border-color: var(--green-mid); background: #fff; }
+  .entry-match-card {
+    background: #fff;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .entry-match-header {
+    background: var(--green);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .entry-match-title { font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
+  .entry-match-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .entry-btn { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; padding: 7px 14px; font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: background 0.2s; }
+  .entry-btn:hover { background: rgba(255,255,255,0.25); }
+  .entry-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .entry-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 640px; }
+  .entry-table thead tr { background: #f0ece4; }
+  .entry-table th { padding: 9px 10px; text-align: left; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--border); white-space: nowrap; }
+  .entry-table td { border-bottom: 1px solid #ece8e0; padding: 0; vertical-align: middle; }
+  .entry-table tr:nth-child(even) td { background: #faf8f4; }
+  .entry-table tr:hover td { background: #f0f8f4 !important; }
+  .entry-table tr.round-sep-row td { background: #e8f0e8 !important; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--green); padding: 6px 10px; }
+  .col-num { width: 36px; } .col-round { width: 150px; } .col-fmt { width: 110px; } .col-player { width: 200px; } .col-score { width: 80px; } .col-winner { width: 100px; } .col-del { width: 36px; }
+  .e-input { width: 100%; border: none; background: transparent; padding: 9px 10px; font-family: 'Barlow', sans-serif; font-size: 13px; color: var(--charcoal); outline: none; }
+  .e-input:focus { background: #fff8e8; box-shadow: inset 0 0 0 2px var(--gold); }
+  .e-select { width: 100%; border: none; background: transparent; padding: 9px 10px; font-family: 'Barlow', sans-serif; font-size: 13px; color: var(--charcoal); outline: none; cursor: pointer; }
+  .e-select:focus { background: #fff8e8; }
+  .e-rownum { text-align: center; font-size: 11px; color: var(--muted); padding: 0 6px; font-family: 'Barlow Condensed', sans-serif; }
+  .e-delbtn { background: none; border: none; color: #ccc; cursor: pointer; font-size: 14px; padding: 0 8px; transition: color 0.2s; }
+  .e-delbtn:hover { color: #cc4444; }
+  .entry-tally { display: flex; align-items: center; gap: 16px; padding: 12px 20px; border-top: 2px solid var(--border); background: #fafaf7; flex-wrap: wrap; }
+  .entry-tally-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+  .entry-tally-red { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--red); }
+  .entry-tally-sep { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--muted); }
+  .entry-tally-blue { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--blue); }
+  .entry-tally-draw { font-size: 12px; color: var(--muted); }
+  .entry-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+  .entry-saved-card { background: #fff; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); padding: 24px; }
+  .entry-saved-title { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+  .saved-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--cream); border-radius: 8px; border: 1px solid var(--border); margin-bottom: 8px; cursor: pointer; transition: all 0.2s; }
+  .saved-item:hover { border-color: var(--green-mid); background: #f0f8f4; }
+  .saved-item-name { font-weight: 600; font-size: 14px; }
+  .saved-item-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .saved-item-del { background: none; border: none; color: #ccc; cursor: pointer; font-size: 16px; padding: 4px 8px; transition: color 0.2s; }
+  .saved-item-del:hover { color: #cc4444; }
+  .entry-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  .form-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+  .form-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--green);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+  }
+  .form-card label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    margin-top: 0;
+  }
+  .form-card input[type=text], .form-card input[type=number], .form-card select, .form-card textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    color: var(--charcoal);
+    background: var(--cream);
+    transition: border-color 0.2s;
+  }
+  .form-card input:focus, .form-card select:focus, .form-card textarea:focus {
+    outline: none;
+    border-color: var(--green-mid);
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--green);
+    color: white;
+  }
+  .btn-primary:hover { background: var(--green-mid); }
+  .btn-gold {
+    background: var(--gold);
+    color: var(--green);
+  }
+  .btn-gold:hover { background: var(--gold-light); }
+  .btn-sm { padding: 8px 16px; font-size: 12px; }
+  .match-entry-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 80px 80px auto;
+    gap: 10px;
+    align-items: end;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .match-entry-row:last-child { border-bottom: none; }
+  .remove-btn {
+    background: none;
+    border: 1.5px solid #e0d0d0;
+    color: #cc5555;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  .remove-btn:hover { background: #fff0f0; border-color: #cc5555; }
+  .add-match-btn {
+    background: none;
+    border: 2px dashed var(--green-mid);
+    color: var(--green-mid);
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    width: 100%;
+    margin-top: 8px;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .add-match-btn:hover { background: rgba(45,122,79,0.06); }
+  .saved-tours-list { margin-top: 16px; }
+  .saved-tour-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .saved-tour-item:hover { border-color: var(--green-mid); background: #f0f8f4; }
+  .saved-tour-info { font-weight: 600; font-size: 14px; }
+  .saved-tour-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* ===== SHEET TABLE ===== */
+  .sheet-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .sheet-table thead tr {
+    background: #f0ece4;
+  }
+  .sheet-table th {
+    padding: 9px 10px;
+    text-align: left;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 2px solid var(--border);
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .sheet-table th:last-child { border-right: none; }
+  .sheet-table td {
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid #ece8e0;
+    padding: 0;
+    vertical-align: middle;
+  }
+  .sheet-table td:last-child { border-right: none; }
+  .sheet-table tr:nth-child(even) td { background: #faf8f4; }
+  .sheet-table tr:hover td { background: #f0f8f4 !important; }
+  .sheet-table tr.round-header-row td {
+    background: #e8f0e8 !important;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--green);
+    padding: 6px 10px;
+  }
+  .sheet-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 9px 10px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 13px;
+    color: var(--charcoal);
+    outline: none;
+  }
+  .sheet-input:focus {
+    background: #fff8e8;
+    box-shadow: inset 0 0 0 2px var(--gold);
+  }
+  .sheet-select {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 9px 10px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 13px;
+    color: var(--charcoal);
+    outline: none;
+    cursor: pointer;
+  }
+  .sheet-select:focus { background: #fff8e8; }
+  .sheet-row-num {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    padding: 0 6px;
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+  .sheet-del-btn {
+    background: none;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0 10px;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+  .sheet-del-btn:hover { color: #cc4444; }
+  .winner-chip-red { color: var(--red); font-weight: 700; }
+  .winner-chip-blue { color: var(--blue); font-weight: 700; }
+  .winner-chip-draw { color: var(--muted); }
+
+  .player-link {
+    cursor: pointer;
+    color: var(--green);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.2s, color 0.2s;
+  }
+  .player-link:hover { color: var(--green-mid); text-decoration-color: var(--green-mid); }
+
+  /* ===== PLAYER PROFILE ===== */
+  .profile-hero {
+    background: linear-gradient(135deg, var(--green), #0d2818);
+    border-radius: var(--radius);
+    padding: 32px;
+    margin-bottom: 24px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    position: relative;
+    overflow: hidden;
+  }
+  .profile-hero::before {
+    content: '';
+    position: absolute;
+    right: -30px; top: -30px;
+    width: 180px; height: 180px;
+    background: rgba(201,168,76,0.08);
+    border-radius: 50%;
+  }
+  .profile-avatar-lg {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    color: var(--green);
+    flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  }
+  .profile-hero-info { flex: 1; }
+  .profile-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    letter-spacing: 2px;
+    line-height: 1;
+    color: white;
+  }
+  .profile-code {
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .profile-stats-row {
+    display: flex;
+    gap: 28px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .profile-stat { text-align: center; }
+  .profile-stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    line-height: 1;
+    color: var(--gold);
+  }
+  .profile-stat-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .profile-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+  .profile-card h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--green);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+  }
+  .tour-record-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .tour-record-row:last-child { border-bottom: none; }
+  .tour-record-flag { font-size: 16px; margin-right: 6px; }
+  .result-bar-wrap {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    margin-top: 12px;
+  }
+  .result-bar-seg {
+    height: 10px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  @media (max-width: 768px) {
+    .profile-grid { grid-template-columns: 1fr; }
+    .profile-name { font-size: 38px; }
+    .profile-avatar-lg { width: 64px; height: 64px; font-size: 24px; }
+    .profile-stats-row { gap: 16px; }
+    .profile-stat-num { font-size: 28px; }
+  }
+  .landmarks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .landmark-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .landmark-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    background: var(--cream);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .landmark-title { font-weight: 700; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .landmark-value { font-size: 15px; font-weight: 600; color: var(--charcoal); }
+
+  .format-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .format-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    border-top: 4px solid var(--green-light);
+  }
+  .format-card.scramble { border-top-color: var(--gold); }
+  .format-card.singles { border-top-color: var(--pink); }
+  .format-card h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--green);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  .format-mini-stat { font-size: 13px; color: var(--muted); margin: 4px 0; }
+  .format-mini-stat strong { color: var(--charcoal); }
+
+  .alert {
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    display: none;
+  }
+  .alert.success { background: #e8f5ee; border: 1px solid #a8d8ba; color: #1a5c34; display: block; }
+  .alert.info { background: #e8f0fa; border: 1px solid #a8c0e8; color: #1a3c6c; display: block; }
+
+  /* ===== HAMBURGER NAV ===== */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 10px 4px;
+    background: none;
+    border: none;
+    z-index: 200;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: rgba(255,255,255,0.85);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Scrollable table wrapper */
+  .table-scroll-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--radius);
+  }
+
+
+  /* ===== AUDIT TRAIL ===== */
+  .audit-item {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .audit-item:last-child { border-bottom: none; }
+  .audit-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 100px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .audit-insert { background: #e8f5ee; color: #1a5c34; }
+  .audit-update { background: #e8f0fa; color: #1a3c6c; }
+  .audit-delete { background: #fde8e8; color: #7c1a1a; }
+  .audit-meta { color: var(--muted); font-size: 11px; margin-top: 2px; }
+  .audit-diff { font-size: 12px; margin-top: 6px; background: #f8f6f2; border-radius: 6px; padding: 6px 10px; }
+  .audit-diff-old { color: #c0392b; text-decoration: line-through; }
+  .audit-diff-new { color: #1a5c34; }
+  .audit-undo-btn {
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--muted);
+    white-space: nowrap;
+    transition: all 0.2s;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .audit-undo-btn:hover { border-color: var(--red); color: var(--red); background: #fff0f0; }
+  .db-connecting { animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  /* ===== HCP FILTER CHIPS ===== */
+  .hcp-chip { display:inline-flex; align-items:center; gap:5px; padding:5px 12px; border-radius:100px; font-size:12px; font-weight:600; cursor:pointer; border:2px solid transparent; transition:all 0.15s; user-select:none; }
+  .hcp-chip.active { color:white; }
+  .hcp-chip.inactive { background:var(--cream) !important; color:var(--muted) !important; border-color:var(--border) !important; }
+  .hcp-chip-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+
+  /* ===== FEAR FACTOR ===== */
+  .fear-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px; margin-bottom:8px; }
+  .fear-card { background:var(--card-bg); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow); border:1px solid var(--border); }
+  .fear-card.dominant { border-left:4px solid var(--green-mid); }
+  .fear-card.close-match { border-left:4px solid var(--gold); }
+  .fear-players { font-size:14px; font-weight:700; margin-bottom:8px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  .fear-vs { font-size:11px; color:var(--muted); font-weight:400; padding:0 2px; }
+  .fear-bar-wrap { height:10px; border-radius:5px; overflow:hidden; background:var(--border); display:flex; margin:6px 0; }
+  .fear-bar-p1 { height:100%; background:var(--green-mid); transition:width 0.6s; }
+  .fear-bar-draw { height:100%; background:var(--gold); transition:width 0.6s; }
+  .fear-bar-p2 { height:100%; background:var(--red); transition:width 0.6s; }
+  .fear-meta { display:flex; justify-content:space-between; align-items:center; }
+  .fear-score { font-size:12px; color:var(--muted); }
+  .fear-badge { font-size:10px; font-weight:700; padding:2px 8px; border-radius:100px; }
+  .fear-badge-dom { background:#e8f5ee; color:#1a5c34; }
+  .fear-badge-close { background:#fdf8ee; color:#7c5c00; }
+  .fear-badge-scared { background:#fde8e8; color:#7c1a1a; }
+
+  .ac-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1.5px solid var(--green-mid);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    z-index: 999;
+    max-height: 180px;
+    overflow-y: auto;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+  .ac-item { padding: 9px 12px; font-size: 13px; cursor: pointer; border-bottom: 1px solid var(--border); transition: background 0.1s; }
+  .ac-item:last-child { border-bottom: none; }
+  .ac-item:hover, .ac-item.active { background: #f0f8f4; color: var(--green); font-weight: 600; }
+
+  /* ===== PROFILE 2-COL ===== */
+  .profile-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+
+  /* ===== COUNTDOWN ===== */
+  .countdown-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(201,168,76,0.18); border:1px solid rgba(201,168,76,0.5); border-radius:100px; padding:8px 20px; color:var(--gold-light); font-size:13px; font-weight:700; margin-top:12px; letter-spacing:1px; position:relative; }
+
+  /* ===== ROUND PIPS on TOUR CARDS ===== */
+  .round-indicators { display:flex; gap:4px; margin-top:8px; flex-wrap:wrap; }
+  .round-pip { height:6px; flex:1; border-radius:3px; min-width:20px; max-width:40px; }
+  .pip-red { background:var(--red); }
+  .pip-blue { background:var(--blue); }
+  .pip-draw { background:var(--gold); }
+
+  /* ===== PRINT ===== */
+  @media print {
+    nav, .back-btn, button { display:none !important; }
+    .view { display:block !important; }
+    .view:not(.active) { display:none !important; }
+    .tour-hero { background:#1a4a2e !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+
+  /* ===== RESPONSIVE / IPHONE ===== */
+  @media (max-width: 768px) {
+    /* Hamburger nav */
+    .nav-hamburger { display: flex; }
+    nav { padding: 0 16px; position: relative; flex-wrap: wrap; align-items: center; }
+    .nav-logo { font-size: 22px; padding: 14px 0; flex: 1; }
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      background: var(--green);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 8px 0 12px;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li a {
+      padding: 13px 20px;
+      font-size: 15px;
+      letter-spacing: 1px;
+      border-bottom: none;
+      border-left: 3px solid transparent;
+    }
+    .nav-links li a:hover, .nav-links li a.active {
+      border-left-color: var(--gold);
+      border-bottom: none;
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* Hero */
+    .hero { padding: 40px 16px 36px; }
+    .hero h1 { font-size: 58px; }
+    .hero h1 span { font-size: 40px; }
+    .hero-sub { font-size: 14px; }
+    .hero-badge { font-size: 13px; padding: 8px 18px; }
+
+    /* Sections */
+    .section { padding: 22px 14px; }
+    .section-title { font-size: 30px; }
+
+    /* Teams */
+    .teams-grid { grid-template-columns: 1fr; gap: 16px; }
+    .team-header { padding: 16px 18px; }
+    .team-name { font-size: 28px; }
+    .team-player-row { padding: 10px 18px; }
+    .player-name { font-size: 14px; }
+
+    /* Tours grid */
+    .tours-grid { grid-template-columns: 1fr; }
+    .tour-year { font-size: 38px; }
+    .tour-card-header { padding: 20px; }
+
+    /* Tour detail */
+    .tour-hero { padding: 24px 16px; }
+    .tour-hero-title { font-size: 36px; }
+    .tour-scoreboard { flex-wrap: wrap; gap: 12px; }
+    .ts-score { font-size: 46px; }
+    .ts-team-name { font-size: 11px; }
+
+    /* Match rows */
+    .match-row { flex-wrap: wrap; gap: 6px; padding: 10px 14px; }
+    .match-players { font-size: 13px; flex: 1 1 100%; }
+    .match-format { min-width: 44px; font-size: 9px; }
+
+    /* Stats */
+    .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stat-number { font-size: 40px; }
+    .format-stats-grid { grid-template-columns: 1fr; }
+    .landmarks-grid { grid-template-columns: 1fr; }
+    .win-bar { max-width: 48px; }
+    .points-chip { font-size: 12px; padding: 2px 8px; }
+
+    /* Tables — horizontally scrollable */
+    .leaderboard-table { font-size: 12px; min-width: 600px; }
+    .leaderboard-table th, .leaderboard-table td { padding: 10px 10px; }
+    .player-stats-table { font-size: 12px; min-width: 340px; }
+    .player-stats-table th, .player-stats-table td { padding: 10px 10px; }
+
+    /* Entry */
+    #entry-alert { font-size: 13px; }
+    .sheet-table { min-width: 580px; }
+    .sheet-input { font-size: 12px; padding: 7px 8px; }
+    .sheet-select { font-size: 12px; padding: 7px 8px; }
+    .form-card h3 { font-size: 16px; }
+    .btn { font-size: 13px; padding: 11px 18px; }
+
+    /* Back button */
+    .back-btn { font-size: 13px; padding: 10px 0; }
+
+    /* All-time series record */
+    .form-card > div[style*="gap:32px"] { gap: 16px !important; flex-wrap: wrap; }
+  }
+
+  @media (max-width: 430px) {
+    .hero h1 { font-size: 48px; }
+    .hero h1 span { font-size: 34px; }
+    .section { padding: 16px 12px; }
+    .stats-grid { gap: 10px; }
+    .stat-card { padding: 14px; }
+    .stat-number { font-size: 34px; }
+    .tour-hero-title { font-size: 30px; }
+    .ts-score { font-size: 40px; }
+    .section-title { font-size: 26px; }
+    .leaderboard-table { font-size: 11px; }
+    .leaderboard-table th, .leaderboard-table td { padding: 8px 8px; }
+    .player-stats-table { font-size: 11px; }
+    .player-stats-table th, .player-stats-table td { padding: 8px 8px; }
+    .team-name { font-size: 24px; }
+    .tour-score { font-size: 24px; }
+    .winner-badge { font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo" onclick="navTo('home');closeNav()" style="cursor:pointer;">⛳ Cyder Cup</div>
+  <button class="nav-hamburger" id="nav-hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#" onclick="showView('home');closeNav()" class="active" id="nav-home">Home</a></li>
+    <li><a href="#" onclick="showView('tours');closeNav()" id="nav-tours">Tours</a></li>
+    <li><a href="#" onclick="showView('stats');closeNav()" id="nav-stats">Stats</a></li>
+    <li><a href="#" onclick="showView('entry');closeNav()" id="nav-entry">Results Entry</a></li>
+  </ul>
+</nav>
+
+<!-- HOME VIEW -->
+<div id="view-home" class="view active">
+  <div class="hero">
+    <div class="hero-eyebrow">Est. 2020 · Annual Golf Trip</div>
+    <h1>The Cyder<span>Cup</span></h1>
+    <div class="hero-sub">7 Tours · 13 Players · Ryder Cup Format</div>
+    <div class="hero-badge">🇪🇸 Next Stop: Sotogrande 2026</div>
+    <div class="countdown-badge" id="countdown-days">⏳ Counting down...</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2026 Teams</div>
+    <div class="divider"></div>
+    <div class="section-subtitle">Sotogrande, Spain · La Reserva, Heathland & Finca Cortesin</div>
+
+    <div class="teams-grid">
+      <!-- RED TEAM -->
+      <div class="team-card pink">
+        <div class="team-header pink">
+          <div><div class="team-name">🔴 Red</div></div>
+          <div class="team-captain">Captain<span>Smart</span></div>
+        </div>
+        <div class="team-players">
+          <div class="team-player-row team-player-clickable" onclick="showPlayerProfile('Jack Smart')">
+            <div class="player-avatar">JS</div>
+            <div class="player-info">
+              <div class="player-name">Jack Smart</div>
+              <div class="player-hcap">Hcp: 10 (Tour)</div>
+            </div>
+            <span class="player-role">Captain</span>
+          </div>
+          <div class="team-player-row team-player-clickable" onclick="showPlayerProfile('Ben Bruce')">
+            <div class="player-avatar">BB</div>
+            <div class="player-info"><div class="player-name">Ben Bruce</div><div class="player-hcap">Hcp: 19 (Tour)</div></div>
+            <span class="player-arrow">›</span>
+          </div>
+          <div class="team-player-row team-player-clickable" onclick="showPlayerProfile('James Wheeler')">
+            <div class="player-avatar">JW</div>
+            <div class="player-info"><div class="player-name">James Wheeler</div><div class="player-hcap">Hcp: 8 (Tour)</div></div>
+            <span class="player-arrow">›</span>
+          </div>
+          <div class="team-player-row team-player-clickable" onclick="showPlayerProfile('Charlie Pascoe')">
+            <div class="player-avatar">CP</div>
+            <div class="player-info"><div class="player-name">Charlie Pascoe</div><div class="player-hcap">Hcp: 15 (Tour)</div></div>
+            <span class="player-arrow">›</span>
+          </div>
+          <div class="team-player-row team-player-clickable" onclick="showPlayerProfile('Andrew Newson')">
+            <div class="player-avatar">AN</div>
+            <div class="player-info"><div class="player-name">Andrew Newson</div><div class="player-hcap">Hcp: 16 (Tour)</div></div>
+            <span class="player-arrow">›</span>
+          </div>
+          <div class="team-player-row team-player-clickable" onclick="showPlayerProfile('Kier Roff-Stanion')">
+            <div class="player-avatar">KR</div>
+            <div class="player-info"><div class="player-name">Kier Roff-Stanion</div><div class="player-hcap">Hcp: 12 (Tour)</div></div>
+            <span class="player-arrow">›</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLUE TEAM -->
+      <div class="team-card blue">
+        <div class="team-header blue">
+          <div><div class="team-name">💙 Blue</div></div>
+          <div class="team-captain">Captain<span>Duncliffe-Vines</span></div>
+        </div>
+        <div class="team-players">
+          <div class="team-player-row team-player-clickable" onclick="showPlayerProfile('Alex Duncliffe-Vines')">
+            <div class="player-avatar">AD</div>
+            <div class="player-info">
+              <div class="player-name">Alex Duncliffe-Vines</div>
+              <div class="player-hcap">Hcp: 6 (Tour)</div>
+            </div>
+            <span class="player-role">Captain</span>
+          </div>
+          <div class="team-player-row team-player-clickable" onclick="showPlayerProfile('Jock Jamieson-Black')">
+            <div class="player-avatar">JJ</div>
+            <div class="player-info"><div class="player-name">Jock Jamieson-Black</div><div class="player-hcap">Hcp: 8 (Tour)</div></div>
+            <span class="player-arrow">›</span>
+          </div>
+          <div class="team-player-row team-player-clickable" onclick="showPlayerProfile('Ben Ringrose')">
+            <div class="player-avatar">BR</div>
+            <div class="player-info"><div class="player-name">Ben Ringrose</div><div class="player-hcap">Hcp: 11 (Tour)</div></div>
+            <span class="player-arrow">›</span>
+          </div>
+          <div class="team-player-row team-player-clickable" onclick="showPlayerProfile('Nick Haynes')">
+            <div class="player-avatar">NH</div>
+            <div class="player-info"><div class="player-name">Nick Haynes</div><div class="player-hcap">Hcp: 15 (Tour)</div></div>
+            <span class="player-arrow">›</span>
+          </div>
+          <div class="team-player-row team-player-clickable" onclick="showPlayerProfile('Simon Sexton')">
+            <div class="player-avatar">SS</div>
+            <div class="player-info"><div class="player-name">Simon Sexton</div><div class="player-hcap">Hcp: 27 (Tour)</div></div>
+            <span class="player-arrow">›</span>
+          </div>
+          <div class="team-player-row team-player-clickable" onclick="showPlayerProfile('Harry Gwilliam')">
+            <div class="player-avatar">HG</div>
+            <div class="player-info"><div class="player-name">Harry Gwilliam</div><div class="player-hcap">Hcp: 9 (Tour)</div></div>
+            <span class="rookie-badge">🌱 Rookie</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- All-time Series -->
+    <div class="form-card" style="margin-top: 0;">
+      <h3>⚔️ All-Time Series Record</h3>
+      <div style="display:flex; gap:32px; align-items:center; flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:52px; color:var(--pink); line-height:1;">3</div>
+          <div style="font-size:12px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:1px;">Wins</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:52px; color:var(--muted); line-height:1;">2</div>
+          <div style="font-size:12px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:1px;">Tied / Playoff</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:52px; color:var(--blue); line-height:1;">1</div>
+          <div style="font-size:12px; color:var(--muted); font-weight:700; text-transform:uppercase; letter-spacing:1px;">Wins</div>
+        </div>
+        <div style="flex:1; min-width:200px;">
+          <div style="font-size:13px; color:var(--muted); line-height:1.8;">
+            <div>🏆 <strong>2020</strong> — Navy win 5.5–2.5 (Marbella)</div>
+            <div>🤝 <strong>2021</strong> — Tie 4–4, Playoff (Marbella)</div>
+            <div>🏆 <strong>2022</strong> — Red win 5–3 (Quinta do Lago)</div>
+            <div>🏆 <strong>2023</strong> — Team JS win 10–5 (PGA Catalunya)</div>
+            <div>🏆 <strong>2024</strong> — Pink win 8.5–6.5 (Quinta do Lago)</div>
+            <div>🤝 <strong>2025</strong> — Tie 8.5–8.5, Playoff (Rome)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOURS VIEW -->
+<div id="view-tours" class="view">
+  <div class="section">
+    <div class="section-title">All Tours</div>
+    <div class="divider"></div>
+    <div class="section-subtitle">Click a tour to see full results</div>
+
+    <div class="tours-grid">
+      <div class="tour-card" onclick="showTour('sotogrande2026')">
+        <div class="tour-card-header">
+          <div class="tour-flag">🇪🇸</div>
+          <div class="tour-year">2026</div>
+          <div class="tour-location">Sotogrande, Spain</div>
+        </div>
+        <div class="tour-card-body">
+          <div class="tour-result">
+            <span style="font-size:14px;color:var(--muted);font-style:italic;">⏳ Upcoming</span>
+          </div>
+          <div class="tour-stats-row">
+            <span class="tour-stat"><strong>Pink</strong> vs Blue</span>
+            <span class="tour-stat">3 courses</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tour-card" onclick="showTour('rome2025')">
+        <div class="tour-card-header">
+          <div class="tour-flag">🇮🇹</div>
+          <div class="tour-year">2025</div>
+          <div class="tour-location">Rome, Italy</div>
+        </div>
+        <div class="tour-card-body">
+          <div class="tour-result">
+            <span class="tour-score score-pink">8.5</span>
+            <span class="score-sep">–</span>
+            <span class="tour-score score-blue">8.5</span>
+            <span class="winner-badge">🤝 Playoff Win — Blue</span>
+          </div>
+          <div class="tour-stats-row">
+            <span class="tour-stat"><strong>Pink cap:</strong> Ben Ringrose</span>
+            <span class="tour-stat">🏅 ADV, KRS, BR</span>
+          </div>
+          <div class="round-indicators">
+            <div class="round-pip pip-draw" title="Day 1 Fourball: 1.5–1.5"></div>
+            <div class="round-pip pip-blue" title="Day 2 Fourball: 0.5–2.5"></div>
+            <div class="round-pip pip-draw" title="Day 2 Scramble: 1.5–1.5"></div>
+            <div class="round-pip pip-draw" title="Day 3 Singles: 5–5"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tour-card" onclick="showTour('qdl2024')">
+        <div class="tour-card-header">
+          <div class="tour-flag">🇵🇹</div>
+          <div class="tour-year">2024</div>
+          <div class="tour-location">Quinta do Lago, Portugal</div>
+        </div>
+        <div class="tour-card-body">
+          <div class="tour-result">
+            <span class="tour-score score-pink">8.5</span>
+            <span class="score-sep">–</span>
+            <span class="tour-score score-blue">6.5</span>
+            <span class="winner-badge">🏆 Pink Win</span>
+          </div>
+          <div class="tour-stats-row">
+            <span class="tour-stat"><strong>Pink cap:</strong> ADV</span>
+            <span class="tour-stat">🏅 JW, BR, NH, AN, CP, KRS</span>
+          </div>
+          <div class="round-indicators">
+            <div class="round-pip pip-blue" title="Day 1 Fourball: 1–2"></div>
+            <div class="round-pip pip-red" title="Day 2 Scramble: 2–1"></div>
+            <div class="round-pip pip-red" title="Day 2 Foursomes: 2–1"></div>
+            <div class="round-pip pip-blue" title="Day 3 Singles: 1.5–4.5"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tour-card" onclick="showTour('catalonia2023')">
+        <div class="tour-card-header">
+          <div class="tour-flag">🇪🇸</div>
+          <div class="tour-year">2023</div>
+          <div class="tour-location">PGA Catalunya, Spain</div>
+        </div>
+        <div class="tour-card-body">
+          <div class="tour-result">
+            <span class="tour-score score-pink">10</span>
+            <span class="score-sep">–</span>
+            <span class="tour-score score-blue">5</span>
+            <span class="winner-badge">🏆 Team JS Win</span>
+          </div>
+          <div class="tour-stats-row">
+            <span class="tour-stat"><strong>JS cap:</strong> Jack Smart</span>
+            <span class="tour-stat">🏅 JS, NH, ADV, SS, RRS, AN, JJB</span>
+          </div>
+          <div class="round-indicators">
+            <div class="round-pip pip-draw" title="Day 1: 1.5–1.5"></div>
+            <div class="round-pip pip-red" title="Day 2 Scramble: 2–1"></div>
+            <div class="round-pip pip-blue" title="Day 3 Fourball: 0–3"></div>
+            <div class="round-pip pip-blue" title="Day 4 Singles: 1.5–4.5"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tour-card" onclick="showTour('qdl2022')">
+        <div class="tour-card-header">
+          <div class="tour-flag">🇵🇹</div>
+          <div class="tour-year">2022</div>
+          <div class="tour-location">Quinta do Lago, Portugal</div>
+        </div>
+        <div class="tour-card-body">
+          <div class="tour-result">
+            <span class="tour-score score-pink">5</span>
+            <span class="score-sep">–</span>
+            <span class="tour-score score-blue">3</span>
+            <span class="winner-badge">🏆 Red Win</span>
+          </div>
+          <div class="tour-stats-row">
+            <span class="tour-stat"><strong>Navy cap:</strong> AN</span>
+            <span class="tour-stat">🏅 KRS, BR, ADV</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tour-card" onclick="showTour('marbella2021')">
+        <div class="tour-card-header">
+          <div class="tour-flag">🇪🇸</div>
+          <div class="tour-year">2021</div>
+          <div class="tour-location">Marbella, Spain</div>
+        </div>
+        <div class="tour-card-body">
+          <div class="tour-result">
+            <span class="tour-score score-pink">4</span>
+            <span class="score-sep">–</span>
+            <span class="tour-score score-blue">4</span>
+            <span class="winner-badge">🤝 Playoff Win — Blue</span>
+          </div>
+          <div class="tour-stats-row">
+            <span class="tour-stat"><strong>Blue cap:</strong> JJB</span>
+            <span class="tour-stat">🏅 JJB, JW, JS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tour-card" onclick="showTour('marbella2020')">
+        <div class="tour-card-header">
+          <div class="tour-flag">🇪🇸</div>
+          <div class="tour-year">2020</div>
+          <div class="tour-location">Marbella, Spain</div>
+        </div>
+        <div class="tour-card-body">
+          <div class="tour-result">
+            <span class="tour-score score-pink">5.5</span>
+            <span class="score-sep">–</span>
+            <span class="tour-score score-blue">2.5</span>
+            <span class="winner-badge">🏆 Navy Win</span>
+          </div>
+          <div class="tour-stats-row">
+            <span class="tour-stat"><strong>Navy cap:</strong> JW</span>
+            <span class="tour-stat">🏅 JW, KRS, JS, LN</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PLAYER PROFILE VIEW -->
+<div id="view-player" class="view">
+  <div class="section">
+    <button class="back-btn" id="player-back-btn" onclick="history.back()">← Back</button>
+    <div id="player-profile-content"></div>
+  </div>
+</div>
+
+<!-- TOUR DETAIL VIEW -->
+<div id="view-tour" class="view">
+  <div class="section">
+    <button class="back-btn" onclick="showView('tours')">← Back to Tours</button>
+    <div id="tour-detail-content"></div>
+  </div>
+</div>
+
+<!-- STATS VIEW -->
+<div id="view-stats" class="view">
+  <div class="section">
+    <div class="section-title">Statistics</div>
+    <div class="divider"></div>
+    <div class="section-subtitle">All-time records across 6 completed tours (2020–2025)</div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">73</div>
+        <div class="stat-label">Total Matches</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-number">13</div>
+        <div class="stat-label">Players</div>
+      </div>
+      <div class="stat-card pink">
+        <div class="stat-number">6</div>
+        <div class="stat-label">Tours Completed</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-number">15</div>
+        <div class="stat-label">Max Wins (Wheeler)</div>
+      </div>
+    </div>
+
+    <!-- FORMAT STATS -->
+    <div class="section-title" style="font-size:28px;margin-bottom:8px;">By Format</div>
+    <div class="divider"></div>
+    <div class="format-stats-grid">
+      <div class="format-card">
+        <h4>🏌️ Fourball</h4>
+        <div class="format-mini-stat">Most common format</div>
+        <div class="format-mini-stat"><strong>Best pair:</strong> JW & BB (3/3)</div>
+        <div class="format-mini-stat"><strong>Best pair:</strong> JJB & JW (3.5/4)</div>
+      </div>
+      <div class="format-card scramble">
+        <h4>🔄 Texas Scramble</h4>
+        <div class="format-mini-stat">Handicap-free fun</div>
+        <div class="format-mini-stat"><strong>Clean sweep:</strong> 2023 (3-0)</div>
+        <div class="format-mini-stat"><strong>Bruce:</strong> 4/4 scramble wins</div>
+      </div>
+      <div class="format-card singles">
+        <h4>⚔️ Singles</h4>
+        <div class="format-mini-stat">The decider</div>
+        <div class="format-mini-stat"><strong>Wheeler:</strong> 5 straight wins</div>
+        <div class="format-mini-stat"><strong>Biggest:</strong> JW&BB beat LN&SS 8&7</div>
+      </div>
+    </div>
+
+    <!-- PLAYER LEADERBOARD -->
+    <div class="section-title" style="font-size:28px;margin-bottom:8px;">All-Time Player Rankings</div>
+    <div class="divider"></div>
+    <div class="table-scroll-wrap" style="margin-bottom:32px;">
+    <table class="leaderboard-table" id="leaderboard-table">
+      <thead>
+        <tr>
+          <th onclick="sortLeaderboard(0)">#</th>
+          <th onclick="sortLeaderboard(1)">Player</th>
+          <th onclick="sortLeaderboard(2)">Played</th>
+          <th onclick="sortLeaderboard(3)">Points</th>
+          <th onclick="sortLeaderboard(4)">Win %</th>
+          <th onclick="sortLeaderboard(5)">W</th>
+          <th onclick="sortLeaderboard(6)">L</th>
+          <th onclick="sortLeaderboard(7)">D</th>
+          <th onclick="sortLeaderboard(8)">⭐ Stars</th>
+          <th>Last 5</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboard-body">
+        <!-- Populated by JS -->
+      </tbody>
+    </table>
+    </div>
+
+    <!-- LANDMARKS -->
+    <div class="section-title" style="font-size:28px;margin-bottom:8px;">🏆 Landmarks & Records</div>
+    <div class="divider"></div>
+    <div class="landmarks-grid">
+      <div class="landmark-card">
+        <div class="landmark-icon">🏆</div>
+        <div>
+          <div class="landmark-title">Most Wins All-Time</div>
+          <div class="landmark-value">James Wheeler — 15 wins</div>
+        </div>
+      </div>
+      <div class="landmark-card">
+        <div class="landmark-icon">😓</div>
+        <div>
+          <div class="landmark-title">Most Losses All-Time</div>
+          <div class="landmark-value">Luke Nelson — 12 losses</div>
+        </div>
+      </div>
+      <div class="landmark-card">
+        <div class="landmark-icon">💥</div>
+        <div>
+          <div class="landmark-title">Biggest Match Win</div>
+          <div class="landmark-value">JW & BB beat LN & SS (8&7)</div>
+        </div>
+      </div>
+      <div class="landmark-card">
+        <div class="landmark-icon">🎯</div>
+        <div>
+          <div class="landmark-title">Biggest Team Margin</div>
+          <div class="landmark-value">Team JS wins by 5 pts (2023)</div>
+        </div>
+      </div>
+      <div class="landmark-card">
+        <div class="landmark-icon">🧹</div>
+        <div>
+          <div class="landmark-title">Clean Sweeps</div>
+          <div class="landmark-value">1 — 2023 Texas Scramble (3-0)</div>
+        </div>
+      </div>
+      <div class="landmark-card">
+        <div class="landmark-icon">🔥</div>
+        <div>
+          <div class="landmark-title">Unbeaten Tours</div>
+          <div class="landmark-value">KRS (2020), JW (2020, 2024), JJB (2021), JS (2021, 2023), ADV (2022), BR, BB, AN (2022)</div>
+        </div>
+      </div>
+      <div class="landmark-card">
+        <div class="landmark-icon">🎖️</div>
+        <div>
+          <div class="landmark-title">Most Stars (Career)</div>
+          <div class="landmark-value">Nick Haynes — 4 stars</div>
+        </div>
+      </div>
+      <div class="landmark-card">
+        <div class="landmark-icon">🤝</div>
+        <div>
+          <div class="landmark-title">Playoff Tours</div>
+          <div class="landmark-value">2021 Marbella · 2025 Rome</div>
+        </div>
+      </div>
+      <div class="landmark-card">
+        <div class="landmark-icon">🏌️</div>
+        <div>
+          <div class="landmark-title">Best Win% (10+ matches)</div>
+          <div class="landmark-value">James Wheeler — 76.2%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOP PAIRINGS -->
+    <div class="section-title" style="font-size:28px;margin-bottom:8px;">🤝 Best Pairings</div>
+    <div class="divider"></div>
+    <div class="table-scroll-wrap">
+    <table class="leaderboard-table">
+      <thead>
+        <tr>
+          <th>Pairing</th>
+          <th>Played</th>
+          <th>Points</th>
+          <th>Win %</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>JW & BB</strong> (Wheeler & Bruce)</td><td>3</td><td>3</td><td>100%</td></tr>
+        <tr><td><strong>JJB & JW</strong> (Jock & Wheeler)</td><td>4</td><td>3.5</td><td>87.5%</td></tr>
+        <tr><td><strong>ADV & KRS</strong> (Alex & Kier)</td><td>4</td><td>3</td><td>75%</td></tr>
+        <tr><td><strong>ADV & LN</strong> (Alex & Luke)</td><td>4</td><td>2.5</td><td>62.5%</td></tr>
+        <tr><td><strong>BR & AN</strong> (Ben R & Andrew)</td><td>2</td><td>2</td><td>100%</td></tr>
+        <tr><td><strong>JS & BB</strong> (Smart & Bruce)</td><td>2</td><td>2</td><td>100%</td></tr>
+        <tr><td><strong>NH & SS</strong> (Nick & Simon)</td><td>5</td><td>2.5</td><td>50%</td></tr>
+        <tr><td><strong>JW & SS</strong> (Wheeler & Simon)</td><td>2</td><td>0</td><td>0%</td></tr>
+        <tr><td><strong>CP & LN</strong> (Charlie & Luke)</td><td>2</td><td>0</td><td>0%</td></tr>
+      </tbody>
+    </table>
+    </div><!-- /table-scroll-wrap -->
+
+    <!-- HANDICAP CHART -->
+    <div class="section-title" style="font-size:28px;margin-bottom:8px;margin-top:32px;">📉 Handicap Trends</div>
+    <div class="divider"></div>
+    <div class="form-card" style="padding:20px;">
+      <!-- Player filter chips -->
+      <div style="margin-bottom:16px;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:10px;">Filter players — click to toggle</div>
+        <div id="hcp-filter-chips" style="display:flex;flex-wrap:wrap;gap:6px;">
+          <!-- Populated by JS -->
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px;">
+          <button class="btn btn-sm" style="background:var(--green);color:white;font-size:11px;" onclick="hcpSelectAll()">All</button>
+          <button class="btn btn-sm" style="background:var(--cream);color:var(--charcoal);border:1.5px solid var(--border);font-size:11px;" onclick="hcpClearAll()">None</button>
+          <button class="btn btn-sm" style="background:var(--cream);color:var(--charcoal);border:1.5px solid var(--border);font-size:11px;" onclick="hcpSelect2026()">2026 Squad</button>
+        </div>
+      </div>
+      <div style="position:relative;height:320px;">
+        <canvas id="all-hcp-chart"></canvas>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;text-align:right;">Lower handicap = better · Data from 2022 onwards</div>
+    </div>
+
+    <!-- H2H FEAR FACTOR -->
+    <div class="section-title" style="font-size:28px;margin-bottom:8px;margin-top:32px;">😱 Fear Factor</div>
+    <div class="divider"></div>
+    <div class="section-subtitle">Head-to-head rivalries — who's dominating who</div>
+    <div id="fear-factor-container" style="margin-bottom:8px;">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- WIN RATE CHART -->
+    <div class="section-title" style="font-size:28px;margin-bottom:8px;margin-top:32px;">📊 Win Rate by Player</div>
+    <div class="divider"></div>
+    <div class="section-subtitle">All-time win rate (points / matches played)</div>
+    <div class="form-card" style="padding:20px;margin-bottom:0;">
+      <div style="position:relative;height:280px;">
+        <canvas id="winrate-chart"></canvas>
+      </div>
+    </div>
+  </div><!-- /section -->
+</div><!-- /view-stats -->
+
+<!-- ENTRY VIEW -->
+<div id="view-entry" class="view">
+<div class="section">
+  <div class="section-title">Results Entry</div>
+  <div class="divider"></div>
+  <p class="section-subtitle">Results saved to Cyder Cup database · Full audit trail of every change</p>
+
+  <div id="entry-alert" class="alert"></div>
+
+  <!-- DB STATUS BAR -->
+  <div id="db-status-bar" style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:8px;background:#f0f8f4;border:1px solid #a8d8ba;margin-bottom:20px;font-size:13px;">
+    <span id="db-status-dot" style="width:10px;height:10px;border-radius:50%;background:#ccc;flex-shrink:0;"></span>
+    <span id="db-status-text">Connecting to database…</span>
+  </div>
+
+  <!-- WHO IS EDITING -->
+  <div class="entry-setup-card" style="margin-bottom:16px;">
+    <div class="entry-setup-title">👤 Who's making changes?</div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <div class="entry-field" style="flex:1;min-width:200px;margin:0;">
+        <label>Your Name (recorded in audit log)</label>
+        <input type="text" id="entry-editor-name" placeholder="e.g. Jack Smart" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;background:var(--cream);">
+      </div>
+      <div style="padding-top:20px;">
+        <button class="btn btn-sm" style="background:var(--green);color:white;" onclick="saveName()">Save Name</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOUR SETUP -->
+  <div class="entry-setup-card">
+    <div class="entry-setup-title">📋 Tour Setup</div>
+    <div class="entry-setup-grid">
+      <div class="entry-field"><label>Year</label><input type="number" id="entry-year" placeholder="2026" min="2020" max="2035"></div>
+      <div class="entry-field"><label>Location</label><input type="text" id="entry-location" placeholder="Sotogrande, Spain"></div>
+      <div class="entry-field"><label>Flag</label><input type="text" id="entry-flag" placeholder="🇪🇸" maxlength="4"></div>
+      <div class="entry-field"><label>Red Team</label><input type="text" id="entry-team1" placeholder="Red"></div>
+      <div class="entry-field"><label>Red Captain</label><input type="text" id="entry-cap1" placeholder="Jack Smart"></div>
+      <div class="entry-field"><label>Blue Team</label><input type="text" id="entry-team2" placeholder="Blue"></div>
+      <div class="entry-field"><label>Blue Captain</label><input type="text" id="entry-cap2" placeholder="Alex D-V"></div>
+      <div class="entry-field"><label>Red Score</label><input type="number" id="entry-score1" placeholder="8.5" step="0.5"></div>
+      <div class="entry-field"><label>Blue Score</label><input type="number" id="entry-score2" placeholder="6.5" step="0.5"></div>
+      <div class="entry-field"><label>Result</label><input type="text" id="entry-winner" placeholder="Red Win"></div>
+      <div class="entry-field"><label>🥃 Cyder Cup</label><input type="text" id="entry-cup" placeholder="Player name"></div>
+      <div class="entry-field"><label>🦭 The Seal</label><input type="text" id="entry-seal" placeholder="Player name"></div>
+    </div>
+  </div>
+
+  <!-- MATCH GRID -->
+  <div class="entry-match-card">
+    <div class="entry-match-header">
+      <span class="entry-match-title">⛳ Match Results</span>
+      <div class="entry-match-btns">
+        <button class="entry-btn" onclick="addSheetRow()">+ Add Row</button>
+        <button class="entry-btn" onclick="addRound()">+ New Round</button>
+        <button class="entry-btn" onclick="clearSheet()">🗑 Clear</button>
+      </div>
+    </div>
+    <div class="entry-table-wrap">
+      <table class="entry-table" id="sheet-table">
+        <thead>
+          <tr>
+            <th class="col-num">#</th>
+            <th class="col-round">Round / Day</th>
+            <th class="col-fmt">Format</th>
+            <th class="col-player">Red Players</th>
+            <th class="col-player">Blue Players</th>
+            <th class="col-score">Score</th>
+            <th class="col-winner">Winner</th>
+            <th class="col-del"></th>
+          </tr>
+        </thead>
+        <tbody id="sheet-body"></tbody>
+      </table>
+    </div>
+    <div class="entry-tally">
+      <span class="entry-tally-label">Running Score:</span>
+      <span id="tally-red" class="entry-tally-red">Red 0</span>
+      <span class="entry-tally-sep">–</span>
+      <span id="tally-blue" class="entry-tally-blue">Blue 0</span>
+      <span id="tally-draw" class="entry-tally-draw"></span>
+    </div>
+  </div>
+
+  <!-- ACTION BUTTONS -->
+  <div class="entry-actions">
+    <button class="btn btn-primary" onclick="saveTour()">💾 Save to Database</button>
+    <button class="btn btn-gold" onclick="clearEntryForm()">🗑 Clear Form</button>
+  </div>
+
+  <!-- SAVED TOURS -->
+  <div class="entry-saved-card" style="margin-bottom:20px;">
+    <div class="entry-saved-title">📁 Saved Tours</div>
+    <div id="saved-tours-list"><p style="color:var(--muted);font-size:14px;padding:8px 0;">Loading…</p></div>
+  </div>
+
+  <!-- AUDIT TRAIL -->
+  <div class="entry-saved-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--border);">
+      <div class="entry-saved-title" style="margin:0;padding:0;border:none;">🕵️ Audit Trail</div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <select id="audit-filter-table" onchange="loadAuditLog()" style="padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-family:'Barlow',sans-serif;background:var(--cream);">
+          <option value="">All tables</option>
+          <option value="cc_tours">Tours only</option>
+          <option value="cc_matches">Matches only</option>
+        </select>
+        <button class="btn btn-sm" style="background:var(--green);color:white;" onclick="loadAuditLog()">↻ Refresh</button>
+      </div>
+    </div>
+    <div id="audit-trail-list"><p style="color:var(--muted);font-size:14px;padding:8px 0;">Loading audit log…</p></div>
+  </div>
+
+</div><!-- /section -->
+</div><!-- /view-entry -->
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const SB_URL = 'https://ypugkbuygdondfeqgqnq.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdWdrYnV5Z2RvbmRmZXFncW5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxOTI3NDQsImV4cCI6MjA4OTc2ODc0NH0.EA3tPY4QmkBOSr_VGlI_i0Oj_UBP8BVMMm2AS3qlwSU';
+const SB_BASE  = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY };
+const SB_WRITE = { ...SB_BASE, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+
+async function sbGet(table, params='') {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}?${params}`, { headers: SB_BASE });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+async function sbPost(table, body) {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}`, { method:'POST', headers:SB_WRITE, body:JSON.stringify(body) });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+async function sbPatch(table, match, body) {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}?${match}`, { method:'PATCH', headers:SB_WRITE, body:JSON.stringify(body) });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+async function sbDelete(table, match) {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}?${match}`, { method:'DELETE', headers:SB_BASE });
+  if (!r.ok) throw new Error(await r.text());
+  return true;
+}
+
+// ============================================================
+// GLOBAL LIVE DATA STORE — loaded from Supabase, used everywhere
+// ============================================================
+let DB = {
+  tours: [],       // cc_tours rows
+  matches: [],     // cc_matches rows (all)
+  scores: [],      // cc_player_scores rows (all)
+  loaded: false
+};
+
+// All known player full names
+const ALL_PLAYERS_LIST = [
+  'Alex Duncliffe-Vines','Andrew Newson','Ben Bruce','Ben Ringrose',
+  'Charlie Pascoe','Harry Gwilliam','Jack Smart','James Wheeler',
+  'Jock Jamieson-Black','Kier Roff-Stanion','Luke Nelson','Nick Haynes',
+  'Rowan Roff-Stanion','Simon Sexton'
+];
+
+// Handicap history (static reference — doesn't change often)
+const HANDICAP_HISTORY = {
+  'Alex Duncliffe-Vines': {2022:12,2023:7, 2024:6, 2025:6, 2026:6 },
+  'Andrew Newson':        {2022:14,2023:16,2024:18,2025:16,2026:16},
+  'Ben Bruce':            {2022:19,2023:20,2024:18,2025:19,2026:18},
+  'Ben Ringrose':         {2022:18,2024:14,2025:12,2026:11},
+  'Charlie Pascoe':       {2022:18,2023:15,2024:17,2025:15,2026:15},
+  'Harry Gwilliam':       {2026:9},
+  'Jack Smart':           {2022:10,2023:9, 2024:6, 2025:8, 2026:10},
+  'James Wheeler':        {2022:13,2023:9, 2024:9, 2025:8, 2026:8 },
+  'Jock Jamieson-Black':  {2022:12,2023:9, 2024:8, 2025:8, 2026:8 },
+  'Kier Roff-Stanion':    {2022:15,2023:14,2024:13,2025:13,2026:12},
+  'Luke Nelson':          {2022:26,2023:23,2024:22,2025:23},
+  'Nick Haynes':          {2022:20,2023:20,2024:15,2025:15,2026:15},
+  'Rowan Roff-Stanion':   {2023:14},
+  'Simon Sexton':         {2022:26,2023:25,2024:25,2025:27,2026:27},
+};
+
+// Static TOURS_DATA for match detail pages (rounds/results) — not editable via DB yet
+const TOURS_DATA = {
+  rome2025:{flag:'🇮🇹',year:'2025',location:'Rome, Italy',team1:'Pink',team2:'Blue',cap1:'Ben Ringrose',cap2:'Jack Smart',score1:'8.5',score2:'8.5',winner:'Tied — Playoff Win Blue',cup:'Ben Ringrose',seal:'James Wheeler',matchOfTour:'BR v BB won 3&1',rounds:[{title:'Day 1 — Fourball',course:'Golf Course Nazionale',score:'1.5–1.5',matches:[{match:'LN & ADV v BB & JS',result:'1&0',score:'0–1',winner:2},{match:'SS & NH v JJB & AN',result:'A/S',score:'½–½',winner:0},{match:'BR & KRS v JW & CP',result:'3&2',score:'1–0',winner:1}]},{title:'Day 2 — Fourball',course:'Olgiata Golf Club',score:'0.5–2.5',matches:[{match:'ADV & NH v JS & CP',result:'A/S',score:'½–½',winner:0},{match:'SS & BR v AN & BB',result:'2&0',score:'0–1',winner:2},{match:'KRS & LN v JJB & JW',result:'3&1',score:'0–1',winner:2}]},{title:'Day 2 — Texas Scramble',course:'Olgiata Golf Club',score:'1.5–1.5',matches:[{match:'SS & LN v BB & JW',result:'8&7',score:'0–1',winner:2},{match:'ADV & KRS v JJB & CP',result:'2&1',score:'1–0',winner:1},{match:'BR & NH v AN & JS',result:'A/S',score:'½–½',winner:0}]},{title:'Day 3 — Singles',course:'Marco Simone',score:'5–5',matches:[{match:'BR v BB',result:'3&1',score:'1–0',winner:1},{match:'SS v JJB',result:'1&0',score:'1–0',winner:1},{match:'LN v JW',result:'4&3',score:'0–1',winner:2},{match:'NH v CP',result:'1&0',score:'0–1',winner:2},{match:'KRS v JS',result:'3&2',score:'1–0',winner:1},{match:'ADV v AN',result:'6&5',score:'1–0',winner:1}]}]},
+  qdl2024:{flag:'🇵🇹',year:'2024',location:'Quinta do Lago, Portugal',team1:'Green',team2:'Pink',cap1:'Alex Duncliffe-Vines',cap2:'Simon Sexton',score1:'8.5',score2:'6.5',winner:'Pink Win',cup:'Alex Duncliffe-Vines',seal:'Jock Jamieson-Black',matchOfTour:'JS v BR won 8&6',rounds:[{title:'Day 1 — Fourball',course:'South Course (Gold 134)',score:'1–2',matches:[{match:'JS & SS v ADV & LN',result:'6&4',score:'0–1',winner:2},{match:'JJB & BB v AN & CP',result:'2&0',score:'0–1',winner:2},{match:'JW & NH v BR & KRS',result:'2&1',score:'1–0',winner:1}]},{title:'Day 2 — Texas Scramble',course:'Ombria (White 132)',score:'2–1',matches:[{match:'BB & JW v ADV & KRS',result:'3&2',score:'1–0',winner:1},{match:'JS & JJB v BR & AN',result:'1&0',score:'0–1',winner:2},{match:'SS & NH v CP & LN',result:'3&1',score:'1–0',winner:1}]},{title:'Day 2 — Foursomes',course:'Val Do Lobo Ocean (Yellow 135)',score:'2–1',matches:[{match:'JJB & JW v KRS & CP',result:'3&2',score:'1–0',winner:1},{match:'JS & NH v AN & LN',result:'6&4',score:'1–0',winner:1},{match:'BB & SS v ADV & BR',result:'6&5',score:'0–1',winner:2}]},{title:'Day 3 — Singles',course:'North Course (Gold 128)',score:'1.5–4.5',matches:[{match:'JS v BR',result:'8&6',score:'0–1',winner:2},{match:'BB v CP',result:'4&2',score:'0–1',winner:2},{match:'JW v LN',result:'AS',score:'½–½',winner:0},{match:'SS v ADV',result:'2&0',score:'0–1',winner:2},{match:'JJB v AN',result:'3&2',score:'1–0',winner:1},{match:'NH v KRS',result:'2&1',score:'0–1',winner:2}]}]},
+  catalonia2023:{flag:'🇪🇸',year:'2023',location:'PGA Catalunya, Spain',team1:'White (JS)',team2:'Green (CP)',cap1:'Jack Smart',cap2:'Charlie Pascoe',score1:'10',score2:'5',winner:'Team JS Win',cup:'Jack Smart',seal:'Nick Haynes',matchOfTour:'NH v LN won 6&5',rounds:[
+    {title:'Day 1 — Fourball',course:'Stadium Course',score:'1.5–1.5',matches:[
+      {match:'JW & CP v SS & NH',  result:'2&0', winner:2},
+      {match:'ADV & LN v AN & JJB',result:'A/S', winner:0},
+      {match:'BB & KRS v RRS & JS',result:'4&3', winner:1},
+    ]},
+    {title:'Day 2 — Texas Scramble',course:'Tour Course',score:'2–1 (White)',matches:[
+      {match:'JW & BB v RRS & NH',  result:'2&0', winner:2},
+      {match:'CP & LN v AN & JS',   result:'3&1', winner:1},
+      {match:'KRS & ADV v JJB & SS',result:'4&2', winner:2},
+    ]},
+    {title:'Day 3 — Fourball',course:'Tour Course',score:'3–0 (White)',matches:[
+      {match:'LN & BB v NH & JS',  result:'4&3', winner:1},
+      {match:'CP & ADV v AN & SS', result:'5&4', winner:1},
+      {match:'KRS & JW v RRS & JJB',result:'2&1',winner:1},
+    ]},
+    {title:'Day 4 — Singles',course:'Stadium Course',score:'4.5–1.5 (White)',matches:[
+      {match:'ADV v JS', result:'5&4', winner:1},
+      {match:'JW v SS',  result:'4&2', winner:2},
+      {match:'BB v JJB', result:'5&4', winner:1},
+      {match:'LN v NH',  result:'6&5', winner:1},
+      {match:'KRS v RRS',result:'A/S', winner:0},
+      {match:'CP v AN',  result:'1&0', winner:1},
+    ]},
+  ]},
+  qdl2022:{flag:'🇵🇹',year:'2022',location:'Quinta do Lago, Portugal',team1:'Navy',team2:'Red',cap1:'Andrew Newson',cap2:'Luke Nelson',score1:'3',score2:'5',winner:'Red Win',cup:'Luke Nelson',seal:'Ben Bruce',matchOfTour:'AN v JW won 7&5',rounds:[{title:'Day 1 — Fourball',course:'Laranjal',score:'0.5–2.5',matches:[{match:'JS & AN v LN & ADV',result:'3&2',score:'0–1',winner:2},{match:'BR & BB v NH & SS',result:'AS',score:'½–½',winner:0},{match:'JJB & CP v JW & KRS',result:'4&2',score:'0–1',winner:2}]},{title:'Day 2 — Texas Scramble',course:'South Course',score:'2–1',matches:[{match:'JJB & BB v SS & JW',result:'5&4',score:'1–0',winner:1},{match:'AN & BR v NH & LN',result:'5&4',score:'1–0',winner:1},{match:'CP & JS v KRS & ADV',result:'4&3',score:'0–1',winner:2}]},{title:'Day 3 — Singles',course:'North Course',score:'2.5–3.5',matches:[{match:'BR v KRS',result:'6&5',score:'1–0',winner:1},{match:'JS v LN',result:'6&4',score:'1–0',winner:1},{match:'CP v NH',result:'5&4',score:'0–1',winner:2},{match:'AN v JW',result:'7&5',score:'0–1',winner:2},{match:'BB v SS',result:'AS',score:'½–½',winner:0},{match:'JJB v ADV',result:'1&0',score:'0–1',winner:2}]}]},
+  marbella2021:{flag:'🇪🇸',year:'2021',location:'Marbella, Spain',team1:'Blue',team2:'Navy',cap1:'Jock Jamieson-Black',cap2:'Kier Roff-Stanion',score1:'4',score2:'4',winner:'Tied — Playoff Win Blue',cup:'—',seal:'—',matchOfTour:'JJB v BB won 6&5',rounds:[{title:'Day 1 — Fourball',course:'Santana',score:'1–1',matches:[{match:'JS & AN v JJB & JW',result:'A/S',score:'½–½',winner:0},{match:'BB & KRS v NH & SS',result:'A/S',score:'½–½',winner:0}]},{title:'Day 2 — Texas Scramble',course:'Marbella Course',score:'1–1',matches:[{match:'JS & BB v JW & SS',result:'3&1',score:'0–1',winner:2},{match:'JJB & NH v KRS & AN',result:'4&3',score:'1–0',winner:1}]},{title:'Day 3 — Singles',course:'Golf Torrequebrada',score:'2–2',matches:[{match:'JJB v BB',result:'6&5',score:'1–0',winner:1},{match:'AN v SS',result:'3&2',score:'0–1',winner:2},{match:'JW v KRS',result:'3&1',score:'1–0',winner:1},{match:'JS v NH',result:'3&1',score:'0–1',winner:2}]}]},
+  marbella2020:{flag:'🇪🇸',year:'2020',location:'Marbella, Spain',team1:'Navy',team2:'White',cap1:'James Wheeler',cap2:'Nick Haynes',score1:'5.5',score2:'2.5',winner:'Navy Win',cup:'—',seal:'—',matchOfTour:'JJB & JW beat NH & AN 2&0',rounds:[{title:'Day 1 — Fourball',course:'La Cala America',score:'1–1',matches:[{match:'JJB & JW v NH & AN',result:'2&0',score:'1–0',winner:1},{match:'BB & KRS v JS & LN',result:'1&0',score:'0–1',winner:2}]},{title:'Day 2 — Texas Scramble',course:'Chaparral',score:'1.5–0.5',matches:[{match:'JW & JS v NH & BB',result:'2&1',score:'1–0',winner:1},{match:'JJB & LN v KRS & AN',result:'A/S',score:'½–½',winner:0}]},{title:'Day 3 — Singles',course:'Marbella Course',score:'3–1',matches:[{match:'KRS v JJB',result:'2&1',score:'1–0',winner:1},{match:'JW v BB',result:'2&0',score:'1–0',winner:1},{match:'LN v AN',result:'1&0',score:'1–0',winner:1},{match:'JS v NH',result:'2&1',score:'1–0',winner:1}]}]},
+  sotogrande2026:{flag:'🇪🇸',year:'2026',location:'Sotogrande, Spain',team1:'Red',team2:'Blue',cap1:'Jack Smart',cap2:'Alex Duncliffe-Vines',score1:'—',score2:'—',winner:'⏳ Upcoming',cup:'TBD',seal:'TBD',rounds:[]}
+};
+
+// ============================================================
+// COMPUTE STATS FROM DB.matches + DB.scores
+// ============================================================
+
+// Parse player name(s) from a match field string
+// e.g. "James Wheeler & Nick Haynes" -> ["James Wheeler","Nick Haynes"]
+// e.g. "Jack Smart" -> ["Jack Smart"]
+function parsePlayers(str) {
+  if (!str) return [];
+  return str.split('&').map(s => s.trim()).filter(Boolean);
+}
+
+// For a player name, find all their match rows from DB
+function getPlayerMatchRows(playerName) {
+  return DB.matches.filter(m => {
+    const redNames  = parsePlayers(m.red_players);
+    const blueNames = parsePlayers(m.blue_players);
+    return redNames.includes(playerName) || blueNames.includes(playerName);
+  });
+}
+
+// Get outcome for a player in a match row: 'win'|'loss'|'draw'
+function getOutcomeForPlayer(match, playerName) {
+  const onRed = parsePlayers(match.red_players).includes(playerName);
+  if (match.winner === 'draw') return 'draw';
+  if ((onRed && match.winner === 'red') || (!onRed && match.winner === 'blue')) return 'win';
+  return 'loss';
+}
+
+// Compute career stats for a player from DB.matches + DB.scores
+function computePlayerStats(playerName) {
+  const matchRows = getPlayerMatchRows(playerName);
+  let wins=0, losses=0, draws=0;
+  matchRows.forEach(m => {
+    const o = getOutcomeForPlayer(m, playerName);
+    if (o==='win') wins++;
+    else if (o==='loss') losses++;
+    else draws++;
+  });
+  const matches = wins+losses+draws;
+  const points = wins + draws*0.5;
+  const pct = matches > 0 ? points/matches : 0;
+
+  // Stars: count from DB.scores
+  const starTours = DB.scores.filter(s => s.player_name===playerName && s.stars).length;
+
+  return { matches, points, pct, wins, losses, draws, stars: starTours };
+}
+
+// Build ALL_PLAYERS computed stats (replaces hardcoded PLAYERS array)
+function computeAllPlayerStats() {
+  return ALL_PLAYERS_LIST.map(name => {
+    const s = computePlayerStats(name);
+    return { name, code: name.split(' ').map(w=>w[0]).join('').slice(0,3), ...s };
+  }).filter(p => p.matches > 0);
+}
+
+// H2H between two players from DB
+function computeH2H(p1, p2) {
+  let w1=0, w2=0, draws=0;
+  DB.matches.forEach(m => {
+    const redNames  = parsePlayers(m.red_players);
+    const blueNames = parsePlayers(m.blue_players);
+    const p1OnRed   = redNames.includes(p1);
+    const p1OnBlue  = blueNames.includes(p1);
+    const p2OnRed   = redNames.includes(p2);
+    const p2OnBlue  = blueNames.includes(p2);
+    const p1InMatch = p1OnRed || p1OnBlue;
+    const p2InMatch = p2OnRed || p2OnBlue;
+    if (!p1InMatch || !p2InMatch) return;
+    // Must be on opposite sides
+    if ((p1OnRed && p2OnRed) || (p1OnBlue && p2OnBlue)) return;
+    if (m.winner === 'draw') { draws++; return; }
+    const p1wins = (p1OnRed && m.winner==='red') || (p1OnBlue && m.winner==='blue');
+    if (p1wins) w1++; else w2++;
+  });
+  return { w1, w2, draws, total: w1+w2+draws };
+}
+
+// Form guide for a player: last 5 outcomes from DB
+function computeFormGuide(playerName) {
+  const matchRows = getPlayerMatchRows(playerName)
+    .sort((a,b) => {
+      // Sort by tour year ascending — use tour_id to find year
+      const ta = DB.tours.find(t=>t.id===a.tour_id);
+      const tb = DB.tours.find(t=>t.id===b.tour_id);
+      const ya = ta?.year||0, yb = tb?.year||0;
+      if (ya !== yb) return ya-yb;
+      return (a.sort_order||0)-(b.sort_order||0);
+    });
+
+  return matchRows.slice(-5).map(m => {
+    const o = getOutcomeForPlayer(m, playerName);
+    const tour = DB.tours.find(t=>t.id===m.tour_id);
+    return { outcome: o==='win'?'W':o==='loss'?'L':'D', format: m.format, year: tour?.year||'?' };
+  });
+}
+
+function formDotsFromDB(playerName) {
+  const form = computeFormGuide(playerName);
+  if (!form.length) return '<span style="color:var(--muted);font-size:12px;">No data</span>';
+  return form.map(r => {
+    const col = r.outcome==='W'?'#2d7a4f':r.outcome==='D'?'#c9a84c':'#d63030';
+    return `<span title="${r.year} ${r.format}: ${r.outcome}" style="display:inline-block;width:18px;height:18px;border-radius:50%;background:${col};color:white;font-size:10px;font-weight:700;line-height:18px;text-align:center;margin-right:3px;">${r.outcome}</span>`;
+  }).join('');
+}
+
+// Format breakdown from DB
+function computeFormatBreakdown(playerName) {
+  const formats = {};
+  getPlayerMatchRows(playerName).forEach(m => {
+    if (!formats[m.format]) formats[m.format]={w:0,d:0,l:0};
+    const o = getOutcomeForPlayer(m, playerName);
+    if (o==='win') formats[m.format].w++;
+    else if (o==='draw') formats[m.format].d++;
+    else formats[m.format].l++;
+  });
+  return formats;
+}
+
+// Tour appearances from DB.scores
+function computeTourAppearances(playerName) {
+  return DB.scores
+    .filter(s => s.player_name === playerName)
+    .map(s => {
+      const tour = DB.tours.find(t=>t.id===s.tour_id);
+      return {
+        tourKey: tourKeyFromTour(tour),
+        flag: tour?.flag||'⛳',
+        year: tour?.year||'?',
+        location: tour?.location||'',
+        matches: s.matches,
+        points: s.points,
+        stars: s.stars ? '⭐' : '',
+        pct: s.matches>0 ? ((s.points/s.matches)*100).toFixed(0) : '0'
+      };
+    })
+    .sort((a,b)=>b.year-a.year);
+}
+
+function tourKeyFromTour(tour) {
+  if (!tour) return null;
+  const keyMap = {
+    '2020_Marbella, Spain':'marbella2020',
+    '2021_Marbella, Spain':'marbella2021',
+    '2022_Quinta do Lago, Portugal':'qdl2022',
+    '2023_PGA Catalunya, Spain':'catalonia2023',
+    '2024_Quinta do Lago, Portugal':'qdl2024',
+    '2025_Rome, Italy':'rome2025',
+    '2026_Sotogrande, Spain':'sotogrande2026',
+  };
+  return keyMap[`${tour.year}_${tour.location}`] || null;
+}
+
+// ============================================================
+// NAV
+// ============================================================
+let _navStack = [];
+function toggleNav() {
+  document.getElementById('nav-links').classList.toggle('open');
+  document.getElementById('nav-hamburger').classList.toggle('open');
+}
+function closeNav() {
+  document.getElementById('nav-links').classList.remove('open');
+  document.getElementById('nav-hamburger').classList.remove('open');
+}
+function showView(name, pushStack) {
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const el = document.getElementById('view-'+name);
+  if (el) el.classList.add('active');
+  const navEl = document.getElementById('nav-'+name);
+  if (navEl) navEl.classList.add('active');
+  if (pushStack !== false) _navStack.push(name);
+  window.scrollTo(0,0);
+  if (name==='stats') setTimeout(()=>buildStatsCharts(),80);
+}
+function navTo(name) { _navStack=[]; showView(name,true); }
+function goBack() {
+  if (_navStack.length>1) { _navStack.pop(); showView(_navStack[_navStack.length-1],false); }
+  else { _navStack=[]; showView('tours',false); }
+}
+
+// ============================================================
+// TOUR DETAIL
+// ============================================================
+function showTour(key) {
+  const t = TOURS_DATA[key];
+  if (!t) return;
+  const content = document.getElementById('tour-detail-content');
+
+  let roundsHtml='';
+  if (t.rounds.length===0) {
+    const days = Math.max(0,Math.ceil((new Date('2026-09-23')-new Date())/86400000));
+    roundsHtml=`<div class="form-card" style="text-align:center;padding:48px 24px;">
+      <div style="font-size:52px;margin-bottom:12px;">⛳</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--green);letter-spacing:2px;">Results Coming Soon</div>
+      <div style="color:var(--muted);margin-top:8px;margin-bottom:24px;">Sotogrande 2026 — La Reserva · Heathland · Finca Cortesin</div>
+      <div style="display:inline-flex;align-items:center;gap:8px;background:var(--green);color:white;padding:14px 28px;border-radius:100px;font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:3px;">🗓 ${days} DAYS TO GO</div>
+    </div>`;
+  } else {
+    if (t.matchOfTour) roundsHtml+=`<div style="background:linear-gradient(135deg,var(--gold),#b8882a);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;gap:12px;">
+      <span style="font-size:22px;">🏅</span>
+      <div><div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.8);">Match of the Tour</div>
+      <div style="font-weight:700;font-size:16px;color:white;">${t.matchOfTour}</div></div>
+    </div>`;
+    t.rounds.forEach(round => {
+      const matchRows = round.matches.map(m=>{
+        const winLabel = m.winner===0 ? 'A/S' : m.winner===1 ? `${t.team1} win` : `${t.team2} win`;
+        // Colour based on which team won - team1 always gets red chip, team2 always gets blue
+        const cc = m.winner===0 ? 'chip-draw' : m.winner===1 ? 'chip-pink' : 'chip-blue';
+        return `<div class="match-row">
+          <div class="match-format" style="min-width:48px;">${m.result}</div>
+          <div class="match-players">${m.match}</div>
+          <span class="match-score-chip ${cc}" style="min-width:110px;text-align:center;font-size:11px;">${winLabel}</span>
+        </div>`;
+      }).join('');
+      roundsHtml+=`<div class="round-block"><div class="round-header"><div><div class="round-title">${round.title}</div><div class="round-course">${round.course}</div></div><div class="round-score-chip">${round.score}</div></div>${matchRows}</div>`;
+    });
+  }
+
+  // Player scores from DB (live)
+  const dbTour = DB.tours.find(t2 => t2.year===parseInt(t.year||t2.year) && t2.location===t.location);
+  const tourScores = dbTour ? DB.scores.filter(s=>s.tour_id===dbTour.id) : [];
+
+  window._tourScores = tourScores;
+  window._tourSortCol = 'points';
+  window._tourSortDir = -1;
+
+  content.innerHTML=`
+    <button class="back-btn" onclick="goBack()">← Back</button>
+    <div class="tour-hero">
+      <div class="tour-hero-flag">${t.flag}</div>
+      <div class="tour-hero-title">${t.location}</div>
+      <div class="tour-hero-sub">${t.year} · Captains: ${t.cap1} vs ${t.cap2}</div>
+      <div class="tour-scoreboard">
+        <div class="ts-team"><div class="ts-team-name">${t.team1}</div><div class="ts-score pink">${t.score1}</div></div>
+        <div class="ts-divider">–</div>
+        <div class="ts-team"><div class="ts-team-name">${t.team2}</div><div class="ts-score blue">${t.score2}</div></div>
+        <div><div class="ts-winner-label">🏆 ${t.winner}</div>
+          ${(t.cup!=='TBD'&&t.cup!=='—')?`<div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:6px;">🥃 ${t.cup} · 🦭 ${t.seal}</div>`:''}
+        </div>
+      </div>
+    </div>
+    <div class="rounds-container">${roundsHtml}</div>
+    <div class="player-stats-section">
+      <div class="section-title" style="font-size:28px;margin-bottom:8px;">Player Scores</div>
+      <div class="divider"></div>
+      <div class="table-scroll-wrap">
+        <table class="player-stats-table" id="tour-player-table">
+          <thead><tr>
+            <th onclick="sortTourTable('player_name')" data-col="player_name">Player</th>
+            <th onclick="sortTourTable('matches')" data-col="matches">Played</th>
+            <th onclick="sortTourTable('points')" data-col="points" class="sort-desc">Points</th>
+            <th onclick="sortTourTable('pct')" data-col="pct">Win %</th>
+            <th data-col="stars">Stars</th>
+          </tr></thead>
+          <tbody id="tour-player-body">${buildTourPlayerRows(tourScores,'points',-1)}</tbody>
+        </table>
+      </div>
+    </div>`;
+
+  showView('tour',true);
+  document.getElementById('nav-tours').classList.add('active');
+}
+
+function buildTourPlayerRows(scores, col, dir) {
+  const val = s => col==='pct'?(s.matches>0?s.points/s.matches:0):col==='points'?Number(s.points):col==='matches'?s.matches:col==='stars'?(s.stars?1:0):s.player_name||'';
+  const sorted=[...scores].sort((a,b)=>{const av=val(a),bv=val(b);return typeof av==='string'?dir*av.localeCompare(bv):dir*(av-bv);});
+  return sorted.map(s=>{
+    const pct=s.matches>0?((s.points/s.matches)*100).toFixed(0)+'%':'—';
+    const clean=s.player_name;
+    return `<tr>
+      <td><span class="player-link" onclick="showPlayerProfile('${clean.replace(/'/g,"\\'")}')"><strong>${s.player_name}</strong></span></td>
+      <td>${s.matches}</td>
+      <td><span class="points-chip">${s.points}</span></td>
+      <td>${pct}</td>
+      <td class="star">${s.stars?'⭐':''}</td>
+    </tr>`;
+  }).join('');
+}
+
+function sortTourTable(col) {
+  if (!window._tourScores) return;
+  window._tourSortCol===col?window._tourSortDir*=-1:(window._tourSortCol=col,window._tourSortDir=-1);
+  const tbody=document.getElementById('tour-player-body');
+  if (tbody) tbody.innerHTML=buildTourPlayerRows(window._tourScores,window._tourSortCol,window._tourSortDir);
+  document.querySelectorAll('#tour-player-table th[data-col]').forEach(th=>{
+    th.classList.remove('sort-asc','sort-desc');
+    if (th.dataset.col===window._tourSortCol) th.classList.add(window._tourSortDir===-1?'sort-desc':'sort-asc');
+  });
+}
+
+// ============================================================
+// PLAYER PROFILE (fully live from DB)
+// ============================================================
+function showPlayerProfile(name) {
+  const stats = computePlayerStats(name);
+  const { matches:totalMatches, points:totalPoints, pct, wins, losses, draws, stars:totalStars } = stats;
+  const winPct = totalMatches>0?((totalPoints/totalMatches)*100).toFixed(1):'—';
+
+  const formDots = DB.loaded ? formDotsFromDB(name) : '<span style="color:rgba(255,255,255,0.4);font-size:12px;">Loading…</span>';
+
+  // Format breakdown
+  const fmtBreak = DB.loaded ? computeFormatBreakdown(name) : {};
+  const fmtHtml = Object.entries(fmtBreak).map(([fmt,s])=>{
+    const total=s.w+s.d+s.l;
+    const pct=total>0?((s.w+s.d*0.5)/total*100).toFixed(0):0;
+    return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+      <div style="min-width:90px;font-size:12px;font-weight:700;">${fmt}</div>
+      <div style="flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;">
+        <div style="height:100%;width:${pct}%;background:var(--green-mid);border-radius:3px;"></div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);min-width:80px;">${s.w}W ${s.d}D ${s.l}L <strong style="color:var(--green);">${pct}%</strong></div>
+    </div>`;
+  }).join('');
+
+  // H2H
+  const h2hRows = ALL_PLAYERS_LIST
+    .filter(opp=>opp!==name)
+    .map(opp=>({opp,...computeH2H(name,opp)}))
+    .filter(r=>r.total>0)
+    .sort((a,b)=>b.total-a.total)
+    .slice(0,8)
+    .map(r=>{
+      const pct=r.total>0?((r.w1+r.draws*0.5)/r.total*100).toFixed(0):0;
+      const bW=r.total>0?(r.w1/r.total*100):0;
+      const bD=r.total>0?(r.draws/r.total*100):0;
+      const bL=r.total>0?(r.w2/r.total*100):0;
+      return `<tr>
+        <td><span class="player-link" onclick="showPlayerProfile('${r.opp.replace(/'/g,"\\'")}')"><strong>${r.opp.split(' ').slice(-1)[0]}</strong></span></td>
+        <td>${r.total}</td>
+        <td style="color:var(--green-mid)"><strong>${r.w1}</strong></td>
+        <td style="color:var(--muted)">${r.draws}</td>
+        <td style="color:#cc4444"><strong>${r.w2}</strong></td>
+        <td><div style="display:flex;height:8px;border-radius:4px;overflow:hidden;min-width:80px;">
+          <div style="width:${bW}%;background:var(--green-mid);"></div>
+          <div style="width:${bD}%;background:var(--gold);"></div>
+          <div style="width:${bL}%;background:#d63030;"></div>
+        </div></td>
+      </tr>`;
+    }).join('');
+
+  // Tour by tour
+  const tourApps = DB.loaded ? computeTourAppearances(name) : [];
+  const tourRows = tourApps.map(t=>`
+    <tr onclick="${t.tourKey?`showTour('${t.tourKey}')`:'return'}" style="cursor:${t.tourKey?'pointer':'default'}">
+      <td>${t.flag} <strong>${t.year}</strong></td>
+      <td style="color:var(--muted);font-size:13px;">${t.location}</td>
+      <td>${t.matches}</td>
+      <td><span class="points-chip">${t.points}</span></td>
+      <td>${t.pct}%</td>
+      <td class="star">${t.stars}</td>
+    </tr>`).join('');
+
+  const hcpHtml = buildHcpChartHtml(name);
+  const isRookie = name==='Harry Gwilliam';
+  const rookieBanner = isRookie ? `<div style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.4);border-radius:10px;padding:14px 18px;margin-bottom:24px;text-align:center;">
+    <div style="font-size:24px;margin-bottom:4px;">🌱</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--gold-light);letter-spacing:1px;">ROOKIE · First Tour — Sotogrande 2026</div>
+  </div>` : '';
+
+  const content = document.getElementById('tour-detail-content');
+  content.innerHTML=`
+    <button class="back-btn" onclick="goBack()">← Back</button>
+    <div class="tour-hero" style="padding:28px 32px;">
+      <div style="font-size:52px;margin-bottom:4px;">🏌️</div>
+      <div class="tour-hero-title">${name}</div>
+      <div class="tour-hero-sub">Career Record · ${tourApps.filter(t=>t.points!=='—').length} Tours Played</div>
+      ${rookieBanner}
+      <div style="display:flex;gap:24px;margin-top:20px;flex-wrap:wrap;align-items:flex-start;">
+        ${[['Matches',totalMatches],['Points',totalPoints],['Win Rate',winPct+'%'],['Wins',wins],['Losses',losses],['Draws',draws]].map(([l,v])=>`
+          <div style="text-align:center;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:38px;color:var(--gold);line-height:1;">${v}</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:1px;text-transform:uppercase;">${l}</div>
+          </div>`).join('')}
+        <div style="text-align:center;">
+          <div style="font-size:24px;line-height:1;margin-bottom:2px;">${'⭐'.repeat(totalStars)||'—'}</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:1px;text-transform:uppercase;">Stars</div>
+        </div>
+      </div>
+      <div style="margin-top:20px;">
+        <div style="font-size:10px;color:rgba(255,255,255,0.6);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;">Last 5 Results</div>
+        <div>${formDots}</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;" class="profile-2col">
+      <div class="form-card">
+        <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:var(--green);letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--border);">📊 By Format</h3>
+        ${fmtHtml||'<p style="color:var(--muted);font-size:13px;">No data</p>'}
+      </div>
+      <div class="form-card">
+        <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:var(--green);letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--border);">⚔️ Head to Head</h3>
+        ${h2hRows?`<div class="table-scroll-wrap"><table class="player-stats-table" style="font-size:12px;">
+          <thead><tr><th>Opp</th><th>P</th><th>W</th><th>D</th><th>L</th><th style="min-width:80px;"></th></tr></thead>
+          <tbody>${h2hRows}</tbody>
+        </table></div>`:'<p style="color:var(--muted);font-size:13px;">No data</p>'}
+      </div>
+    </div>
+
+    ${hcpHtml}
+
+    <div class="player-stats-section">
+      <div class="section-title" style="font-size:24px;margin-bottom:8px;">Tour by Tour</div>
+      <div class="divider"></div>
+      <div class="table-scroll-wrap">
+        <table class="player-stats-table">
+          <thead><tr><th>Year</th><th>Location</th><th>Played</th><th>Points</th><th>Win %</th><th>Stars</th></tr></thead>
+          <tbody>${tourRows||'<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:20px;">No tour data yet</td></tr>'}</tbody>
+        </table>
+      </div>
+      <div style="margin-top:12px;">
+        <button class="btn btn-primary btn-sm" onclick="window.print()">🖨 Print Card</button>
+      </div>
+    </div>`;
+
+  showView('tour',true);
+  document.getElementById('nav-tours').classList.add('active');
+  setTimeout(()=>renderHcpChart(name),50);
+}
+
+// ============================================================
+// HANDICAP CHART (per player profile)
+// ============================================================
+function buildHcpChartHtml(name) {
+  const data=HANDICAP_HISTORY[name];
+  if (!data||Object.keys(data).length<2) return '';
+  return `<div class="form-card" style="margin-bottom:20px;">
+    <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:var(--green);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;padding-bottom:10px;border-bottom:2px solid var(--border);" id="hcp-chart-title-${name.replace(/\W/g,'_')}">📉 Handicap Over Time</h3>
+    <div style="position:relative;height:200px;padding:8px 0;">
+      <canvas id="hcp-chart-${name.replace(/\W/g,'_')}" style="width:100%;height:100%;"></canvas>
+    </div>
+  </div>`;
+}
+let _hcpChartInstance=null;
+function renderHcpChart(name) {
+  const data=HANDICAP_HISTORY[name];
+  if (!data) return;
+  const canvasId='hcp-chart-'+name.replace(/\W/g,'_');
+  const canvas=document.getElementById(canvasId);
+  if (!canvas||typeof Chart==='undefined') return;
+  if (_hcpChartInstance) { _hcpChartInstance.destroy(); _hcpChartInstance=null; }
+  const pairs=Object.entries(data).map(([y,v])=>({y:+y,v})).filter(p=>p.v!=null).sort((a,b)=>a.y-b.y);
+  const trend=pairs.length>=2?pairs[pairs.length-1].v-pairs[0].v:0;
+  const trendColor=trend<0?'#2d7a4f':trend>0?'#d63030':'#c9a84c';
+  const trendLabel=trend<0?`▼ ${Math.abs(trend)} improvement`:trend>0?`▲ ${trend} increase`:'— steady';
+  _hcpChartInstance=new Chart(canvas,{
+    type:'line',
+    data:{labels:pairs.map(p=>p.y),datasets:[{label:'Handicap',data:pairs.map(p=>p.v),borderColor:'#1a4a2e',backgroundColor:'rgba(26,74,46,0.08)',borderWidth:3,pointBackgroundColor:pairs.map((_,i)=>i===pairs.length-1?'#c9a84c':'#1a4a2e'),pointRadius:6,fill:true,tension:0.3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` Hcp ${ctx.parsed.y}`}}},scales:{y:{reverse:true,title:{display:true,text:'Handicap (lower=better)',font:{size:11},color:'#6b6b6b'},grid:{color:'rgba(0,0,0,0.06)'},ticks:{font:{size:11},color:'#6b6b6b',stepSize:2}},x:{grid:{display:false},ticks:{font:{size:11},color:'#6b6b6b'}}}}
+  });
+  const titleEl=document.getElementById('hcp-chart-title-'+name.replace(/\W/g,'_'));
+  if (titleEl) {
+    const span=document.createElement('span');
+    span.style.cssText=`font-size:12px;font-weight:700;color:${trendColor};margin-left:10px;`;
+    span.textContent=trendLabel+' since '+pairs[0].y;
+    titleEl.appendChild(span);
+  }
+}
+
+// ============================================================
+// LEADERBOARD (live from DB)
+// ============================================================
+let sortCol='pct', sortDir=-1;
+const COL_KEYS=[null,'name','matches','points','pct','wins','losses','draws','stars'];
+
+function buildLeaderboard() {
+  const body=document.getElementById('leaderboard-body');
+  if (!body) return;
+  document.querySelectorAll('#leaderboard-table th').forEach((th,i)=>{
+    th.classList.remove('sort-asc','sort-desc');
+    if (COL_KEYS[i]===sortCol) th.classList.add(sortDir===-1?'sort-desc':'sort-asc');
+  });
+  const players = DB.loaded ? computeAllPlayerStats() : [];
+  // Fall back to static if no data yet
+  const list = players.length > 0 ? players : STATIC_PLAYERS_FALLBACK;
+  const sorted=[...list].sort((a,b)=>{const av=a[sortCol],bv=b[sortCol];return typeof av==='string'?sortDir*av.localeCompare(bv):sortDir*(av-bv);});
+  body.innerHTML=sorted.map((p,i)=>{
+    const rc=i===0?'gold':i===1?'silver':i===2?'bronze':'';
+    const pct=((p.pct||0)*100).toFixed(1);
+    const starsStr=(p.stars||0)>0?'⭐'.repeat(p.stars):'—';
+    const formDots=DB.loaded?formDotsFromDB(p.name):'';
+    return `<tr style="cursor:pointer;" onclick="showPlayerProfile('${p.name.replace(/'/g,"\\'")}')">
+      <td><div class="rank-num ${rc}">${i+1}</div></td>
+      <td><span class="player-link"><strong>${p.name}</strong></span></td>
+      <td>${p.matches}</td>
+      <td><span class="points-chip">${p.points}</span></td>
+      <td><div class="win-pct"><div class="win-bar"><div class="win-bar-fill" style="width:${pct}%"></div></div><span style="font-size:13px;font-weight:600;">${pct}%</span></div></td>
+      <td style="color:var(--green-mid)">${p.wins}</td>
+      <td style="color:#cc4444">${p.losses}</td>
+      <td style="color:var(--muted)">${p.draws}</td>
+      <td>${formDots}</td>
+      <td class="star">${starsStr}</td>
+    </tr>`;
+  }).join('');
+}
+function sortLeaderboard(colIdx) {
+  const key=COL_KEYS[colIdx];
+  if (!key) return;
+  sortCol===key?sortDir*=-1:(sortCol=key,sortDir=-1);
+  buildLeaderboard();
+}
+
+// Static fallback for leaderboard if DB not loaded yet
+const STATIC_PLAYERS_FALLBACK = [
+  {name:'James Wheeler',matches:21,points:16,pct:0.762,stars:3,wins:15,losses:4,draws:2},
+  {name:'Ben Ringrose',matches:11,points:8,pct:0.727,stars:2,wins:7,losses:2,draws:2},
+  {name:'Alex Duncliffe-Vines',matches:15,points:10,pct:0.667,stars:3,wins:9,losses:4,draws:2},
+  {name:'Rowan Roff-Stanion',matches:4,points:2.5,pct:0.625,stars:1,wins:2,losses:1,draws:1},
+  {name:'Jack Smart',matches:21,points:12.5,pct:0.595,stars:2,wins:11,losses:7,draws:3},
+  {name:'Jock Jamieson-Black',matches:21,points:11,pct:0.524,stars:3,wins:9,losses:8,draws:4},
+  {name:'Kier Roff-Stanion',matches:21,points:10.5,pct:0.5,stars:3,wins:9,losses:9,draws:3},
+  {name:'Andrew Newson',matches:21,points:10.5,pct:0.5,stars:2,wins:8,losses:8,draws:5},
+  {name:'Nick Haynes',matches:21,points:9.5,pct:0.452,stars:4,wins:7,losses:9,draws:5},
+  {name:'Ben Bruce',matches:21,points:9.5,pct:0.452,stars:0,wins:8,losses:10,draws:3},
+  {name:'Charlie Pascoe',matches:15,points:4.5,pct:0.3,stars:1,wins:4,losses:10,draws:1},
+  {name:'Simon Sexton',matches:18,points:5,pct:0.278,stars:4,wins:3,losses:11,draws:4},
+  {name:'Luke Nelson',matches:18,points:4.5,pct:0.25,stars:4,wins:3,losses:12,draws:3},
+];
+
+// ============================================================
+// STATS CHARTS
+// ============================================================
+let _allHcpChart=null, _winrateChart=null;
+let _hcpActiveSet=new Set();
+const HCP_COLORS=['#1a4a2e','#d63030','#3b7dd8','#c9a84c','#9b59b6','#e67e22','#1abc9c','#e91e8c','#2980b9','#27ae60','#f39c12','#8e44ad','#16a085'];
+const HCP_PLAYERS_ORDERED=['Alex Duncliffe-Vines','Andrew Newson','Ben Bruce','Ben Ringrose','Charlie Pascoe','Jack Smart','James Wheeler','Jock Jamieson-Black','Kier Roff-Stanion','Luke Nelson','Nick Haynes','Rowan Roff-Stanion','Simon Sexton'];
+const SQUAD_2026=['Alex Duncliffe-Vines','Andrew Newson','Ben Bruce','Ben Ringrose','Charlie Pascoe','Jack Smart','James Wheeler','Jock Jamieson-Black','Kier Roff-Stanion','Nick Haynes','Simon Sexton','Harry Gwilliam'];
+
+function buildStatsCharts() {
+  if (typeof Chart==='undefined') return;
+  buildHcpFilterChips();
+  buildAllHcpChart();
+  buildWinrateChart();
+  buildFearFactor();
+}
+function buildHcpFilterChips() {
+  const container=document.getElementById('hcp-filter-chips');
+  if (!container||container.children.length>0) return;
+  if (_hcpActiveSet.size===0) HCP_PLAYERS_ORDERED.forEach(n=>_hcpActiveSet.add(n));
+  container.innerHTML=HCP_PLAYERS_ORDERED.map((name,i)=>{
+    const col=HCP_COLORS[i%HCP_COLORS.length];
+    const isActive=_hcpActiveSet.has(name);
+    return `<span class="hcp-chip ${isActive?'active':'inactive'}" id="hcp-chip-${i}" data-name="${name}" data-color="${col}" onclick="toggleHcpChip(this)" style="background:${isActive?col:'var(--cream)'};">
+      <span class="hcp-chip-dot" style="background:${col};"></span>${name.split(' ').slice(-1)[0]}
+    </span>`;
+  }).join('');
+}
+function toggleHcpChip(el) {
+  const name=el.dataset.name,col=el.dataset.color;
+  if (_hcpActiveSet.has(name)) { _hcpActiveSet.delete(name); el.classList.remove('active'); el.classList.add('inactive'); el.style.background=''; }
+  else { _hcpActiveSet.add(name); el.classList.add('active'); el.classList.remove('inactive'); el.style.background=col; }
+  buildAllHcpChart();
+}
+function hcpSelectAll() { HCP_PLAYERS_ORDERED.forEach(n=>_hcpActiveSet.add(n)); refreshChipUI(); buildAllHcpChart(); }
+function hcpClearAll() { _hcpActiveSet.clear(); refreshChipUI(); buildAllHcpChart(); }
+function hcpSelect2026() { _hcpActiveSet.clear(); SQUAD_2026.forEach(n=>_hcpActiveSet.add(n)); refreshChipUI(); buildAllHcpChart(); }
+function refreshChipUI() {
+  document.querySelectorAll('.hcp-chip').forEach(el=>{
+    const isActive=_hcpActiveSet.has(el.dataset.name);
+    el.classList.toggle('active',isActive); el.classList.toggle('inactive',!isActive);
+    el.style.background=isActive?el.dataset.color:'';
+  });
+}
+function buildAllHcpChart() {
+  const canvas=document.getElementById('all-hcp-chart');
+  if (!canvas) return;
+  if (_allHcpChart) { _allHcpChart.destroy(); _allHcpChart=null; }
+  const years=[2022,2023,2024,2025,2026];
+  const datasets=HCP_PLAYERS_ORDERED.filter(n=>_hcpActiveSet.has(n)).map((name,i)=>{
+    const d=HANDICAP_HISTORY[name]||{};
+    const col=HCP_COLORS[HCP_PLAYERS_ORDERED.indexOf(name)%HCP_COLORS.length];
+    return {label:name.split(' ').slice(-1)[0],data:years.map(y=>d[y]??null),borderColor:col,backgroundColor:'transparent',borderWidth:2.5,pointBackgroundColor:col,pointRadius:5,tension:0.3,spanGaps:true,fill:false};
+  });
+  _allHcpChart=new Chart(canvas,{type:'line',data:{labels:years,datasets},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:10,usePointStyle:true,pointStyleWidth:10}},tooltip:{callbacks:{title:ctx=>'Tour '+ctx[0].label,label:ctx=>ctx.parsed.y!==null?` ${ctx.dataset.label}: Hcp ${ctx.parsed.y}`:null}}},scales:{y:{reverse:true,title:{display:true,text:'Tour Handicap (↓ = improving)',font:{size:11},color:'#6b6b6b'},grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{size:11},color:'#6b6b6b',stepSize:2}},x:{grid:{display:false},ticks:{font:{size:11},color:'#6b6b6b'}}}}});
+}
+function buildWinrateChart() {
+  const canvas=document.getElementById('winrate-chart');
+  if (!canvas) return;
+  if (_winrateChart) { _winrateChart.destroy(); _winrateChart=null; }
+  const list=DB.loaded?computeAllPlayerStats():STATIC_PLAYERS_FALLBACK;
+  const sorted=[...list].sort((a,b)=>b.pct-a.pct);
+  _winrateChart=new Chart(canvas,{type:'bar',data:{labels:sorted.map(p=>p.name.split(' ').slice(-1)[0]),datasets:[{label:'Win %',data:sorted.map(p=>+((p.pct||0)*100).toFixed(1)),backgroundColor:sorted.map(p=>(p.pct||0)>=0.6?'#2d7a4f':(p.pct||0)>=0.45?'#c9a84c':'#d63030'),borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y}% win rate`}}},scales:{y:{max:100,title:{display:true,text:'Win %',font:{size:11},color:'#6b6b6b'},grid:{color:'rgba(0,0,0,0.06)'},ticks:{font:{size:11},color:'#6b6b6b',callback:v=>v+'%'}},x:{grid:{display:false},ticks:{font:{size:11,weight:'600'},color:'#1c1c1c'}}}}});
+}
+
+// ============================================================
+// FEAR FACTOR (live from DB)
+// ============================================================
+function buildFearFactor() {
+  const container=document.getElementById('fear-factor-container');
+  if (!container) return;
+  const matchups=[];
+  const seen=new Set();
+  ALL_PLAYERS_LIST.forEach(p1=>{
+    ALL_PLAYERS_LIST.forEach(p2=>{
+      if (p1>=p2) return;
+      const key=p1+'|'+p2;
+      if (seen.has(key)) return;
+      seen.add(key);
+      const h=computeH2H(p1,p2);
+      if (h.total>=2) matchups.push({p1,p2,...h});
+    });
+  });
+  if (!matchups.length) { container.innerHTML='<p style="color:var(--muted);font-size:13px;">Load database to see fear factor.</p>'; return; }
+  matchups.forEach(m=>{
+    m.pct1=m.total>0?(m.w1+m.draws*0.5)/m.total:0;
+    m.dominant=m.pct1>0.5?m.p1:m.pct1<0.5?m.p2:null;
+    m.loser=m.dominant===m.p1?m.p2:m.dominant===m.p2?m.p1:null;
+    m.dominantWins=m.pct1>0.5?m.w1:m.w2;
+    m.loserWins=m.pct1>0.5?m.w2:m.w1;
+  });
+  const dominated=[...matchups].filter(m=>m.dominant).sort((a,b)=>(Math.abs(b.pct1-0.5)-Math.abs(a.pct1-0.5))||b.total-a.total);
+  const closest=[...matchups].sort((a,b)=>(Math.abs(a.pct1-0.5)-Math.abs(b.pct1-0.5))||b.total-a.total).slice(0,4);
+
+  function getH2HMatchRows(p1,p2) {
+    return DB.matches.filter(m=>{
+      const red=parsePlayers(m.red_players),blue=parsePlayers(m.blue_players);
+      const p1r=red.includes(p1),p1b=blue.includes(p1),p2r=red.includes(p2),p2b=blue.includes(p2);
+      return (p1r||p1b)&&(p2r||p2b)&&(p1r!==p2r);
+    });
+  }
+
+  function drillHtml(p1,p2) {
+    const games=getH2HMatchRows(p1,p2);
+    if (!games.length) return '<div style="padding:12px 16px;font-size:13px;color:var(--muted);">No match data.</div>';
+    return games.map(m=>{
+      const tour=DB.tours.find(t=>t.id===m.tour_id);
+      const p1OnRed=parsePlayers(m.red_players).includes(p1);
+      const sideRed=m.red_players,sideBlue=m.blue_players;
+      let chip,label;
+      if (m.winner==='draw'){chip='chip-draw';label='Draw / A/S';}
+      else if ((p1OnRed&&m.winner==='red')||(!p1OnRed&&m.winner==='blue')){chip='chip-pink';label=p1.split(' ').slice(-1)[0]+' wins';}
+      else{chip='chip-blue';label=p2.split(' ').slice(-1)[0]+' wins';}
+      const fmtIcon=m.format==='Singles'?'⚔️':m.format==='Scramble'?'🔄':'🏌️';
+      return `<div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);font-size:13px;">
+        <span style="font-size:16px;flex-shrink:0;">${fmtIcon}</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:600;">${sideRed} <span style="color:var(--muted);font-weight:400;">vs</span> ${sideBlue}</div>
+          <div style="font-size:11px;color:var(--muted);">${tour?.year||'?'} ${tour?.location||''} · ${m.format}</div>
+        </div>
+        <span class="match-score-chip ${chip}" style="font-size:11px;padding:3px 10px;border-radius:100px;font-weight:700;white-space:nowrap;">${label}</span>
+      </div>`;
+    }).join('');
+  }
+
+  function fearCard(m,type,idx) {
+    const {total,w1:p1w,w2:p2w,draws}=m;
+    const b1=total>0?(p1w/total*100).toFixed(0):0;
+    const bd=total>0?(draws/total*100).toFixed(0):0;
+    const b2=Math.max(0,100-b1-bd);
+    const dom=m.dominant?m.dominant.split(' ').slice(-1)[0]:null;
+    const cardId=`fear-drill-${idx}`;
+    const badge=type==='dom'?`<span class="fear-badge fear-badge-dom">👑 ${dom} leads</span>`:`<span class="fear-badge fear-badge-close">⚖️ Dead heat</span>`;
+    const scared=type==='dom'&&m.loser?`<div style="font-size:11px;color:var(--muted);margin-top:4px;">😬 ${m.loser.split(' ').slice(-1)[0]}: ${m.loserWins}W ${draws}D ${m.dominantWins}L vs ${dom}</div>`:'';
+    return `<div class="fear-card ${type==='dom'?'dominant':'close-match'}" style="cursor:pointer;" onclick="toggleFearDrill('${cardId}',this)">
+      <div class="fear-players">
+        <span class="player-link" onclick="event.stopPropagation();showPlayerProfile('${m.p1.replace(/'/g,"\\'")}')"><strong>${m.p1.split(' ').slice(-1)[0]}</strong></span>
+        <span class="fear-vs">vs</span>
+        <span class="player-link" onclick="event.stopPropagation();showPlayerProfile('${m.p2.replace(/'/g,"\\'")}')"><strong>${m.p2.split(' ').slice(-1)[0]}</strong></span>
+        <span style="margin-left:auto;display:flex;align-items:center;gap:6px;">
+          <span style="color:var(--muted);font-size:11px;">${total} played</span>
+          <span class="fear-expand-icon" style="font-size:12px;color:var(--muted);transition:transform 0.2s;">▼</span>
+        </span>
+      </div>
+      <div class="fear-bar-wrap">
+        <div class="fear-bar-p1" style="width:${b1}%"></div>
+        <div class="fear-bar-draw" style="width:${bd}%"></div>
+        <div class="fear-bar-p2" style="width:${b2}%"></div>
+      </div>
+      <div class="fear-meta">
+        <span class="fear-score">${m.p1.split(' ').slice(-1)[0]}: ${p1w}W ${draws}D ${p2w}L</span>
+        ${badge}
+      </div>
+      ${scared}
+      <div id="${cardId}" style="display:none;margin:12px -18px -16px;border-top:1px solid var(--border);background:#faf8f4;border-radius:0 0 var(--radius) var(--radius);overflow:hidden;">
+        <div style="padding:8px 16px;background:#f0ece4;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Match by Match</div>
+        ${drillHtml(m.p1,m.p2)}
+      </div>
+    </div>`;
+  }
+
+  container.innerHTML=`
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--green);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">🏆 Most One-Sided Rivalries</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Click any card to see every match between these two</p>
+    <div class="fear-grid" style="margin-bottom:24px;">${dominated.slice(0,6).map((m,i)=>fearCard(m,'dom',`dom${i}`)).join('')}</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--green);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">⚖️ Most Even Rivalries</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Click any card to see the full history</p>
+    <div class="fear-grid">${closest.map((m,i)=>fearCard(m,'close',`close${i}`)).join('')}</div>`;
+}
+function toggleFearDrill(id,card) {
+  const drill=document.getElementById(id);
+  if (!drill) return;
+  const icon=card.querySelector('.fear-expand-icon');
+  const isOpen=drill.style.display!=='none';
+  drill.style.display=isOpen?'none':'block';
+  if (icon) icon.style.transform=isOpen?'':'rotate(180deg)';
+}
+
+// ============================================================
+// RESULTS ENTRY — SAVE TO SUPABASE
+// ============================================================
+const PLAYER_AUTOCOMPLETE=ALL_PLAYERS_LIST;
+
+function makePlayerInput(id,placeholder,val) {
+  return `<div style="position:relative;">
+    <input class="e-input" id="${id}" placeholder="${placeholder}" value="${val||''}" autocomplete="off"
+      oninput="showAC(this)" onblur="hideAC(this)" onkeydown="navAC(event,this)">
+    <div id="${id}-ac" class="ac-dropdown" style="display:none;"></div>
+  </div>`;
+}
+function showAC(input) {
+  const q=input.value.toLowerCase(),dd=document.getElementById(input.id+'-ac');
+  if (!dd) return;
+  if (!q) { dd.style.display='none'; return; }
+  const matches=PLAYER_AUTOCOMPLETE.filter(n=>n.toLowerCase().includes(q));
+  if (!matches.length) { dd.style.display='none'; return; }
+  dd.innerHTML=matches.map(n=>`<div class="ac-item" onmousedown="pickAC(event,'${input.id}','${n}')">${n}</div>`).join('');
+  dd.style.display='block';
+}
+function hideAC(input) { setTimeout(()=>{ const dd=document.getElementById(input.id+'-ac'); if(dd) dd.style.display='none'; },150); }
+function pickAC(e,inputId,name) { e.preventDefault(); const el=document.getElementById(inputId); if(el) el.value=name; const dd=document.getElementById(inputId+'-ac'); if(dd) dd.style.display='none'; }
+function navAC(e,input) {
+  const dd=document.getElementById(input.id+'-ac');
+  if (!dd||dd.style.display==='none') return;
+  const items=dd.querySelectorAll('.ac-item');
+  let cur=dd.querySelector('.ac-item.active');
+  if (e.key==='ArrowDown') { e.preventDefault(); if(!cur) items[0]?.classList.add('active'); else { cur.classList.remove('active'); cur.nextElementSibling?.classList.add('active'); } }
+  else if (e.key==='ArrowUp') { e.preventDefault(); if(cur) { cur.classList.remove('active'); cur.previousElementSibling?.classList.add('active'); } }
+  else if (e.key==='Enter'||e.key==='Tab') { if(cur) { e.preventDefault(); input.value=cur.textContent; dd.style.display='none'; } }
+  else if (e.key==='Escape') dd.style.display='none';
+}
+
+let sheetRows=[],sheetRowId=0;
+function addSheetRow(data) {
+  sheetRowId++;
+  const id=sheetRowId;
+  sheetRows.push(id);
+  const tbody=document.getElementById('sheet-body');
+  if (!tbody) return;
+  const n=tbody.querySelectorAll('tr:not(.round-sep-row)').length+1;
+  const tr=document.createElement('tr');
+  tr.id='sr-'+id;
+  tr.innerHTML=`
+    <td class="e-rownum">${n}</td>
+    <td><input class="e-input" id="sr-round-${id}" placeholder="Day 1 – Fourball" value="${data?.round||''}"></td>
+    <td><select class="e-select" id="sr-format-${id}">
+      <option value="Fourball" ${data?.format==='Fourball'?'selected':''}>Fourball</option>
+      <option value="Scramble" ${data?.format==='Scramble'?'selected':''}>Scramble</option>
+      <option value="Singles" ${data?.format==='Singles'?'selected':''}>Singles</option>
+      <option value="Foursomes" ${data?.format==='Foursomes'?'selected':''}>Foursomes</option>
+    </select></td>
+    <td id="sr-red-cell-${id}"></td>
+    <td id="sr-blue-cell-${id}"></td>
+    <td><input class="e-input" id="sr-score-${id}" placeholder="3&2" value="${data?.score||''}" style="width:72px;"></td>
+    <td><select class="e-select" id="sr-winner-${id}" onchange="updateTally()">
+      <option value="">— Result —</option>
+      <option value="red" ${data?.winner==='red'?'selected':''}>🔴 Red wins</option>
+      <option value="blue" ${data?.winner==='blue'?'selected':''}>🔵 Blue wins</option>
+      <option value="draw" ${data?.winner==='draw'?'selected':''}>🤝 Draw / A/S</option>
+    </select></td>
+    <td><button class="e-delbtn" onclick="deleteSheetRow(${id},this)">✕</button></td>`;
+  tbody.appendChild(tr);
+  document.getElementById('sr-red-cell-'+id).innerHTML=makePlayerInput('sr-red-'+id,'Player(s) — Red',data?.red||'');
+  document.getElementById('sr-blue-cell-'+id).innerHTML=makePlayerInput('sr-blue-'+id,'Player(s) — Blue',data?.blue||'');
+  updateTally();
+}
+function addRound() {
+  sheetRowId++;
+  const id=sheetRowId;
+  const tbody=document.getElementById('sheet-body');
+  if (!tbody) return;
+  const tr=document.createElement('tr');
+  tr.id='sr-sep-'+id; tr.className='round-sep-row';
+  tr.innerHTML=`<td></td><td colspan="6"><input class="e-input" placeholder="Round name (e.g. Day 2 – Texas Scramble)" style="font-weight:700;color:var(--green);background:transparent;"></td><td><button class="e-delbtn" onclick="this.closest('tr').remove()">✕</button></td>`;
+  tbody.appendChild(tr);
+  addSheetRow(); addSheetRow(); addSheetRow();
+}
+function deleteSheetRow(id,btn) { btn.closest('tr').remove(); sheetRows=sheetRows.filter(r=>r!==id); updateTally(); }
+function updateTally() {
+  let red=0,blue=0,draws=0;
+  document.querySelectorAll('[id^="sr-winner-"]').forEach(sel=>{
+    if(sel.value==='red')red++;else if(sel.value==='blue')blue++;else if(sel.value==='draw'){red+=0.5;blue+=0.5;draws++;}
+  });
+  const tr=document.getElementById('tally-red'),tb=document.getElementById('tally-blue'),td=document.getElementById('tally-draw');
+  if(tr)tr.textContent='Red '+red;if(tb)tb.textContent='Blue '+blue;if(td)td.textContent=draws>0?'('+draws+' halved)':'';
+}
+function clearSheet() { const tbody=document.getElementById('sheet-body'); if(tbody)tbody.innerHTML=''; sheetRows=[]; updateTally(); }
+
+async function saveTour() {
+  const year=document.getElementById('entry-year')?.value;
+  const location=document.getElementById('entry-location')?.value;
+  if (!year||!location) { showAlert('Please fill in Year and Location.','info'); return; }
+  showAlert('Saving…','info'); setDbStatus(null,'Saving…');
+
+  // Set editor name for audit log trigger
+  const editorName = getEditorName();
+  try {
+    // Pass editor name via Supabase session config
+    await sbPost('rpc/set_config', []);  // fallback if not available
+  } catch(e) {}
+
+  try {
+    const tourPayload={year:parseInt(year),location,flag:document.getElementById('entry-flag')?.value||'⛳',team1:document.getElementById('entry-team1')?.value||'Red',team2:document.getElementById('entry-team2')?.value||'Blue',cap1:document.getElementById('entry-cap1')?.value||'',cap2:document.getElementById('entry-cap2')?.value||'',score1:document.getElementById('entry-score1')?.value||'',score2:document.getElementById('entry-score2')?.value||'',winner:document.getElementById('entry-winner')?.value||'',cup_award:document.getElementById('entry-cup')?.value||'',seal_award:document.getElementById('entry-seal')?.value||''};
+    let tourRows=await sbGet('cc_tours',`year=eq.${year}&location=eq.${encodeURIComponent(location)}&select=id`);
+    let tourId;
+    if (tourRows.length>0) { tourId=tourRows[0].id; await sbPatch('cc_tours',`id=eq.${tourId}`,tourPayload); }
+    else { const ins=await sbPost('cc_tours',tourPayload); tourId=ins[0].id; }
+
+    await sbDelete('cc_matches',`tour_id=eq.${tourId}`);
+    const matchRows=[];
+    let order=0;
+    document.querySelectorAll('#sheet-body tr:not(.round-sep-row)').forEach(tr=>{
+      const roundEl=tr.querySelector('[id^="sr-round-"]'); if(!roundEl) return;
+      const winnerVal=tr.querySelector('[id^="sr-winner-"]')?.value||'';
+      if(!['red','blue','draw',''].includes(winnerVal)) return;
+      matchRows.push({tour_id:tourId,round_name:roundEl.value||'',format:tr.querySelector('[id^="sr-format-"]')?.value||'Fourball',red_players:tr.querySelector('[id^="sr-red-"]')?.value||'',blue_players:tr.querySelector('[id^="sr-blue-"]')?.value||'',score:tr.querySelector('[id^="sr-score-"]')?.value||'',winner:winnerVal,sort_order:order++});
+    });
+    if (matchRows.length>0) await sbPost('cc_matches',matchRows);
+
+    setDbStatus(true,`✅ Saved — ${year} ${location} (${matchRows.length} matches)`);
+    showAlert(`✅ Saved to database (${matchRows.length} matches)`, 'success');
+
+    // Reload DB and refresh all stats
+    await loadAllData();
+    buildLeaderboard();
+    await loadSavedTours();
+    await loadAuditLog();
+  } catch(err) {
+    console.error(err); setDbStatus(false,'Save failed — '+err.message);
+    showAlert('❌ Save failed: '+err.message,'info');
+  }
+}
+
+function saveName() { const name=document.getElementById('entry-editor-name')?.value?.trim(); if(name){localStorage.setItem('cc_editor_name',name);showAlert('Name saved: '+name,'success');} }
+function getEditorName() { return localStorage.getItem('cc_editor_name')||'anonymous'; }
+
+// ============================================================
+// DB STATUS
+// ============================================================
+function setDbStatus(ok,msg) {
+  const dot=document.getElementById('db-status-dot'),txt=document.getElementById('db-status-text'),bar=document.getElementById('db-status-bar');
+  if (!dot) return;
+  dot.classList.remove('db-connecting');
+  if (ok===null){dot.style.background='#c9a84c';dot.classList.add('db-connecting');if(bar){bar.style.background='#fdf8ee';bar.style.borderColor='#e8d89a';}}
+  else if (ok){dot.style.background='#2d7a4f';if(bar){bar.style.background='#f0f8f4';bar.style.borderColor='#a8d8ba';}}
+  else{dot.style.background='#d63030';if(bar){bar.style.background='#fde8e8';bar.style.borderColor='#f0a8a8';}}
+  if (txt) txt.textContent=msg;
+}
+function showAlert(msg,type) {
+  const el=document.getElementById('entry-alert');
+  if(!el) return;
+  el.className='alert '+type; el.textContent=msg;
+  setTimeout(()=>{el.className='alert';},5000);
+}
+
+// ============================================================
+// LOAD ALL DATA FROM SUPABASE
+// ============================================================
+async function loadAllData() {
+  const [tours,matches,scores]=await Promise.all([
+    sbGet('cc_tours','select=*&order=year.asc'),
+    sbGet('cc_matches','select=*&order=sort_order.asc'),
+    sbGet('cc_player_scores','select=*'),
+  ]);
+  DB.tours=tours; DB.matches=matches; DB.scores=scores; DB.loaded=true;
+}
+
+async function loadSavedTours() {
+  const list=document.getElementById('saved-tours-list');
+  if (!list) return;
+  try {
+    const tours=await sbGet('cc_tours','select=id,year,location,flag,team1,team2,score1,score2,winner&order=year.desc');
+    if (!tours.length){list.innerHTML='<p style="color:var(--muted);font-size:14px;padding:8px 0;">No saved tours yet.</p>';return;}
+    const matchCounts=await sbGet('cc_matches','select=tour_id');
+    const countMap={};matchCounts.forEach(m=>{countMap[m.tour_id]=(countMap[m.tour_id]||0)+1;});
+    list.innerHTML=tours.map(t=>`
+      <div class="saved-item" onclick="loadTourIntoForm('${t.id}')">
+        <div>
+          <div class="saved-item-name">${t.flag||'⛳'} ${t.year} — ${t.location}</div>
+          <div class="saved-item-meta">${t.team1||'Red'} ${t.score1||'?'} – ${t.score2||'?'} ${t.team2||'Blue'} · ${countMap[t.id]||0} matches · ${t.winner||''}</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span style="color:var(--green-mid);font-size:12px;font-weight:600;">Edit →</span>
+          <button class="saved-item-del" onclick="event.stopPropagation();deleteTourFromDb('${t.id}','${t.year} ${t.location}')">🗑</button>
+        </div>
+      </div>`).join('');
+  } catch(err){list.innerHTML=`<p style="color:var(--red);font-size:13px;">⚠️ ${err.message}</p>`;}
+}
+
+async function loadTourIntoForm(tourId) {
+  showAlert('Loading tour…','info');
+  try {
+    const [tours,matches]=await Promise.all([sbGet('cc_tours',`id=eq.${tourId}&select=*`),sbGet('cc_matches',`tour_id=eq.${tourId}&order=sort_order.asc&select=*`)]);
+    if (!tours.length) { showAlert('Tour not found','info'); return; }
+    const t=tours[0];
+    const fieldMap={'entry-year':t.year,'entry-location':t.location,'entry-flag':t.flag,'entry-team1':t.team1,'entry-cap1':t.cap1,'entry-team2':t.team2,'entry-cap2':t.cap2,'entry-score1':t.score1,'entry-score2':t.score2,'entry-winner':t.winner,'entry-cup':t.cup_award,'entry-seal':t.seal_award};
+    Object.entries(fieldMap).forEach(([id,val])=>{const el=document.getElementById(id);if(el)el.value=val||'';});
+    clearSheet();
+    matches.forEach(m=>addSheetRow({round:m.round_name,format:m.format,red:m.red_players,blue:m.blue_players,score:m.score,winner:m.winner}));
+    showView('entry',true);
+    showAlert('Tour loaded — edit and save to update stats.','info');
+  } catch(err){showAlert('❌ '+err.message,'info');}
+}
+
+async function deleteTourFromDb(tourId,label) {
+  if (!confirm(`Delete "${label}" and all its matches?`)) return;
+  try {
+    await sbDelete('cc_tours',`id=eq.${tourId}`);
+    showAlert('Tour deleted.','success');
+    await loadAllData(); buildLeaderboard(); await loadSavedTours(); await loadAuditLog();
+  } catch(err){showAlert('❌ '+err.message,'info');}
+}
+
+function deleteTour(key) {} // legacy no-op
+
+async function loadAuditLog() {
+  const list=document.getElementById('audit-trail-list');
+  if (!list) return;
+  const tableFilter=document.getElementById('audit-filter-table')?.value||'';
+  let params='select=*&order=changed_at.desc&limit=50';
+  if (tableFilter) params+=`&table_name=eq.${tableFilter}`;
+  try {
+    const logs=await sbGet('cc_audit_log',params);
+    if (!logs.length){list.innerHTML='<p style="color:var(--muted);font-size:13px;padding:8px 0;">No audit entries yet.</p>';return;}
+    list.innerHTML=logs.map(entry=>{
+      const bc=entry.action==='INSERT'?'audit-insert':entry.action==='UPDATE'?'audit-update':'audit-delete';
+      const when=new Date(entry.changed_at).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+      let diffHtml='';
+      if (entry.action==='UPDATE'&&entry.old_data&&entry.new_data) {
+        const changes=[];
+        Object.keys(entry.new_data).forEach(k=>{
+          if(['id','created_at','updated_at','tour_id','sort_order'].includes(k)) return;
+          const ov=entry.old_data[k],nv=entry.new_data[k];
+          if (String(ov)!==String(nv)&&ov!==undefined) changes.push(`<span class="audit-diff-old">${k}: ${ov}</span> → <span class="audit-diff-new">${nv}</span>`);
+        });
+        if (changes.length) diffHtml=`<div class="audit-diff">${changes.slice(0,4).join('<br>')}</div>`;
+      }
+      const canUndo=(entry.action==='UPDATE'||entry.action==='DELETE')&&entry.old_data;
+      const undoBtn=canUndo?`<button class="audit-undo-btn" onclick="undoAuditEntry('${entry.id}','${entry.action}','${entry.table_name}',${JSON.stringify(JSON.stringify(entry.old_data)).replace(/'/g,'&apos;')})">↩ Undo</button>`:'';
+      const desc=entry.action==='INSERT'?`New ${entry.table_name==='cc_tours'?'tour':'match/score'} added`:entry.action==='DELETE'?`Deleted`:entry.table_name==='cc_matches'?'Match result updated':'Tour updated';
+      return `<div class="audit-item">
+        <span class="audit-badge ${bc}">${entry.action}</span>
+        <div style="flex:1;"><div style="font-weight:600;">${desc}</div><div class="audit-meta">by ${entry.changed_by||'anonymous'} · ${when}</div>${diffHtml}</div>
+        ${undoBtn}
+      </div>`;
+    }).join('');
+  } catch(err){list.innerHTML=`<p style="color:var(--red);font-size:13px;">⚠️ ${err.message}</p>`;}
+}
+
+async function undoAuditEntry(auditId,action,tableName,oldDataJson) {
+  let oldData;
+  try{oldData=JSON.parse(oldDataJson);}catch{showAlert('Could not parse undo data.','info');return;}
+  if (!confirm('Undo this change?')) return;
+  try {
+    if (action==='DELETE') { const {id,created_at,updated_at,...ins}=oldData; await sbPost(tableName,{...ins,id}); }
+    else if (action==='UPDATE') { const {id,created_at,...patch}=oldData; await sbPatch(tableName,`id=eq.${id}`,patch); }
+    showAlert('✅ Undone.','success');
+    await loadAllData(); buildLeaderboard(); await loadSavedTours(); await loadAuditLog();
+  } catch(err){showAlert('❌ Undo failed: '+err.message,'info');}
+}
+
+function clearEntryForm() {
+  ['entry-year','entry-location','entry-flag','entry-team1','entry-cap1','entry-team2','entry-cap2','entry-score1','entry-score2','entry-winner','entry-cup','entry-seal'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  clearSheet();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+async function initApp() {
+  try {
+    const savedName=localStorage.getItem('cc_editor_name');
+    const nameEl=document.getElementById('entry-editor-name');
+    if(savedName&&nameEl) nameEl.value=savedName;
+
+    const days=Math.max(0,Math.ceil((new Date('2026-09-23')-new Date())/86400000));
+    const cdEl=document.getElementById('countdown-days');
+    if(cdEl) cdEl.textContent=days+' days to Sotogrande';
+
+    _navStack=['home'];
+    buildLeaderboard(); // renders with fallback data immediately
+    for(let i=0;i<6;i++) addSheetRow();
+
+    const isPreview=window.self!==window.top||document.referrer.includes('claude.ai');
+    if (isPreview) {
+      setDbStatus(false,'⚠️ Preview mode — save file and open in browser to connect to database');
+      const list=document.getElementById('saved-tours-list');
+      if(list) list.innerHTML=`<div style="background:#fff8e8;border:1px solid var(--gold);border-radius:8px;padding:16px 18px;">
+        <div style="font-weight:700;color:var(--green);margin-bottom:6px;">📂 To connect to your Supabase database:</div>
+        <ol style="font-size:13px;color:var(--charcoal);line-height:2;padding-left:18px;">
+          <li>Download this HTML file (Copy button above)</li>
+          <li>Save as <strong>cyder-cup.html</strong></li>
+          <li>Open in Chrome or Safari — File → Open</li>
+          <li>Green dot appears and all data loads ✅</li>
+        </ol>
+      </div>`;
+      const auditList=document.getElementById('audit-trail-list');
+      if(auditList) auditList.innerHTML='<p style="color:var(--muted);font-size:13px;padding:8px 0;">Open in browser to view audit log.</p>';
+      return;
+    }
+
+    setDbStatus(null,'Connecting to database…');
+    await loadAllData();
+    setDbStatus(true,`Connected ✅ — ${DB.matches.length} matches loaded`);
+    buildLeaderboard(); // re-render with live data
+    await loadSavedTours();
+    await loadAuditLog();
+  } catch(err) {
+    console.error('Init error:',err);
+    const isCors=err.message.includes('fetch')||err.message.includes('Failed');
+    setDbStatus(false,isCors?'⚠️ Open as local file to connect to database':'⚠️ '+err.message);
+    const list=document.getElementById('saved-tours-list');
+    if(list&&isCors) list.innerHTML=`<div style="background:#fff8e8;border:1px solid var(--gold);border-radius:8px;padding:16px 18px;font-size:13px;">Open the saved HTML file directly in Chrome to connect. The Supabase connection works fine from a local file.</div>`;
+    buildLeaderboard();
+    _navStack=['home'];
+  }
+}
+
+initApp();
+</script>
+</body>
+</html>

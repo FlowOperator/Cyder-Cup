@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyder Cup Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --green:#1a4a2e; --green-mid:#2d7a4f; --gold:#c9a84c; --cream:#f5f0e8; --charcoal:#1c1c1c; --muted:#6b6b6b; --red:#d63030; --blue:#3b7dd8; --border:#e0dbd0; --radius:12px; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Barlow',sans-serif; background:var(--cream); color:var(--charcoal); min-height:100vh; padding:32px; }
+  h1 { font-family:'Bebas Neue',sans-serif; font-size:42px; color:var(--green); letter-spacing:2px; margin-bottom:8px; }
+  .subtitle { color:var(--muted); font-size:14px; margin-bottom:24px; }
+  .card { background:#fff; border-radius:var(--radius); padding:24px; box-shadow:0 4px 24px rgba(0,0,0,0.08); border:1px solid var(--border); margin-bottom:20px; }
+  .card h2 { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; padding-bottom:12px; border-bottom:2px solid var(--border); }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:8px; font-family:'Barlow',sans-serif; font-size:14px; font-weight:700; letter-spacing:1px; text-transform:uppercase; cursor:pointer; border:none; transition:all 0.2s; }
+  .btn-primary { background:var(--green); color:white; }
+  .btn-primary:hover { background:var(--green-mid); }
+  .btn-gold { background:var(--gold); color:var(--green); }
+  .btn-gold:hover { background:#f0d080; }
+  .btn-red { background:var(--red); color:white; }
+  .btn-red:hover { background:#a01818; }
+  .actions { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px; }
+  .status { padding:12px 16px; border-radius:8px; font-size:13px; margin-bottom:16px; }
+  .status.ok { background:#e8f5ee; border:1px solid #a8d8ba; color:#1a5c34; }
+  .status.err { background:#fde8e8; border:1px solid #f0a8a8; color:#8b1a1a; }
+  .status.info { background:#e8f0fa; border:1px solid #a8c0e8; color:#1a3c6c; }
+  textarea { width:100%; min-height:300px; font-family:'Courier New',monospace; font-size:12px; padding:16px; border:1.5px solid var(--border); border-radius:8px; background:var(--cream); resize:vertical; }
+  textarea:focus { outline:none; border-color:var(--green-mid); }
+  .stats-row { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:16px; }
+  .stat-box { background:var(--cream); border:1px solid var(--border); border-radius:8px; padding:12px 18px; text-align:center; }
+  .stat-num { font-family:'Bebas Neue',sans-serif; font-size:32px; color:var(--green); }
+  .stat-label { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+  label { display:block; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:6px; margin-top:14px; }
+  input[type=text], input[type=number], select { width:100%; padding:10px 14px; border:1.5px solid var(--border); border-radius:8px; font-family:'Barlow',sans-serif; font-size:14px; background:var(--cream); }
+  input:focus, select:focus { outline:none; border-color:var(--green-mid); }
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+  .match-row { display:grid; grid-template-columns:40px 1fr 100px 1fr 1fr 1fr 1fr 80px 80px 40px; gap:6px; align-items:center; padding:8px 0; border-bottom:1px solid var(--border); font-size:12px; }
+  .match-row input, .match-row select { padding:6px 8px; font-size:12px; }
+  .del-btn { background:none; border:none; color:#ccc; cursor:pointer; font-size:16px; }
+  .del-btn:hover { color:var(--red); }
+  .help { font-size:12px; color:var(--muted); margin-top:8px; line-height:1.6; }
+</style>
+</head>
+<body>
+
+<h1>⛳ Cyder Cup Admin</h1>
+<p class="subtitle">Edit data.json and export for GitHub Pages. No database required.</p>
+
+<div id="status" class="status info">Load your current data.json to get started, or start fresh.</div>
+
+<div class="actions">
+  <button class="btn btn-primary" onclick="loadFromFile()">📂 Load data.json</button>
+  <button class="btn btn-gold" onclick="exportData()">💾 Export data.json</button>
+  <button class="btn btn-primary" onclick="loadFromUrl()">🌐 Load from URL</button>
+</div>
+
+<div class="stats-row" id="stats-row" style="display:none;">
+  <div class="stat-box"><div class="stat-num" id="s-tours">0</div><div class="stat-label">Tours</div></div>
+  <div class="stat-box"><div class="stat-num" id="s-matches">0</div><div class="stat-label">Matches</div></div>
+  <div class="stat-box"><div class="stat-num" id="s-players">0</div><div class="stat-label">Players</div></div>
+  <div class="stat-box"><div class="stat-num" id="s-scores">0</div><div class="stat-label">Score Rows</div></div>
+</div>
+
+<!-- QUICK ADD TOUR -->
+<div class="card">
+  <h2>➕ Add / Edit Tour</h2>
+  <div class="grid-3">
+    <div><label>Year</label><input type="number" id="t-year" placeholder="2026"></div>
+    <div><label>Location</label><input type="text" id="t-location" placeholder="Sotogrande, Spain"></div>
+    <div><label>Flag</label><input type="text" id="t-flag" placeholder="🇪🇸" maxlength="4"></div>
+    <div><label>Team 1 (Red)</label><input type="text" id="t-team1" placeholder="Red"></div>
+    <div><label>Team 1 Captain</label><input type="text" id="t-cap1" placeholder="Jack Smart"></div>
+    <div><label>Score 1</label><input type="text" id="t-score1" placeholder="8.5"></div>
+    <div><label>Team 2 (Blue)</label><input type="text" id="t-team2" placeholder="Blue"></div>
+    <div><label>Team 2 Captain</label><input type="text" id="t-cap2" placeholder="Alex D-V"></div>
+    <div><label>Score 2</label><input type="text" id="t-score2" placeholder="6.5"></div>
+    <div><label>Winner</label><input type="text" id="t-winner" placeholder="Red Win"></div>
+    <div><label>Playoff?</label><select id="t-playoff"><option value="false">No</option><option value="true">Yes</option></select></div>
+    <div><label>Playoff Winner</label><input type="text" id="t-playoff-winner" placeholder=""></div>
+  </div>
+  <div style="margin-top:16px;">
+    <button class="btn btn-primary" onclick="addTour()">Add Tour</button>
+    <button class="btn btn-gold" onclick="clearTourForm()">Clear</button>
+  </div>
+</div>
+
+<!-- RAW JSON EDITOR -->
+<div class="card">
+  <h2>📝 Raw JSON Editor</h2>
+  <p class="help">Edit the raw JSON directly. Be careful with formatting. Click "Apply Changes" to validate and update.</p>
+  <textarea id="json-editor" placeholder="Load data first..."></textarea>
+  <div style="margin-top:12px;">
+    <button class="btn btn-primary" onclick="applyRawJson()">✓ Apply Changes</button>
+    <button class="btn btn-gold" onclick="prettyPrint()">Format JSON</button>
+  </div>
+</div>
+
+<div class="card">
+  <h2>📖 How to Update Your Site</h2>
+  <div class="help" style="font-size:13px;line-height:2;">
+    <strong>1.</strong> Load your current data.json (from your repo or local file)<br>
+    <strong>2.</strong> Make changes using the form above or edit the raw JSON<br>
+    <strong>3.</strong> Click "Export data.json" to download the updated file<br>
+    <strong>4.</strong> Replace the data.json in your GitHub repo and commit<br>
+    <strong>5.</strong> GitHub Pages will automatically serve the new data<br><br>
+    <strong>Tip:</strong> Keep a backup of data.json before making changes.
+  </div>
+</div>
+
+<input type="file" id="file-input" accept=".json" style="display:none" onchange="handleFileLoad(event)">
+
+<script>
+let DATA = { tours:[], matches:[], scores:[], players:[] };
+
+function setStatus(msg, type='info') {
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.className = 'status ' + type;
+}
+
+function updateStats() {
+  document.getElementById('stats-row').style.display = 'flex';
+  document.getElementById('s-tours').textContent = DATA.tours.length;
+  document.getElementById('s-matches').textContent = DATA.matches.length;
+  document.getElementById('s-players').textContent = DATA.players.length;
+  document.getElementById('s-scores').textContent = DATA.scores.length;
+  document.getElementById('json-editor').value = JSON.stringify(DATA, null, 2);
+}
+
+function loadFromFile() {
+  document.getElementById('file-input').click();
+}
+
+function handleFileLoad(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      DATA = JSON.parse(ev.target.result);
+      setStatus(`✅ Loaded ${file.name} — ${DATA.tours.length} tours, ${DATA.matches.length} matches, ${DATA.players.length} players`, 'ok');
+      updateStats();
+    } catch(err) {
+      setStatus('❌ Invalid JSON: ' + err.message, 'err');
+    }
+  };
+  reader.readAsText(file);
+}
+
+async function loadFromUrl() {
+  const url = prompt('Enter URL to data.json:', 'data.json');
+  if (!url) return;
+  try {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    DATA = await r.json();
+    setStatus(`✅ Loaded from ${url} — ${DATA.tours.length} tours, ${DATA.matches.length} matches`, 'ok');
+    updateStats();
+  } catch(err) {
+    setStatus('❌ Failed to load: ' + err.message, 'err');
+  }
+}
+
+function exportData() {
+  const blob = new Blob([JSON.stringify(DATA, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'data.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  setStatus('✅ Exported data.json — upload to your GitHub repo', 'ok');
+}
+
+function applyRawJson() {
+  try {
+    const parsed = JSON.parse(document.getElementById('json-editor').value);
+    if (!parsed.tours || !parsed.matches || !parsed.players) throw new Error('Missing required keys: tours, matches, players');
+    DATA = parsed;
+    setStatus(`✅ Applied — ${DATA.tours.length} tours, ${DATA.matches.length} matches`, 'ok');
+    updateStats();
+  } catch(err) {
+    setStatus('❌ Invalid JSON: ' + err.message, 'err');
+  }
+}
+
+function prettyPrint() {
+  try {
+    const parsed = JSON.parse(document.getElementById('json-editor').value);
+    document.getElementById('json-editor').value = JSON.stringify(parsed, null, 2);
+  } catch(err) {
+    setStatus('❌ Cannot format — invalid JSON', 'err');
+  }
+}
+
+function generateId() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.random()*16|0;
+    return (c==='x'?r:(r&0x3|0x8)).toString(16);
+  });
+}
+
+function addTour() {
+  const year = parseInt(document.getElementById('t-year').value);
+  const location = document.getElementById('t-location').value.trim();
+  if (!year || !location) { setStatus('❌ Year and Location are required', 'err'); return; }
+
+  const tour = {
+    id: generateId(),
+    year,
+    location,
+    flag: document.getElementById('t-flag').value || '⛳',
+    team1: document.getElementById('t-team1').value || 'Red',
+    team2: document.getElementById('t-team2').value || 'Blue',
+    cap1: document.getElementById('t-cap1').value || '',
+    cap2: document.getElementById('t-cap2').value || '',
+    score1: document.getElementById('t-score1').value || '',
+    score2: document.getElementById('t-score2').value || '',
+    winner: document.getElementById('t-winner').value || '',
+    cup_award: '',
+    seal_award: '',
+    is_playoff: document.getElementById('t-playoff').value === 'true',
+    playoff_winner: document.getElementById('t-playoff-winner').value || '',
+    playoff_scores: '[]',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
+  };
+
+  // Check if tour already exists (same year + location)
+  const existing = DATA.tours.findIndex(t => t.year === year && t.location === location);
+  if (existing >= 0) {
+    if (!confirm(`Tour ${year} ${location} already exists. Overwrite?`)) return;
+    DATA.tours[existing] = { ...DATA.tours[existing], ...tour, id: DATA.tours[existing].id };
+  } else {
+    DATA.tours.push(tour);
+    DATA.tours.sort((a,b) => a.year - b.year);
+  }
+
+  setStatus(`✅ Tour added: ${year} ${location}`, 'ok');
+  updateStats();
+}
+
+function clearTourForm() {
+  ['t-year','t-location','t-flag','t-team1','t-team2','t-cap1','t-cap2','t-score1','t-score2','t-winner','t-playoff-winner'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('t-playoff').value = 'false';
+}
+
+// Auto-load data.json if available
+fetch('data.json').then(r => r.ok ? r.json() : null).then(d => {
+  if (d) {
+    DATA = d;
+    setStatus(`✅ Auto-loaded data.json — ${DATA.tours.length} tours, ${DATA.matches.length} matches, ${DATA.players.length} players`, 'ok');
+    updateStats();
+  }
+}).catch(() => {});
+</script>
+</body>
+</html>

@@ -1476,6 +1476,7 @@
     <li><a href="#" onclick="showView('home');closeNav()" class="active" id="nav-home">Home</a></li>
     <li><a href="#" onclick="showView('tours');closeNav()" id="nav-tours">Tours</a></li>
     <li><a href="#" onclick="showView('stats');closeNav()" id="nav-stats">Stats</a></li>
+    <li><a href="#" onclick="showView('matches');closeNav()" id="nav-matches">Matches</a></li>
     <li><a href="#" onclick="showView('entry');closeNav()" id="nav-entry">Results Entry</a></li>
   </ul>
 </nav>
@@ -1765,6 +1766,70 @@
   </div><!-- /section -->
 </div><!-- /view-stats -->
 
+<!-- MATCHES VIEW -->
+<div id="view-matches" class="view">
+  <div class="section">
+    <div class="section-title">All Matches</div>
+    <div class="divider"></div>
+    <div class="section-subtitle">Every match played across all tours — use filters to drill down</div>
+
+    <!-- FILTERS -->
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;align-items:flex-end;">
+      <div>
+        <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:4px;">Tour</label>
+        <select id="match-filter-tour" onchange="renderMatchesView()" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'Barlow',sans-serif;background:var(--cream);min-width:140px;">
+          <option value="">All Tours</option>
+        </select>
+      </div>
+      <div>
+        <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:4px;">Format</label>
+        <select id="match-filter-format" onchange="renderMatchesView()" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'Barlow',sans-serif;background:var(--cream);min-width:120px;">
+          <option value="">All Formats</option>
+        </select>
+      </div>
+      <div>
+        <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:4px;">Player</label>
+        <select id="match-filter-player" onchange="renderMatchesView()" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'Barlow',sans-serif;background:var(--cream);min-width:160px;">
+          <option value="">All Players</option>
+        </select>
+      </div>
+      <div>
+        <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:4px;">Result</label>
+        <select id="match-filter-result" onchange="renderMatchesView()" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:'Barlow',sans-serif;background:var(--cream);min-width:100px;">
+          <option value="">All</option>
+          <option value="red">Red/Team 1 Win</option>
+          <option value="blue">Blue/Team 2 Win</option>
+          <option value="draw">Draw (A/S)</option>
+        </select>
+      </div>
+      <button class="btn btn-sm" style="background:var(--green);color:white;padding:8px 16px;" onclick="clearMatchFilters()">Clear Filters</button>
+      <button class="btn btn-sm" style="background:var(--gold);color:var(--green);padding:8px 16px;" onclick="exportMatchesCsv()">📥 Export CSV</button>
+    </div>
+
+    <div id="matches-count" style="font-size:12px;color:var(--muted);margin-bottom:12px;"></div>
+
+    <!-- TABLE -->
+    <div class="table-scroll-wrap">
+      <table class="leaderboard-table" id="matches-table">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Round</th>
+            <th>Format</th>
+            <th>Red/Team 1</th>
+            <th>Blue/Team 2</th>
+            <th>Score</th>
+            <th>Winner</th>
+          </tr>
+        </thead>
+        <tbody id="matches-table-body">
+          <tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px;">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <!-- ENTRY VIEW -->
 <div id="view-entry" class="view">
 <div class="section">
@@ -2010,27 +2075,14 @@ function shortName(fullName) {
   return surname;
 }
 
-const HANDICAP_HISTORY = {
-  'Alex Duncliffe-Vines': {2022:12,2023:7, 2024:6, 2025:6, 2026:6 },
-  'Andrew Newson':        {2022:14,2023:16,2024:18,2025:16,2026:16},
-  'Ben Bruce':            {2022:19,2023:20,2024:18,2025:19,2026:18},
-  'Ben Ringrose':         {2022:18,2024:14,2025:12,2026:11},
-  'Charlie Pascoe':       {2022:18,2023:15,2024:17,2025:15,2026:15},
-  'Harry Gwilliam':       {2026:9},
-  'Jack Smart':           {2022:10,2023:9, 2024:6, 2025:8, 2026:10},
-  'James Wheeler':        {2022:13,2023:9, 2024:9, 2025:8, 2026:8 },
-  'Jock Jamieson-Black':  {2022:12,2023:9, 2024:8, 2025:8, 2026:8 },
-  'Kier Roff-Stanion':    {2022:15,2023:14,2024:13,2025:13,2026:12},
-  'Luke Nelson':          {2022:26,2023:23,2024:22,2025:23},
-  'Nick Haynes':          {2022:20,2023:20,2024:15,2025:15,2026:15},
-  'Rowan Roff-Stanion':   {2023:14},
-  'Simon Sexton':         {2022:26,2023:25,2024:25,2025:27,2026:27},
-};
+// HANDICAP_HISTORY — loaded from data.json, fallback to empty
+let HANDICAP_HISTORY = {};
 
 // ============================================================
 // CANONICAL PLAYER NAME RESOLUTION
 // Maps any alias / abbreviation / typo to the canonical full name.
 // All stats computations use normalizePlayerName() before comparing.
+// Aliases are built dynamically from DB.players (which has an aliases array).
 // ============================================================
 const PLAYER_ALIASES = {
   // Common abbreviations used in match strings
@@ -3094,6 +3146,7 @@ function showView(name, pushStack) {
   if(pushStack!==false) _navStack.push(name);
   window.scrollTo(0,0);
   if(name==='stats') setTimeout(()=>buildStatsCharts(),80);
+  if(name==='matches') setTimeout(()=>renderMatchesView(),50);
 }
 function navTo(name) { _navStack=[]; showView(name,true); }
 function goBack() {
@@ -3366,8 +3419,12 @@ function sortLeaderboard(colIdx) {
 // ============================================================
 let _allHcpChart=null, _winrateChart=null, _hcpActiveSet=new Set();
 const HCP_COLORS=['#1a4a2e','#d63030','#3b7dd8','#c9a84c','#9b59b6','#e67e22','#1abc9c','#e91e8c','#2980b9','#27ae60','#f39c12','#8e44ad','#16a085'];
-const HCP_PLAYERS_ORDERED=['Alex Duncliffe-Vines','Andrew Newson','Ben Bruce','Ben Ringrose','Charlie Pascoe','Jack Smart','James Wheeler','Jock Jamieson-Black','Kier Roff-Stanion','Luke Nelson','Nick Haynes','Rowan Roff-Stanion','Simon Sexton'];
-const SQUAD_2026=['Alex Duncliffe-Vines','Andrew Newson','Ben Bruce','Ben Ringrose','Charlie Pascoe','Jack Smart','James Wheeler','Jock Jamieson-Black','Kier Roff-Stanion','Nick Haynes','Simon Sexton','Harry Gwilliam'];
+// Dynamic: built from HANDICAP_HISTORY keys (loaded from data.json)
+function getHcpPlayersOrdered() { return Object.keys(HANDICAP_HISTORY).sort(); }
+function getSquad2026() {
+  if (DB.nextTour) return [...(DB.nextTour.team1?.players||[]), ...(DB.nextTour.team2?.players||[])];
+  return getAllPlayers();
+}
 
 function buildStatsCharts() {
   if(typeof Chart==='undefined') return;
@@ -3376,8 +3433,8 @@ function buildStatsCharts() {
 function buildHcpFilterChips() {
   const container=document.getElementById('hcp-filter-chips');
   if(!container||container.children.length>0) return;
-  if(_hcpActiveSet.size===0) HCP_PLAYERS_ORDERED.forEach(n=>_hcpActiveSet.add(n));
-  container.innerHTML=HCP_PLAYERS_ORDERED.map((name,i)=>{
+  if(_hcpActiveSet.size===0) getHcpPlayersOrdered().forEach(n=>_hcpActiveSet.add(n));
+  container.innerHTML=getHcpPlayersOrdered().map((name,i)=>{
     const col=HCP_COLORS[i%HCP_COLORS.length], isActive=_hcpActiveSet.has(name);
     return `<span class="hcp-chip ${isActive?'active':'inactive'}" id="hcp-chip-${i}" data-name="${name}" data-color="${col}" onclick="toggleHcpChip(this)" style="background:${isActive?col:'var(--cream)'};">
       <span class="hcp-chip-dot" style="background:${col};"></span>${shortName(name)}
@@ -3390,16 +3447,16 @@ function toggleHcpChip(el) {
   else{_hcpActiveSet.add(name);el.classList.add('active');el.classList.remove('inactive');el.style.background=col;}
   buildAllHcpChart();
 }
-function hcpSelectAll(){HCP_PLAYERS_ORDERED.forEach(n=>_hcpActiveSet.add(n));refreshChipUI();buildAllHcpChart();}
+function hcpSelectAll(){getHcpPlayersOrdered().forEach(n=>_hcpActiveSet.add(n));refreshChipUI();buildAllHcpChart();}
 function hcpClearAll(){_hcpActiveSet.clear();refreshChipUI();buildAllHcpChart();}
-function hcpSelect2026(){_hcpActiveSet.clear();SQUAD_2026.forEach(n=>_hcpActiveSet.add(n));refreshChipUI();buildAllHcpChart();}
+function hcpSelect2026(){_hcpActiveSet.clear();getSquad2026().forEach(n=>_hcpActiveSet.add(n));refreshChipUI();buildAllHcpChart();}
 function refreshChipUI(){document.querySelectorAll('.hcp-chip').forEach(el=>{const a=_hcpActiveSet.has(el.dataset.name);el.classList.toggle('active',a);el.classList.toggle('inactive',!a);el.style.background=a?el.dataset.color:'';});}
 function buildAllHcpChart() {
   const canvas=document.getElementById('all-hcp-chart'); if(!canvas) return;
   if(_allHcpChart){_allHcpChart.destroy();_allHcpChart=null;}
   const years=[2022,2023,2024,2025,2026];
-  const datasets=HCP_PLAYERS_ORDERED.filter(n=>_hcpActiveSet.has(n)).map(name=>{
-    const d=HANDICAP_HISTORY[name]||{}, col=HCP_COLORS[HCP_PLAYERS_ORDERED.indexOf(name)%HCP_COLORS.length];
+  const datasets=getHcpPlayersOrdered().filter(n=>_hcpActiveSet.has(n)).map(name=>{
+    const d=HANDICAP_HISTORY[name]||{}, col=HCP_COLORS[getHcpPlayersOrdered().indexOf(name)%HCP_COLORS.length];
     return {label:shortName(name),data:years.map(y=>d[y]??null),borderColor:col,backgroundColor:'transparent',borderWidth:2.5,pointBackgroundColor:col,pointRadius:5,tension:0.3,spanGaps:true,fill:false};
   });
   _allHcpChart=new Chart(canvas,{type:'line',data:{labels:years,datasets},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:10,usePointStyle:true,pointStyleWidth:10}},tooltip:{callbacks:{title:ctx=>'Tour '+ctx[0].label,label:ctx=>ctx.parsed.y!==null?` ${ctx.dataset.label}: Hcp ${ctx.parsed.y}`:null}}},scales:{y:{reverse:true,title:{display:true,text:'Tour Handicap (↓ = improving)',font:{size:11},color:'#6b6b6b'},grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{size:11},color:'#6b6b6b',stepSize:2}},x:{grid:{display:false},ticks:{font:{size:11},color:'#6b6b6b'}}}}});
@@ -4431,6 +4488,7 @@ async function refreshAllViews() {
   renderToursGrid();
   renderSeriesRecord();
   renderOddsSection();
+  renderMatchesView();
   renderLandmarks();
   renderPairings();
   renderStatsNumbers();
@@ -4468,6 +4526,10 @@ async function loadAllData(){
   DB.scores = data.scores || [];
   DB.players = data.players || [];
   DB.loaded = true;
+  // Load handicaps from data file
+  if (data.handicaps) HANDICAP_HISTORY = data.handicaps;
+  // Load next tour config
+  if (data.next_tour) DB.nextTour = data.next_tour;
 }
 
 async function loadSavedTours(){
@@ -4642,15 +4704,15 @@ function renderSeriesRecord() {
     const derivedPW = derivePlayoffWinner(t);
     if (isTie && t.is_playoff && derivedPW) winTeam = derivedPW + ' (Playoff)';
 
-    // Determine winning captain
-    let winCap = '—';
+    // Determine winning captain and losing captain
+    let winCap = '—', loseCap = '—';
     if (!isNaN(s1) && !isNaN(s2)) {
-      if (s1 > s2) winCap = t.cap1 || '—';
-      else if (s2 > s1) winCap = t.cap2 || '—';
+      if (s1 > s2) { winCap = t.cap1 || '—'; loseCap = t.cap2 || '—'; }
+      else if (s2 > s1) { winCap = t.cap2 || '—'; loseCap = t.cap1 || '—'; }
       else if (t.is_playoff && derivedPW) {
         const pw = derivedPW.toLowerCase().trim();
-        if (pw === (t.team1||'').toLowerCase().trim()) winCap = t.cap1 || '—';
-        else if (pw === (t.team2||'').toLowerCase().trim()) winCap = t.cap2 || '—';
+        if (pw === (t.team1||'').toLowerCase().trim()) { winCap = t.cap1 || '—'; loseCap = t.cap2 || '—'; }
+        else if (pw === (t.team2||'').toLowerCase().trim()) { winCap = t.cap2 || '—'; loseCap = t.cap1 || '—'; }
       }
     }
 
@@ -4660,7 +4722,8 @@ function renderSeriesRecord() {
     return `<tr style="cursor:pointer;" onclick="showTourById('${t.id}')">
       <td style="padding:10px 14px;font-weight:700;white-space:nowrap;">${t.year}</td>
       <td style="padding:10px 14px;">${icon} ${winTeam}</td>
-      <td style="padding:10px 14px;color:var(--muted);">${winCap}</td>
+      <td style="padding:10px 14px;color:var(--green-mid);font-weight:600;">${winCap}</td>
+      <td style="padding:10px 14px;color:var(--muted);">${loseCap}</td>
       <td style="padding:10px 14px;font-weight:600;white-space:nowrap;">${scoreStr}</td>
       <td style="padding:10px 14px;color:var(--muted);">${t.flag||'⛳'} ${loc}</td>
     </tr>`;
@@ -4687,7 +4750,8 @@ function renderSeriesRecord() {
           <tr style="border-bottom:2px solid var(--border);">
             <th style="padding:8px 14px;text-align:left;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);">Year</th>
             <th style="padding:8px 14px;text-align:left;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);">Winner</th>
-            <th style="padding:8px 14px;text-align:left;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);">Captain</th>
+            <th style="padding:8px 14px;text-align:left;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);">Winning Captain</th>
+            <th style="padding:8px 14px;text-align:left;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);">Losing Captain</th>
             <th style="padding:8px 14px;text-align:left;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);">Score</th>
             <th style="padding:8px 14px;text-align:left;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);">Location</th>
           </tr>
@@ -4723,6 +4787,134 @@ function probToFractionalOdds(prob) {
     if (diff < bestDiff) { bestDiff = diff; best = [n,d]; }
   });
   return `${best[0]}/${best[1]}`;
+}
+
+// ============================================================
+// ALL MATCHES VIEW — filterable list with CSV export
+// ============================================================
+
+function populateMatchFilters() {
+  if (!DB.loaded) return;
+  // Tour filter
+  const tourSel = document.getElementById('match-filter-tour');
+  if (tourSel && tourSel.options.length <= 1) {
+    [...DB.tours].sort((a,b) => b.year - a.year).forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = t.id;
+      opt.textContent = `${t.year} ${t.location}`;
+      tourSel.appendChild(opt);
+    });
+  }
+  // Format filter
+  const fmtSel = document.getElementById('match-filter-format');
+  if (fmtSel && fmtSel.options.length <= 1) {
+    const formats = [...new Set(DB.matches.map(m => m.format).filter(Boolean))].sort();
+    formats.forEach(f => {
+      const opt = document.createElement('option');
+      opt.value = f;
+      opt.textContent = f;
+      fmtSel.appendChild(opt);
+    });
+  }
+  // Player filter
+  const playerSel = document.getElementById('match-filter-player');
+  if (playerSel && playerSel.options.length <= 1) {
+    getAllPlayers().forEach(name => {
+      const opt = document.createElement('option');
+      opt.value = name;
+      opt.textContent = name;
+      playerSel.appendChild(opt);
+    });
+  }
+}
+
+function getFilteredMatches() {
+  const tourId = document.getElementById('match-filter-tour')?.value || '';
+  const format = document.getElementById('match-filter-format')?.value || '';
+  const player = document.getElementById('match-filter-player')?.value || '';
+  const result = document.getElementById('match-filter-result')?.value || '';
+
+  let matches = [...DB.matches];
+
+  if (tourId) matches = matches.filter(m => m.tour_id === tourId);
+  if (format) matches = matches.filter(m => m.format === format);
+  if (player) matches = matches.filter(m => parseMatchPlayers(m,'red').includes(player) || parseMatchPlayers(m,'blue').includes(player));
+  if (result) matches = matches.filter(m => m.winner === result);
+
+  // Sort by year desc, then sort_order
+  return matches.sort((a,b) => {
+    const ta = DB.tours.find(t => t.id === a.tour_id);
+    const tb = DB.tours.find(t => t.id === b.tour_id);
+    const ya = ta?.year || 0, yb = tb?.year || 0;
+    if (yb !== ya) return yb - ya;
+    return (a.sort_order||0) - (b.sort_order||0);
+  });
+}
+
+function renderMatchesView() {
+  populateMatchFilters();
+  const tbody = document.getElementById('matches-table-body');
+  const countEl = document.getElementById('matches-count');
+  if (!tbody || !DB.loaded) return;
+
+  const matches = getFilteredMatches();
+  if (countEl) countEl.textContent = `Showing ${matches.length} of ${DB.matches.length} matches`;
+
+  if (!matches.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px;">No matches found</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = matches.map(m => {
+    const tour = DB.tours.find(t => t.id === m.tour_id);
+    const year = tour?.year || '?';
+    const redDisplay = buildMatchPlayersDisplay(m, 'red');
+    const blueDisplay = buildMatchPlayersDisplay(m, 'blue');
+    const winnerLabel = m.winner === 'red' ? `${tour?.team1||'Red'} Win` : m.winner === 'blue' ? `${tour?.team2||'Blue'} Win` : 'A/S';
+    const winCol = m.winner === 'red' ? 'var(--red)' : m.winner === 'blue' ? 'var(--blue)' : 'var(--muted)';
+    const redStyle = m.winner === 'red' ? 'font-weight:700' : m.winner === 'blue' ? 'opacity:0.6' : '';
+    const blueStyle = m.winner === 'blue' ? 'font-weight:700' : m.winner === 'red' ? 'opacity:0.6' : '';
+    return `<tr>
+      <td>${year}</td>
+      <td style="font-size:12px;">${m.round_name||'—'}</td>
+      <td>${m.format||'—'}</td>
+      <td style="${redStyle}">${redDisplay}</td>
+      <td style="${blueStyle}">${blueDisplay}</td>
+      <td style="font-weight:600;">${m.score||'—'}</td>
+      <td style="color:${winCol};font-weight:700;">${winnerLabel}</td>
+    </tr>`;
+  }).join('');
+}
+
+function clearMatchFilters() {
+  ['match-filter-tour','match-filter-format','match-filter-player','match-filter-result'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  renderMatchesView();
+}
+
+function exportMatchesCsv() {
+  const matches = getFilteredMatches();
+  const headers = ['Year','Location','Round','Format','Red/Team1','Blue/Team2','Score','Winner'];
+  const rows = matches.map(m => {
+    const tour = DB.tours.find(t => t.id === m.tour_id);
+    const redDisplay = buildMatchPlayersDisplay(m, 'red');
+    const blueDisplay = buildMatchPlayersDisplay(m, 'blue');
+    const winnerLabel = m.winner === 'red' ? (tour?.team1||'Red') + ' Win' : m.winner === 'blue' ? (tour?.team2||'Blue') + ' Win' : 'A/S';
+    return [
+      tour?.year || '', tour?.location || '', m.round_name || '', m.format || '',
+      `"${redDisplay}"`, `"${blueDisplay}"`, m.score || '', winnerLabel
+    ].join(',');
+  });
+  const csv = [headers.join(','), ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `cyder-cup-matches-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 function renderOddsSection() {
@@ -5016,9 +5208,20 @@ async function initApp(){
     const nameEl=document.getElementById('entry-editor-name');
     if(savedName&&nameEl) nameEl.value=savedName;
 
-    const days=Math.max(0,Math.ceil((new Date('2026-09-23')-new Date())/86400000));
+    const nextTour = DB.nextTour || {};
+    const tourDate = nextTour.date || '2026-09-23';
+    const tourLocation = nextTour.location ? nextTour.location.split(',')[0] : 'Next Tour';
+    const days=Math.max(0,Math.ceil((new Date(tourDate)-new Date())/86400000));
     const cdEl=document.getElementById('countdown-days');
-    if(cdEl) cdEl.textContent=days+' days to Sotogrande';
+    if(cdEl) cdEl.textContent=days+' days to '+tourLocation;
+
+    // Update hero badge from data
+    const heroBadge = document.querySelector('.hero-badge');
+    if (heroBadge && nextTour.flag) heroBadge.textContent = `${nextTour.flag} Next Stop: ${nextTour.location || ''} ${nextTour.year || ''}`;
+
+    // Update hero sub with live counts
+    const heroSub = document.querySelector('.hero-sub');
+    if (heroSub) heroSub.textContent = `${DB.tours.length} Tours · ${DB.players.length} Players · Ryder Cup Format`;
 
     _navStack=['home'];
     buildLeaderboard();

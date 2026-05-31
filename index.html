@@ -1948,33 +1948,16 @@
 
 <script>
 // ============================================================
-// CONFIG & SUPABASE HELPERS
+// DATA SOURCE — loads from local data.json (no external DB needed)
 // ============================================================
-const SB_URL = 'https://ypugkbuygdondfeqgqnq.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdWdrYnV5Z2RvbmRmZXFncW5xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxOTI3NDQsImV4cCI6MjA4OTc2ODc0NH0.EA3tPY4QmkBOSr_VGlI_i0Oj_UBP8BVMMm2AS3qlwSU';
-const SB_BASE  = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY };
-const SB_WRITE = { ...SB_BASE, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+const DATA_URL = 'data.json';
 
-async function sbGet(table, params='') {
-  const r = await fetch(`${SB_URL}/rest/v1/${table}?${params}`, { headers: SB_BASE });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-async function sbPost(table, body) {
-  const r = await fetch(`${SB_URL}/rest/v1/${table}`, { method:'POST', headers:SB_WRITE, body:JSON.stringify(body) });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-async function sbPatch(table, match, body) {
-  const r = await fetch(`${SB_URL}/rest/v1/${table}?${match}`, { method:'PATCH', headers:SB_WRITE, body:JSON.stringify(body) });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-async function sbDelete(table, match) {
-  const r = await fetch(`${SB_URL}/rest/v1/${table}?${match}`, { method:'DELETE', headers:SB_BASE });
-  if (!r.ok) throw new Error(await r.text());
-  return true;
-}
+// Stub functions for backward compatibility with admin operations
+// These no-op in the static version — use admin.html to edit data
+async function sbGet(table, params='') { return []; }
+async function sbPost(table, body) { showAlert('⚠️ Read-only mode — use admin.html to edit data','info'); return []; }
+async function sbPatch(table, match, body) { showAlert('⚠️ Read-only mode — use admin.html to edit data','info'); return []; }
+async function sbDelete(table, match) { showAlert('⚠️ Read-only mode — use admin.html to edit data','info'); return true; }
 
 // ============================================================
 // GLOBAL DATA STORE
@@ -4474,17 +4457,17 @@ function showAlert(msg,type){
 }
 
 // ============================================================
-// DB LOAD
+// DATA LOAD — fetches from local data.json
 // ============================================================
 async function loadAllData(){
-  const [tours,matches,scores,players]=await Promise.all([
-    sbGet('cc_tours','select=*&order=year.asc'),
-    sbGet('cc_matches','select=*&order=sort_order.asc'),
-    sbGet('cc_player_scores','select=*'),
-    sbGet('cc_players','select=*&order=full_name.asc'),
-  ]);
-  DB.tours=tours;DB.matches=matches;DB.scores=scores;
-  DB.players=players;DB.loaded=true;
+  const r = await fetch(DATA_URL);
+  if (!r.ok) throw new Error('Failed to load data.json');
+  const data = await r.json();
+  DB.tours = data.tours || [];
+  DB.matches = data.matches || [];
+  DB.scores = data.scores || [];
+  DB.players = data.players || [];
+  DB.loaded = true;
 }
 
 async function loadSavedTours(){
@@ -5041,24 +5024,9 @@ async function initApp(){
     buildLeaderboard();
     for(let i=0;i<6;i++) addSheetRow();
 
-    const isPreview=window.self!==window.top||document.referrer.includes('claude.ai');
-    if(isPreview){
-      setDbStatus(false,'⚠️ Preview mode — open as local file or GitHub Pages to connect');
-      document.getElementById('saved-tours-list').innerHTML=`<div style="background:#fff8e8;border:1px solid var(--gold);border-radius:8px;padding:16px 18px;">
-        <div style="font-weight:700;color:var(--green);margin-bottom:6px;">📂 To connect to your database:</div>
-        <ol style="font-size:13px;color:var(--charcoal);line-height:2;padding-left:18px;">
-          <li>Download this file (Copy button above)</li>
-          <li>Upload to GitHub as <strong>index.html</strong></li>
-          <li>Or open locally in Chrome — File → Open</li>
-        </ol>
-      </div>`;
-      document.getElementById('audit-trail-list').innerHTML='<p style="color:var(--muted);font-size:13px;padding:8px 0;">Open in browser to view.</p>';
-      return;
-    }
-
-    setDbStatus(null,'Connecting…');
+    setDbStatus(null,'Loading data…');
     await loadAllData();
-    setDbStatus(true,`Connected ✅ — ${DB.matches.length} matches, ${DB.players.length} players`);
+    setDbStatus(true,`Loaded ✅ — ${DB.matches.length} matches, ${DB.players.length} players`);
 
     // Render all DB-driven components
     renderTeamChips();
@@ -5066,8 +5034,7 @@ async function initApp(){
 
   }catch(err){
     console.error('Init error:',err);
-    const isCors=err.message.includes('fetch')||err.message.includes('Failed');
-    setDbStatus(false,isCors?'⚠️ Open as a file or hosted URL to connect':'⚠️ '+err.message);
+    setDbStatus(false,'⚠️ '+err.message);
     buildLeaderboard();_navStack=['home'];
   }
 }

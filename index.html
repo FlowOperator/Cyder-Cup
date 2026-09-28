@@ -1565,26 +1565,7 @@
     <!-- FORMAT STATS -->
     <div class="section-title" style="font-size:28px;margin-bottom:8px;">By Format</div>
     <div class="divider"></div>
-    <div class="format-stats-grid">
-      <div class="format-card">
-        <h4>🏌️ Fourball</h4>
-        <div class="format-mini-stat">Most common format</div>
-        <div class="format-mini-stat"><strong>Best pair:</strong> JW & BB (3/3)</div>
-        <div class="format-mini-stat"><strong>Best pair:</strong> JJB & JW (3.5/4)</div>
-      </div>
-      <div class="format-card scramble">
-        <h4>🔄 Texas Scramble</h4>
-        <div class="format-mini-stat">Handicap-free fun</div>
-        <div class="format-mini-stat"><strong>Clean sweep:</strong> 2023 (3-0)</div>
-        <div class="format-mini-stat"><strong>Bruce:</strong> 4/4 scramble wins</div>
-      </div>
-      <div class="format-card singles">
-        <h4>⚔️ Singles</h4>
-        <div class="format-mini-stat">The decider</div>
-        <div class="format-mini-stat"><strong>Wheeler:</strong> 5 straight wins</div>
-        <div class="format-mini-stat"><strong>Biggest:</strong> JW&BB beat LN&SS 8&7</div>
-      </div>
-    </div>
+    <div class="format-stats-grid" id="format-stats-grid"></div>
 
     <!-- PLAYER LEADERBOARD -->
     <div class="section-title" style="font-size:28px;margin-bottom:8px;">All-Time Player Rankings</div>
@@ -1635,6 +1616,16 @@
     <table class="leaderboard-table">
       <thead><tr><th>Pairing</th><th>Played</th><th>Points</th><th>Win %</th></tr></thead>
       <tbody id="worst-pairings-body"><tr><td colspan="4" style="text-align:center;color:var(--muted);padding:16px;">Loading…</td></tr></tbody>
+    </table>
+    </div>
+
+    <!-- MOST PLAYED PAIRINGS — DB-driven -->
+    <div class="section-title" style="font-size:28px;margin-bottom:8px;margin-top:32px;">🔁 Most Played Pairings</div>
+    <div class="divider"></div>
+    <div class="table-scroll-wrap">
+    <table class="leaderboard-table">
+      <thead><tr><th>Pairing</th><th>Played</th><th>W-D-L</th><th>Points</th><th>Win %</th><th>Years</th></tr></thead>
+      <tbody id="most-played-pairings-body"><tr><td colspan="6" style="text-align:center;color:var(--muted);padding:16px;">Loading…</td></tr></tbody>
     </table>
     </div>
 
@@ -4480,6 +4471,7 @@ async function refreshAllViews() {
   renderOddsSection();
   renderMatchesView();
   renderLandmarks();
+  renderFormatCards();
   renderPairings();
   renderStatsNumbers();
   renderPlayersRegistry();
@@ -5111,9 +5103,11 @@ function renderLandmarks() {
 
   // Biggest and closest individual match wins from match play scores
   const allResults = DB.matches.map(describeMatchResult).filter(Boolean);
-  const sortedByMargin = [...allResults].sort((a,b) => b.margin - a.margin || a.holesRemaining - b.holesRemaining);
+  const sortedByMargin = [...allResults].sort((a,b) => b.margin - a.margin || b.holesRemaining - a.holesRemaining);
   const biggestWin = sortedByMargin[0] || null;
-  const closestWin = [...allResults].sort((a,b) => a.margin - b.margin || b.holesRemaining - a.holesRemaining)[0] || null;
+  const closestSorted = [...allResults].sort((a,b) => a.margin - b.margin || a.holesRemaining - b.holesRemaining || (b.year - a.year));
+  const closestWin = closestSorted[0] || null;
+  const closestTies = closestWin ? allResults.filter(r => r.margin===closestWin.margin && r.holesRemaining===closestWin.holesRemaining).length : 0;
 
   // Playoff tours
   const playoffTours = DB.tours.filter(t=>t.is_playoff).map(t=>`${t.year} ${t.location.split(',')[0]}`).join(' · ');
@@ -5131,13 +5125,14 @@ function renderLandmarks() {
     {icon:'🏆', title:'Most Wins All-Time',       value: topWins.val > 0  ? `${topWins.names} — ${topWins.val} wins`     : '—'},
     {icon:'😓', title:'Most Losses All-Time',     value: topLosses.val > 0 ? `${topLosses.names} — ${topLosses.val} losses` : '—'},
     {icon:'💥', title:'Biggest Match Win',         value: biggestWin ? `${biggestWin.winners} beat ${biggestWin.losers} ${biggestWin.score} (${biggestWin.format}, ${biggestWin.year})` : '—'},
-    {icon:'😰', title:'Closest Decided Match',     value: closestWin ? `${closestWin.winners} beat ${closestWin.losers} ${closestWin.score} (${closestWin.format}, ${closestWin.year})` : '—'},
+    {icon:'😰', title:'Closest Decided Match',     value: closestWin ? `${closestTies} matches won ${closestWin.score}. Latest: ${closestWin.winners} beat ${closestWin.losers} (${closestWin.format}, ${closestWin.year})` : '—'},
     {icon:'🎯', title:'Biggest Team Margin',       value: biggestMargin.label || '—'},
     {icon:'🏌️', title:'Best Win% (10+ matches)', value: topPct},
     {icon:'🤝', title:'Halved Matches (A/S)',      value: `${halvedCount} out of ${DB.matches.length} matches`},
     {icon:'⛳', title:'Playoff Tours',             value: playoffTours || 'None yet'},
     {icon:'🔥', title:'Best Pairing',              value: bestPairing  ? `${bestPairing.label} (${(bestPairing.pct*100).toFixed(0)}%)` : '—'},
     {icon:'❄️', title:'Worst Pairing',             value: worstPairing ? `${worstPairing.label} (${(worstPairing.pct*100).toFixed(0)}%)` : '—'},
+    ...extraLandmarks(),
   ];
 
   grid.innerHTML = cards.map(c=>`
@@ -5145,6 +5140,151 @@ function renderLandmarks() {
       <div class="landmark-icon">${c.icon}</div>
       <div><div class="landmark-title">${c.title}</div><div class="landmark-value">${c.value}</div></div>
     </div>`).join('');
+}
+
+// ---------- Shared helpers for format cards and extra landmarks ----------
+function matchesChrono() {
+  const yr = m => (DB.tours.find(t=>t.id===m.tour_id)||{}).year||0;
+  return [...DB.matches].sort((a,b)=> yr(a)-yr(b) || (a.sort_order||0)-(b.sort_order||0));
+}
+function tourYear(m){ return (DB.tours.find(t=>t.id===m.tour_id)||{}).year||'?'; }
+function pts(o){ return o==='win'?1:o==='draw'?0.5:0; }
+function recordStr(r){ return `${r.w}W ${r.d}D ${r.l}L`; }
+/** Per-player record, optionally filtered to one format. */
+function playerRecords(filterFn) {
+  const rec = {};
+  DB.matches.filter(filterFn||(()=>true)).forEach(m => {
+    ['red','blue'].forEach(side => parseMatchPlayers(m, side).forEach(p => {
+      const r = rec[p] || (rec[p] = {name:p, n:0, pts:0, w:0, d:0, l:0});
+      const o = getOutcomeForPlayer(m, p);
+      r.n++; r.pts += pts(o); r[o==='win'?'w':o==='draw'?'d':'l']++;
+    }));
+  });
+  return Object.values(rec).map(r => ({...r, pct: r.n ? r.pts/r.n : 0}));
+}
+/** Longest run of wins (or unbeaten) for each player, optionally within a format. */
+function longestRuns(filterFn, unbeaten) {
+  const runs = {};
+  matchesChrono().filter(filterFn||(()=>true)).forEach(m => {
+    ['red','blue'].forEach(side => parseMatchPlayers(m, side).forEach(p => {
+      const r = runs[p] || (runs[p] = {name:p, cur:0, best:0});
+      const o = getOutcomeForPlayer(m, p);
+      const ok = unbeaten ? o!=='loss' : o==='win';
+      r.cur = ok ? r.cur+1 : 0; r.best = Math.max(r.best, r.cur);
+    }));
+  });
+  return Object.values(runs).sort((a,b)=>b.best-a.best);
+}
+function topTied(list, key, min) {
+  const q = list.filter(x => (x.n||0) >= (min||0));
+  if (!q.length) return [];
+  const best = Math.max(...q.map(x=>x[key]));
+  return q.filter(x => Math.abs(x[key]-best) < 1e-9);
+}
+const namesOf = arr => arr.map(x => shortName(x.name)).join(', ');
+
+function renderFormatCards() {
+  const grid = document.getElementById('format-stats-grid');
+  if (!grid || !DB.loaded) return;
+  const formats = [
+    {key:'Fourball',  cls:'',          icon:'🏌️', title:'Fourball'},
+    {key:'Scramble',  cls:'scramble',  icon:'🔄', title:'Texas Scramble'},
+    {key:'Singles',   cls:'singles',   icon:'⚔️', title:'Singles'},
+  ];
+  grid.innerHTML = formats.map(f => {
+    const fm = m => m.format === f.key;
+    const ms = DB.matches.filter(fm);
+    if (!ms.length) return '';
+    const halved = ms.filter(m=>m.winner==='draw').length;
+    const recs = playerRecords(fm);
+    const minN = Math.max(3, Math.ceil(Math.max(...recs.map(r=>r.n)) / 3));
+    const best = topTied(recs, 'pct', minN);
+    const lines = [`${ms.length} matches · ${halved} halved`];
+    if (best.length) lines.push(`<strong>Best record:</strong> ${namesOf(best)} (${best[0].pts}/${best[0].n})`);
+    if (f.key === 'Singles') {
+      const run = longestRuns(fm, true)[0];
+      if (run && run.best >= 3) lines.push(`<strong>Longest unbeaten run:</strong> ${shortName(run.name)} (${run.best})`);
+    } else {
+      const pairs = {};
+      ms.forEach(m => ['red','blue'].forEach(side => {
+        const ps = parseMatchPlayers(m, side); if (ps.length<2) return;
+        const k=[...ps].sort().join(' & '); const p = pairs[k] || (pairs[k]={label:k,n:0,pts:0});
+        p.n++; p.pts += m.winner===side?1:m.winner==='draw'?0.5:0;
+      }));
+      const pl = Object.values(pairs).filter(p=>p.n>=2).map(p=>({...p,pct:p.pts/p.n})).sort((a,b)=>b.pct-a.pct||b.n-a.n);
+      if (pl[0]) lines.push(`<strong>Best pair:</strong> ${pl[0].label.split(' & ').map(shortName).join(' & ')} (${pl[0].pts}/${pl[0].n})`);
+    }
+    const big = ms.map(describeMatchResult).filter(Boolean).sort((a,b)=>b.margin-a.margin||b.holesRemaining-a.holesRemaining)[0];
+    if (big) lines.push(`<strong>Biggest:</strong> ${big.winners.split(' & ').map(shortName).join(' & ')} ${big.score} (${big.year})`);
+    return `<div class="format-card ${f.cls}"><h4>${f.icon} ${f.title}</h4>${lines.map(l=>`<div class="format-mini-stat">${l}</div>`).join('')}</div>`;
+  }).join('');
+}
+
+/** Extra landmark cards. */
+function extraLandmarks() {
+  const out = [];
+  const done = DB.tours.filter(t=>t.score1&&t.score1!=='—'&&t.year<nextTourYear()).sort((a,b)=>a.year-b.year);
+
+  // Captains' records (tour wins as captain; playoff counts for the playoff winner)
+  const tourWinnerSide = t => {
+    const s1=parseFloat(t.score1), s2=parseFloat(t.score2);
+    if (s1>s2) return 1; if (s2>s1) return 2;
+    if (t.playoff_winner) return t.playoff_winner===t.team1 ? 1 : t.playoff_winner===t.team2 ? 2 : 0;
+    return 0;
+  };
+  const caps = {};
+  done.forEach(t => {
+    const w = tourWinnerSide(t);
+    [[t.cap1,1],[t.cap2,2]].forEach(([c,side]) => { if(!c) return;
+      const r = caps[c] || (caps[c]={name:c,n:0,w:0}); r.n++; if (w===side) r.w++; });
+  });
+  const capList = Object.values(caps).filter(c=>c.n>=2).sort((a,b)=>b.w-a.w||a.n-b.n);
+  if (capList.length) out.push({icon:'🎖️', title:"Captains' Record", value: capList.slice(0,3).map(c=>`${shortName(c.name)} ${c.w}/${c.n}`).join(' · ')});
+
+  // Singles specialist
+  const singles = playerRecords(m=>m.format==='Singles');
+  const bestS = topTied(singles, 'pct', 4);
+  if (bestS.length) out.push({icon:'🗡️', title:'Singles Specialist (4+)', value: `${namesOf(bestS)} — ${recordStr(bestS[0])}`});
+
+  // Longest winning streak (any format)
+  const runs = longestRuns(null, false);
+  if (runs[0]) { const top = runs.filter(r=>r.best===runs[0].best);
+    out.push({icon:'🔥', title:'Longest Win Streak', value: `${namesOf(top)} — ${runs[0].best} in a row`}); }
+
+  // Tour MVP (most points on the latest tour)
+  const last = done[done.length-1];
+  if (last) {
+    const sc = DB.scores.filter(s=>s.tour_id===last.id);
+    const mx = Math.max(...sc.map(s=>Number(s.points)||0));
+    const mvps = sc.filter(s=>Number(s.points)===mx).map(s=>s.player_name);
+    if (mvps.length) out.push({icon:'🥇', title:`${last.year} Top Scorer`, value: `${mvps.join(', ')} — ${mx} pts from ${sc.find(s=>s.player_name===mvps[0]).matches}`});
+  }
+
+  // Most improved handicap (first to latest on record)
+  const moves = Object.entries(HANDICAP_HISTORY).map(([name,h]) => {
+    const ys = Object.keys(h).map(Number).sort((a,b)=>a-b);
+    return ys.length>=2 ? {name, drop: h[ys[0]]-h[ys[ys.length-1]], from:h[ys[0]], to:h[ys[ys.length-1]], y0:ys[0], y1:ys[ys.length-1]} : null;
+  }).filter(Boolean).sort((a,b)=>b.drop-a.drop);
+  if (moves[0] && moves[0].drop>0) out.push({icon:'📉', title:'Most Improved Handicap', value: `${moves[0].name} — ${moves[0].from} → ${moves[0].to} (${moves[0].y0}–${moves[0].y1})`});
+
+  // Ever-presents
+  const toursPlayed = {};
+  DB.scores.forEach(s => { (toursPlayed[s.player_name] ||= new Set()).add(s.tour_id); });
+  const ever = Object.entries(toursPlayed).filter(([,set])=>set.size===done.length).map(([n])=>shortName(n));
+  if (ever.length) out.push({icon:'🗓️', title:`Ever-Presents (${done.length} tours)`, value: ever.join(', ')});
+
+  // Comeback: tours won by the side trailing after the first round
+  const comebacks = done.filter(t => {
+    const ms = DB.matches.filter(m=>m.tour_id===t.id).sort((a,b)=>(a.sort_order||0)-(b.sort_order||0));
+    if (!ms.length) return false;
+    const firstRound = ms.filter(m=>m.round_name===ms[0].round_name);
+    let r=0,b=0; firstRound.forEach(m=>{ if(m.winner==='red') r++; else if(m.winner==='blue') b++; else {r+=.5;b+=.5;} });
+    const w = tourWinnerSide(t);
+    return (w===1 && r<b) || (w===2 && b<r);
+  });
+  out.push({icon:'🔄', title:'Comeback Wins (trailing after Day 1)', value: comebacks.length ? comebacks.map(t=>`${t.year} ${t.location.split(',')[0]}`).join(' · ') : 'None yet'});
+
+  return out;
 }
 
 /** Compute all pairing stats from DB.matches. */
@@ -5187,6 +5327,26 @@ function renderPairings() {
 
   if (tbody) tbody.innerHTML = makeRows(bestData);
   if (worstTbody) worstTbody.innerHTML = makeRows(worstData);
+
+  // Most played pairings (any team format), with W-D-L and the years they paired up
+  const mpBody = document.getElementById('most-played-pairings-body');
+  if (mpBody) {
+    const pp = {};
+    DB.matches.filter(m=>m.format!=='Singles').forEach(m => ['red','blue'].forEach(side => {
+      const ps = parseMatchPlayers(m, side); if (ps.length<2) return;
+      const k = [...ps].sort().join(' & ');
+      const p = pp[k] || (pp[k] = {label:k, n:0, w:0, d:0, l:0, years:new Set()});
+      p.n++; p.years.add(tourYear(m));
+      if (m.winner===side) p.w++; else if (m.winner==='draw') p.d++; else p.l++;
+    }));
+    const list = Object.values(pp).filter(p=>p.n>=3)
+      .sort((a,b)=> b.n-a.n || (b.w+b.d/2)-(a.w+a.d/2)).slice(0,10);
+    mpBody.innerHTML = list.length ? list.map(p => {
+      const pts = p.w + p.d/2;
+      const yrs = [...p.years].sort().map(y=>"'"+String(y).slice(2)).join(', ');
+      return `<tr><td><strong>${p.label}</strong></td><td>${p.n}</td><td>${p.w}-${p.d}-${p.l}</td><td>${pts}</td><td>${(pts/p.n*100).toFixed(0)}%</td><td>${yrs}</td></tr>`;
+    }).join('') : '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:16px;">No pairing has played 3+ times yet</td></tr>';
+  }
 }
 
 // ============================================================

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Cyder Cup</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="core.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -360,7 +361,6 @@
   }
   .tour-stat { font-size: 12px; color: var(--muted); }
   .tour-stat strong { color: var(--charcoal); font-weight: 600; }
-  .trophy-icon { font-size: 16px; }
 
   /* ===== STATS ===== */
   .stats-grid {
@@ -457,7 +457,6 @@
     border-radius: 3px;
     transition: width 1s ease;
   }
-  .star-count { color: var(--gold); font-size: 12px; }
   .points-chip {
     background: var(--green);
     color: white;
@@ -569,11 +568,6 @@
     letter-spacing: 1px;
     text-transform: uppercase;
   }
-  .round-course {
-    font-size: 12px;
-    color: rgba(255,255,255,0.6);
-    font-style: italic;
-  }
   .round-score-chip {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 18px;
@@ -588,26 +582,10 @@
     gap: 12px;
   }
   .match-row:last-child { border-bottom: none; }
-  .match-format {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 700;
-    color: var(--muted);
-    min-width: 60px;
-  }
   .match-players {
     flex: 1;
     font-size: 14px;
     font-weight: 500;
-  }
-  .match-result {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    min-width: 50px;
-    text-align: center;
-    color: var(--charcoal);
   }
   .match-score-chip {
     font-size: 12px;
@@ -663,117 +641,6 @@
   .player-link:hover {
     color: var(--green-mid);
     text-decoration-color: var(--green-mid);
-  }
-
-  /* ===== ENTRY FORM ===== */
-  /* ===== ENTRY VIEW - NEW ===== */
-  .entry-setup-card {
-    background: #fff;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    padding: 24px;
-    margin-bottom: 20px;
-  }
-  .entry-setup-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--green);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid var(--border);
-  }
-  .entry-setup-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 12px;
-  }
-  .entry-field label {
-    display: block;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--muted);
-    margin-bottom: 5px;
-  }
-  .entry-field input {
-    width: 100%;
-    padding: 9px 12px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 14px;
-    color: var(--charcoal);
-    background: var(--cream);
-    box-sizing: border-box;
-  }
-  .entry-field input:focus { outline: none; border-color: var(--green-mid); background: #fff; }
-  .entry-match-card {
-    background: #fff;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    margin-bottom: 20px;
-  }
-  .entry-match-header {
-    background: var(--green);
-    padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .entry-match-title { font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
-  .entry-match-btns { display: flex; gap: 8px; flex-wrap: wrap; }
-  .entry-btn { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; padding: 7px 14px; font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: background 0.2s; }
-  .entry-btn:hover { background: rgba(255,255,255,0.25); }
-  .entry-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .entry-table thead tr { background: #f0ece4; }
-  .entry-table th { padding: 9px 10px; text-align: left; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--border); white-space: nowrap; }
-  .entry-table td { border-bottom: 1px solid #ece8e0; padding: 0; vertical-align: middle; }
-  .entry-table tr:nth-child(even) td { background: #faf8f4; }
-  .entry-table tr:hover td { background: #f0f8f4 !important; }
-  .entry-table tr.round-sep-row td { background: #e8f0e8 !important; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--green); padding: 6px 10px; }
-  .col-num { width: 32px; } .col-round { width: 130px; } .col-fmt { width: 100px; } .col-p1 { width: 130px; } .col-p2 { width: 130px; } .col-score { width: 72px; } .col-winner { width: 95px; } .col-del { width: 32px; }
-  .entry-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 900px; }
-  .p2-input { opacity: 0.5; transition: opacity 0.2s; }
-  .p2-input.required { opacity: 1; }
-  .p2-input.disabled { opacity: 0.3; pointer-events: none; }
-  .p2-input input { font-style: italic; }
-  .player-conflict { box-shadow: inset 0 0 0 2px var(--red) !important; background: #fff0f0 !important; }
-  .e-input { width: 100%; border: none; background: transparent; padding: 9px 10px; font-family: 'Barlow', sans-serif; font-size: 13px; color: var(--charcoal); outline: none; }
-  .e-input:focus { background: #fff8e8; box-shadow: inset 0 0 0 2px var(--gold); }
-  .e-select { width: 100%; border: none; background: transparent; padding: 9px 10px; font-family: 'Barlow', sans-serif; font-size: 13px; color: var(--charcoal); outline: none; cursor: pointer; }
-  .e-select:focus { background: #fff8e8; }
-  .e-rownum { text-align: center; font-size: 11px; color: var(--muted); padding: 0 6px; font-family: 'Barlow Condensed', sans-serif; }
-  .e-delbtn { background: none; border: none; color: #ccc; cursor: pointer; font-size: 14px; padding: 0 8px; transition: color 0.2s; }
-  .e-delbtn:hover { color: #cc4444; }
-  .entry-tally { display: flex; align-items: center; gap: 16px; padding: 12px 20px; border-top: 2px solid var(--border); background: #fafaf7; flex-wrap: wrap; }
-  .entry-tally-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
-  .entry-tally-red { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--red); }
-  .entry-tally-sep { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--muted); }
-  .entry-tally-blue { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--blue); }
-  .entry-tally-draw { font-size: 12px; color: var(--muted); }
-  .entry-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
-  .entry-saved-card { background: #fff; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); padding: 24px; }
-  .entry-saved-title { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
-  .saved-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--cream); border-radius: 8px; border: 1px solid var(--border); margin-bottom: 8px; cursor: pointer; transition: all 0.2s; }
-  .saved-item:hover { border-color: var(--green-mid); background: #f0f8f4; }
-  .saved-item-name { font-weight: 600; font-size: 14px; }
-  .saved-item-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
-  .saved-item-del { background: none; border: none; color: #ccc; cursor: pointer; font-size: 16px; padding: 4px 8px; transition: color 0.2s; }
-  .saved-item-del:hover { color: #cc4444; }
-  .entry-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-bottom: 24px;
   }
   .form-card {
     background: var(--card-bg);
@@ -838,156 +705,7 @@
     color: white;
   }
   .btn-primary:hover { background: var(--green-mid); }
-  .btn-gold {
-    background: var(--gold);
-    color: var(--green);
-  }
-  .btn-gold:hover { background: var(--gold-light); }
   .btn-sm { padding: 8px 16px; font-size: 12px; }
-  .match-entry-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 80px 80px auto;
-    gap: 10px;
-    align-items: end;
-    margin-bottom: 12px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
-  .match-entry-row:last-child { border-bottom: none; }
-  .remove-btn {
-    background: none;
-    border: 1.5px solid #e0d0d0;
-    color: #cc5555;
-    padding: 10px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.2s;
-  }
-  .remove-btn:hover { background: #fff0f0; border-color: #cc5555; }
-  .add-match-btn {
-    background: none;
-    border: 2px dashed var(--green-mid);
-    color: var(--green-mid);
-    padding: 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: 'Barlow', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    width: 100%;
-    margin-top: 8px;
-    transition: all 0.2s;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  .add-match-btn:hover { background: rgba(45,122,79,0.06); }
-  .saved-tours-list { margin-top: 16px; }
-  .saved-tour-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    background: var(--card-bg);
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    margin-bottom: 8px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .saved-tour-item:hover { border-color: var(--green-mid); background: #f0f8f4; }
-  .saved-tour-info { font-weight: 600; font-size: 14px; }
-  .saved-tour-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
-
-  /* ===== SHEET TABLE ===== */
-  .sheet-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  .sheet-table thead tr {
-    background: #f0ece4;
-  }
-  .sheet-table th {
-    padding: 9px 10px;
-    text-align: left;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--muted);
-    border-bottom: 2px solid var(--border);
-    border-right: 1px solid var(--border);
-    white-space: nowrap;
-  }
-  .sheet-table th:last-child { border-right: none; }
-  .sheet-table td {
-    border-bottom: 1px solid var(--border);
-    border-right: 1px solid #ece8e0;
-    padding: 0;
-    vertical-align: middle;
-  }
-  .sheet-table td:last-child { border-right: none; }
-  .sheet-table tr:nth-child(even) td { background: #faf8f4; }
-  .sheet-table tr:hover td { background: #f0f8f4 !important; }
-  .sheet-table tr.round-header-row td {
-    background: #e8f0e8 !important;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--green);
-    padding: 6px 10px;
-  }
-  .sheet-input {
-    width: 100%;
-    border: none;
-    background: transparent;
-    padding: 9px 10px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 13px;
-    color: var(--charcoal);
-    outline: none;
-  }
-  .sheet-input:focus {
-    background: #fff8e8;
-    box-shadow: inset 0 0 0 2px var(--gold);
-  }
-  .sheet-select {
-    width: 100%;
-    border: none;
-    background: transparent;
-    padding: 9px 10px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 13px;
-    color: var(--charcoal);
-    outline: none;
-    cursor: pointer;
-  }
-  .sheet-select:focus { background: #fff8e8; }
-  .sheet-row-num {
-    text-align: center;
-    font-size: 11px;
-    color: var(--muted);
-    padding: 0 6px;
-    font-family: 'Barlow Condensed', sans-serif;
-  }
-  .sheet-del-btn {
-    background: none;
-    border: none;
-    color: #ccc;
-    cursor: pointer;
-    font-size: 14px;
-    padding: 0 10px;
-    line-height: 1;
-    transition: color 0.2s;
-  }
-  .sheet-del-btn:hover { color: #cc4444; }
-  .winner-chip-red { color: var(--red); font-weight: 700; }
-  .winner-chip-blue { color: var(--blue); font-weight: 700; }
-  .winner-chip-draw { color: var(--muted); }
 
   .player-link {
     cursor: pointer;
@@ -998,128 +716,7 @@
     transition: text-decoration-color 0.2s, color 0.2s;
   }
   .player-link:hover { color: var(--green-mid); text-decoration-color: var(--green-mid); }
-
-  /* ===== PLAYER PROFILE ===== */
-  .profile-hero {
-    background: linear-gradient(135deg, var(--green), #0d2818);
-    border-radius: var(--radius);
-    padding: 32px;
-    margin-bottom: 24px;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 28px;
-    flex-wrap: wrap;
-    position: relative;
-    overflow: hidden;
-  }
-  .profile-hero::before {
-    content: '';
-    position: absolute;
-    right: -30px; top: -30px;
-    width: 180px; height: 180px;
-    background: rgba(201,168,76,0.08);
-    border-radius: 50%;
-  }
-  .profile-avatar-lg {
-    width: 80px; height: 80px;
-    border-radius: 50%;
-    background: var(--gold);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 30px;
-    color: var(--green);
-    flex-shrink: 0;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-  }
-  .profile-hero-info { flex: 1; }
-  .profile-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 48px;
-    letter-spacing: 2px;
-    line-height: 1;
-    color: white;
-  }
-  .profile-code {
-    font-size: 13px;
-    color: var(--gold);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin-top: 4px;
-  }
-  .profile-stats-row {
-    display: flex;
-    gap: 28px;
-    margin-top: 16px;
-    flex-wrap: wrap;
-  }
-  .profile-stat { text-align: center; }
-  .profile-stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 36px;
-    line-height: 1;
-    color: var(--gold);
-  }
-  .profile-stat-label {
-    font-size: 11px;
-    color: rgba(255,255,255,0.6);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 2px;
-  }
-  .profile-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 24px;
-  }
-  .profile-card {
-    background: var(--card-bg);
-    border-radius: var(--radius);
-    padding: 20px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border);
-  }
-  .profile-card h4 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--green);
-    margin-bottom: 14px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--border);
-  }
-  .tour-record-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 9px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-  }
-  .tour-record-row:last-child { border-bottom: none; }
-  .tour-record-flag { font-size: 16px; margin-right: 6px; }
-  .result-bar-wrap {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-    margin-top: 12px;
-  }
-  .result-bar-seg {
-    height: 10px;
-    border-radius: 3px;
-    flex-shrink: 0;
-  }
-  @media (max-width: 768px) {
-    .profile-grid { grid-template-columns: 1fr; }
-    .profile-name { font-size: 38px; }
-    .profile-avatar-lg { width: 64px; height: 64px; font-size: 24px; }
-    .profile-stats-row { gap: 16px; }
-    .profile-stat-num { font-size: 28px; }
-  }
+  
   .landmarks-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -1176,16 +773,6 @@
   .format-mini-stat { font-size: 13px; color: var(--muted); margin: 4px 0; }
   .format-mini-stat strong { color: var(--charcoal); }
 
-  .alert {
-    padding: 14px 18px;
-    border-radius: 8px;
-    font-size: 14px;
-    margin-bottom: 16px;
-    display: none;
-  }
-  .alert.success { background: #e8f5ee; border: 1px solid #a8d8ba; color: #1a5c34; display: block; }
-  .alert.info { background: #e8f0fa; border: 1px solid #a8c0e8; color: #1a3c6c; display: block; }
-
   /* ===== HAMBURGER NAV ===== */
   .nav-hamburger {
     display: none;
@@ -1215,80 +802,8 @@
     -webkit-overflow-scrolling: touch;
     border-radius: var(--radius);
   }
-
-
-  /* ===== AUDIT TRAIL ===== */
-  .audit-item {
-    padding: 12px 14px;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-  }
-  .audit-item:last-child { border-bottom: none; }
-  .audit-badge {
-    font-size: 10px;
-    font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 100px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .audit-insert { background: #e8f5ee; color: #1a5c34; }
-  .audit-update { background: #e8f0fa; color: #1a3c6c; }
-  .audit-delete { background: #fde8e8; color: #7c1a1a; }
-  .audit-meta { color: var(--muted); font-size: 11px; margin-top: 2px; }
-  .audit-diff { font-size: 12px; margin-top: 6px; background: #f8f6f2; border-radius: 6px; padding: 6px 10px; }
-  .audit-diff-old { color: #c0392b; text-decoration: line-through; }
-  .audit-diff-new { color: #1a5c34; }
-  .audit-undo-btn {
-    background: none;
-    border: 1.5px solid var(--border);
-    border-radius: 6px;
-    padding: 4px 10px;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-    color: var(--muted);
-    white-space: nowrap;
-    transition: all 0.2s;
-    margin-left: auto;
-    flex-shrink: 0;
-  }
-  .audit-undo-btn:hover { border-color: var(--red); color: var(--red); background: #fff0f0; }
   .db-connecting { animation: pulse 1.5s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-  /* ===== PLAYER PICKER ===== */
-  .player-picker { position: relative; }
-  .player-picker-status {
-    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
-    font-size: 12px; font-weight: 700; pointer-events: none;
-  }
-  .ac-item.ac-add-player { color: var(--green-mid); font-style: italic; border-top: 1px solid var(--border); }
-  .ac-item.ac-no-match   { color: var(--muted); font-style: italic; cursor: default; }
-  .ac-item.ac-no-match:hover { background: transparent; }
-  .ac-item strong { color: var(--green); }
-
-  /* ===== PLAYERS REGISTRY ===== */
-  .registry-player-row {
-    display: flex; align-items: center; gap: 10px; padding: 9px 12px;
-    border-bottom: 1px solid var(--border); font-size: 13px;
-  }
-  .registry-player-row:last-child { border-bottom: none; }
-  .registry-player-inactive { opacity: 0.45; }
-  .registry-player-name { flex: 1; font-weight: 600; }
-  .registry-aliases { font-size: 11px; color: var(--muted); flex: 2; }
-  .registry-badge-active   { background: #e8f5ee; color: #1a5c34; font-size:10px; font-weight:700; padding:2px 8px; border-radius:100px; }
-  .registry-badge-inactive { background: #f0f0f0; color: var(--muted); font-size:10px; font-weight:700; padding:2px 8px; border-radius:100px; }
-
-  /* ===== DATA INTEGRITY CONSOLE ===== */
-  .integrity-ok   { color: var(--green-mid); }
-  .integrity-warn { color: #b8870a; }
-  .integrity-err  { color: var(--red); }
 
   /* ===== HCP FILTER CHIPS ===== */
   .hcp-chip { display:inline-flex; align-items:center; gap:5px; padding:5px 12px; border-radius:100px; font-size:12px; font-weight:600; cursor:pointer; border:2px solid transparent; transition:all 0.15s; user-select:none; }
@@ -1312,25 +827,6 @@
   .fear-badge { font-size:10px; font-weight:700; padding:2px 8px; border-radius:100px; }
   .fear-badge-dom { background:#e8f5ee; color:#1a5c34; }
   .fear-badge-close { background:#fdf8ee; color:#7c5c00; }
-  .fear-badge-scared { background:#fde8e8; color:#7c1a1a; }
-
-  .ac-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: white;
-    border: 1.5px solid var(--green-mid);
-    border-top: none;
-    border-radius: 0 0 8px 8px;
-    z-index: 999;
-    max-height: 180px;
-    overflow-y: auto;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-  }
-  .ac-item { padding: 9px 12px; font-size: 13px; cursor: pointer; border-bottom: 1px solid var(--border); transition: background 0.1s; }
-  .ac-item:last-child { border-bottom: none; }
-  .ac-item:hover, .ac-item.active { background: #f0f8f4; color: var(--green); font-weight: 600; }
 
   /* ===== PROFILE 2-COL ===== */
   .profile-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
@@ -1414,7 +910,6 @@
     /* Match rows */
     .match-row { flex-wrap: wrap; gap: 6px; padding: 10px 14px; }
     .match-players { font-size: 13px; flex: 1 1 100%; }
-    .match-format { min-width: 44px; font-size: 9px; }
 
     /* Stats */
     .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -1429,12 +924,6 @@
     .leaderboard-table th, .leaderboard-table td { padding: 10px 10px; }
     .player-stats-table { font-size: 12px; min-width: 340px; }
     .player-stats-table th, .player-stats-table td { padding: 10px 10px; }
-
-    /* Entry */
-    #entry-alert { font-size: 13px; }
-    .sheet-table { min-width: 580px; }
-    .sheet-input { font-size: 12px; padding: 7px 8px; }
-    .sheet-select { font-size: 12px; padding: 7px 8px; }
     .form-card h3 { font-size: 16px; }
     .btn { font-size: 13px; padding: 11px 18px; }
 
@@ -1463,6 +952,72 @@
     .tour-score { font-size: 24px; }
     .winner-badge { font-size: 10px; }
   }
+  /* ===== New features ===== */
+  .cc-muted { color: var(--muted); }
+  .cc-plink { color: var(--green); font-weight: 600; text-decoration: none; }
+  .cc-plink:hover { text-decoration: underline; }
+  .cc-card { margin-bottom: 0; }
+  .cc-card-title { font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:700; color:var(--green); letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; padding-bottom:10px; border-bottom:2px solid var(--border); }
+  .cc-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .cc-grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .cc-story { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:12px; margin-bottom:24px; }
+  .cc-story-card { display:flex; gap:12px; align-items:flex-start; background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; box-shadow:var(--shadow); }
+  .cc-story-icon { font-size:26px; line-height:1; }
+  .cc-story-t { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:3px; }
+  .cc-story-v { font-size:14px; line-height:1.4; }
+  .cc-spec { padding:8px 0; border-bottom:1px solid var(--border); font-size:14px; }
+  .cc-spec:last-child { border-bottom:none; }
+  .cc-mini-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .cc-mini-table th { text-align:left; font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); padding:6px 8px; border-bottom:2px solid var(--border); }
+  .cc-mini-table td { padding:8px; border-bottom:1px solid var(--border); }
+  .cc-team-pill { display:inline-block; color:#fff; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:2px 10px; border-radius:100px; }
+  .cc-tag { display:inline-block; font-size:10px; font-weight:700; background:var(--gold-light); color:var(--green); padding:1px 7px; border-radius:100px; margin-left:4px; }
+  /* Hall of fame */
+  .cc-hof-row { display:grid; grid-template-columns:24px 1fr auto; gap:4px 10px; align-items:baseline; padding:8px 0; border-bottom:1px solid var(--border); }
+  .cc-hof-row:last-child { border-bottom:none; }
+  .cc-hof-rank { font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--gold); }
+  .cc-hof-count { font-family:'Bebas Neue',sans-serif; font-size:22px; color:var(--green); }
+  .cc-hof-years { grid-column:2 / 4; font-size:12px; color:var(--muted); }
+  .cc-hof-table tbody tr:hover td { background:#f0f8f4; }
+  /* Replays */
+  .cc-replay { padding:10px 0 12px; border-bottom:1px solid var(--border); }
+  .cc-replay:last-child { border-bottom:none; }
+  .cc-replay-head { display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; font-size:14px; margin-bottom:8px; }
+  .cc-holes { display:grid; grid-template-columns:repeat(18,1fr); gap:3px; }
+  .cc-hole { text-align:center; }
+  .cc-hole-n { font-size:9px; color:var(--muted); }
+  .cc-hole-dot { height:14px; border-radius:4px; margin:2px 0; background:#eee; }
+  .cc-hole-s { font-size:10px; font-weight:700; }
+  .cc-hole-off { opacity:0.35; }
+  /* Round stats */
+  .cc-round-head { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+  .cc-round-head select, #cc-card-player { padding:8px 12px; border:1.5px solid var(--border); border-radius:8px; font-family:'Barlow',sans-serif; font-size:14px; background:var(--cream); margin-bottom:10px; }
+  .cc-compact td, .cc-compact th { padding:8px 10px !important; font-size:13px; }
+  .cc-hole-table, .cc-sc { border-collapse:collapse; font-size:12px; width:100%; min-width:640px; }
+  .cc-hole-table th, .cc-sc th { text-align:left; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); padding:5px 8px 5px 0; white-space:nowrap; }
+  .cc-hole-table td, .cc-sc td { text-align:center; padding:5px 2px; border-bottom:1px solid var(--border); }
+  .cc-rank { font-weight:700; color:var(--green); }
+  .cc-sc-title { font-size:13px; margin:14px 0 6px; }
+  .cc-sc-cell { display:inline-block; min-width:22px; line-height:22px; border-radius:5px; font-weight:700; }
+  .cc-sc-cell.eagle { background:#c9a84c; color:#fff; border-radius:50%; }
+  .cc-sc-cell.birdie { background:#2d7a4f; color:#fff; border-radius:50%; }
+  .cc-sc-cell.par { background:transparent; }
+  .cc-sc-cell.bogey { background:#f3d9c9; }
+  .cc-sc-cell.double { background:#e08a6a; color:#fff; }
+  .cc-sc-cell.pu { background:#ddd; color:#999; }
+  .cc-legend { font-size:12px; color:var(--muted); margin-top:12px; display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+  .cc-bandit { display:grid; grid-template-columns:120px 1fr 40px 110px; align-items:center; gap:8px; font-size:13px; padding:4px 0; }
+  .cc-bandit-bar { position:relative; height:10px; background:#f0ece4; border-radius:5px; }
+  .cc-bandit-mid { position:absolute; left:50%; top:-3px; bottom:-3px; width:2px; background:var(--charcoal); opacity:0.4; }
+  .cc-bandit-fill { position:absolute; top:0; bottom:0; border-radius:5px; }
+  .cc-bandit-val { font-weight:700; text-align:right; }
+  .cc-bandit-v { font-size:12px; }
+  @media (max-width: 900px) {
+    .cc-grid-2, .cc-grid-3 { grid-template-columns:1fr; }
+    .cc-bandit { grid-template-columns:90px 1fr 34px; }
+    .cc-bandit-v { grid-column:1 / 4; color:var(--muted); margin-bottom:4px; }
+    .cc-hole-n { font-size:8px; } .cc-hole-s { font-size:9px; }
+  }
 </style>
 </head>
 <body>
@@ -1477,7 +1032,8 @@
     <li><a href="#" onclick="showView('tours');closeNav()" id="nav-tours">Tours</a></li>
     <li><a href="#" onclick="showView('stats');closeNav()" id="nav-stats">Stats</a></li>
     <li><a href="#" onclick="showView('matches');closeNav()" id="nav-matches">Matches</a></li>
-    <li><a href="#" onclick="showView('entry');closeNav()" id="nav-entry">Results Entry</a></li>
+    <li><a href="#" onclick="showView('rounds');closeNav()" id="nav-rounds">Rounds</a></li>
+    <li><a href="#" onclick="showView('hof');closeNav()" id="nav-hof">Hall of Fame</a></li>
   </ul>
 </nav>
 
@@ -1736,185 +1292,24 @@
 </div>
 
 <!-- ENTRY VIEW -->
-<div id="view-entry" class="view">
-<div class="section">
-  <div class="section-title">Results Entry</div>
-  <div class="divider"></div>
-  <p class="section-subtitle">Results saved to Cyder Cup database · Full audit trail of every change</p>
-
-  <div id="entry-alert" class="alert"></div>
-
-  <!-- DB STATUS BAR -->
-  <div id="db-status-bar" style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:8px;background:#f0f8f4;border:1px solid #a8d8ba;margin-bottom:20px;font-size:13px;flex-wrap:wrap;">
-    <span id="db-status-dot" style="width:10px;height:10px;border-radius:50%;background:#ccc;flex-shrink:0;"></span>
-    <span id="db-status-text">Connecting to database…</span>
-    <span id="db-last-saved" style="margin-left:auto;font-size:11px;color:var(--muted);display:none;"></span>
+<!-- HALL OF FAME VIEW -->
+<div id="view-hof" class="view">
+  <div class="section">
+    <div class="section-title">Hall of Fame</div>
+    <div class="divider"></div>
+    <div class="section-subtitle">Every Cyder Cup, Seal and winning captain. Click a year for the full tour.</div>
+    <div id="hof-content"></div>
   </div>
+</div>
 
-  <!-- WHO IS EDITING -->
-  <div class="entry-setup-card" style="margin-bottom:16px;">
-    <div class="entry-setup-title">👤 Who's making changes?</div>
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-      <div class="entry-field" style="flex:1;min-width:200px;margin:0;">
-        <label>Your Name (recorded in audit log)</label>
-        <input type="text" id="entry-editor-name" placeholder="e.g. Jack Smart" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;background:var(--cream);">
-      </div>
-      <div style="padding-top:20px;">
-        <button class="btn btn-sm" style="background:var(--green);color:white;" onclick="saveName()">Save Name</button>
-      </div>
-    </div>
+<!-- ROUND STATS VIEW -->
+<div id="view-rounds" class="view">
+  <div class="section">
+    <div class="section-title">Round Stats</div>
+    <div class="divider"></div>
+    <div id="rounds-content"></div>
   </div>
-
-  <!-- TOUR SETUP -->
-  <div class="entry-setup-card">
-    <div class="entry-setup-title">📋 Tour Setup</div>
-    <div class="entry-setup-grid">
-      <div class="entry-field"><label>Year</label><input type="number" id="entry-year" placeholder="2026" min="2020" max="2035"></div>
-      <div class="entry-field"><label>Location</label><input type="text" id="entry-location" placeholder="Sotogrande, Spain"></div>
-      <div class="entry-field"><label>Flag</label><input type="text" id="entry-flag" placeholder="🇪🇸" maxlength="4"></div>
-      <div class="entry-field"><label>Red Team</label><input type="text" id="entry-team1" placeholder="Red" oninput="onTeamNameChange()"></div>
-      <div class="entry-field"><label>Red Captain</label><input type="text" id="entry-cap1" placeholder="Jack Smart"></div>
-      <div class="entry-field" style="grid-column:span 2;">
-        <label>Red Team Players <span style="font-size:11px;color:var(--muted);font-weight:400;">(select all who played — used to lock match entry)</span></label>
-        <div id="team1-player-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;min-height:32px;padding:6px;border:1.5px solid var(--border);border-radius:8px;background:white;"></div>
-      </div>
-      <div class="entry-field"><label>Blue Team</label><input type="text" id="entry-team2" placeholder="Blue"></div>
-      <div class="entry-field"><label>Blue Captain</label><input type="text" id="entry-cap2" placeholder="Alex D-V"></div>
-      <div class="entry-field" style="grid-column:span 2;">
-        <label>Blue Team Players <span style="font-size:11px;color:var(--muted);font-weight:400;">(select all who played)</span></label>
-        <div id="team2-player-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;min-height:32px;padding:6px;border:1.5px solid var(--border);border-radius:8px;background:white;"></div>
-      </div>
-      <div class="entry-field"><label>Red Score</label><input type="number" id="entry-score1" placeholder="8.5" step="0.5"></div>
-      <div class="entry-field"><label>Blue Score</label><input type="number" id="entry-score2" placeholder="6.5" step="0.5"></div>
-      <div class="entry-field"><label>Result</label><input type="text" id="entry-winner" placeholder="Red Win"></div>
-
-    <!-- PLAYOFF SECTION -->
-    <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
-      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:10px;">
-        <input type="checkbox" id="entry-is-playoff" onchange="togglePlayoffSection()" style="width:16px;height:16px;cursor:pointer;">
-        🏆 This tour went to a playoff
-      </label>
-      <div id="playoff-fields" style="display:none;">
-        <div style="background:#fdf8ee;border:1px solid rgba(201,168,76,0.4);border-radius:8px;padding:14px 16px;">
-          <div style="font-size:12px;font-weight:700;color:#7c5c00;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;">⛳ Playoff Hole</div>
-          <div id="playoff-groups-container"></div>
-        </div>
-      </div>
-    </div>
-
-    </div>
-  </div>
-
-  <!-- MATCH GRID -->
-  <div class="entry-match-card">
-    <div class="entry-match-header">
-      <span class="entry-match-title">⛳ Match Results</span>
-      <div class="entry-match-btns">
-        <button class="entry-btn" onclick="addSheetRow()">+ Add Row</button>
-        <button class="entry-btn" onclick="addRound()">+ New Round</button>
-        <button class="entry-btn" onclick="clearSheet()">🗑 Clear</button>
-      </div>
-    </div>
-    <div class="entry-table-wrap">
-      <table class="entry-table" id="sheet-table">
-        <thead>
-          <tr>
-            <th class="col-num">#</th>
-            <th class="col-round">Round / Day</th>
-            <th class="col-fmt">Format</th>
-            <th class="col-p1" style="color:var(--red)">Red P1</th>
-            <th class="col-p2" style="color:var(--red)">Red P2</th>
-            <th class="col-p1" style="color:var(--blue)">Blue P1</th>
-            <th class="col-p2" style="color:var(--blue)">Blue P2</th>
-            <th class="col-score">Score</th>
-            <th class="col-winner">Winner</th>
-            <th class="col-del"></th>
-          </tr>
-        </thead>
-        <tbody id="sheet-body"></tbody>
-      </table>
-    </div>
-    <div class="entry-tally">
-      <span class="entry-tally-label">Running Score:</span>
-      <span id="tally-red" class="entry-tally-red">Red 0</span>
-      <span class="entry-tally-sep">–</span>
-      <span id="tally-blue" class="entry-tally-blue">Blue 0</span>
-      <span id="tally-draw" class="entry-tally-draw"></span>
-    </div>
-  </div>
-
-  <!-- ACTION BUTTONS -->
-  <div class="entry-actions">
-    <button class="btn btn-primary" onclick="saveTour()">💾 Save to Database</button>
-    <button class="btn btn-gold" onclick="clearEntryForm()">🗑 Clear Form</button>
-  </div>
-
-  <!-- SAVED TOURS -->
-  <div class="entry-saved-card" style="margin-bottom:20px;">
-    <div class="entry-saved-title">📁 Saved Tours</div>
-    <div id="saved-tours-list"><p style="color:var(--muted);font-size:14px;padding:8px 0;">Loading…</p></div>
-  </div>
-
-  <!-- AUDIT TRAIL -->
-  <div class="entry-saved-card">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--border);">
-      <div class="entry-saved-title" style="margin:0;padding:0;border:none;">🕵️ Audit Trail</div>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-        <select id="audit-filter-table" onchange="loadAuditLog()" style="padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-family:'Barlow',sans-serif;background:var(--cream);">
-          <option value="">All tables</option>
-          <option value="cc_tours">Tours only</option>
-          <option value="cc_matches">Matches only</option>
-        </select>
-        <button class="btn btn-sm" style="background:var(--green);color:white;" onclick="loadAuditLog()">↻ Refresh</button>
-      </div>
-    </div>
-    <div id="audit-trail-list"><p style="color:var(--muted);font-size:14px;padding:8px 0;">Loading audit log…</p></div>
-  </div>
-
-  <!-- PLAYERS REGISTRY -->
-  <div class="entry-saved-card" style="margin-top:20px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--border);">
-      <div class="entry-saved-title" style="margin:0;padding:0;border:none;">👥 Players Registry</div>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-        <button id="admin-mode-toggle" class="btn btn-sm" style="background:var(--charcoal);color:white;" onclick="setAdminMode(!_adminMode)">🔒 Admin OFF</button>
-        <button class="btn btn-sm" style="background:var(--green);color:white;" onclick="renderPlayersRegistry()">↻ Refresh</button>
-      </div>
-    </div>
-    <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">All players available for match entry. Enable Admin mode to add or deactivate players. Inactive players are hidden from entry dropdowns but stats are preserved.</p>
-    <div id="players-registry-list"><p style="color:var(--muted);font-size:13px;padding:8px 0;">Loading…</p></div>
-    <!-- Add player form (admin only) -->
-    <div id="add-player-form" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
-      <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;">
-        <div class="entry-field" style="flex:1;min-width:180px;margin:0;">
-          <label>Full Name</label>
-          <input type="text" id="new-player-name" placeholder="e.g. Tom Haynes" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;">
-        </div>
-        <div class="entry-field" style="flex:1;min-width:180px;margin:0;">
-          <label>Aliases (comma separated)</label>
-          <input type="text" id="new-player-aliases" placeholder="e.g. TH, Tom" style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;">
-        </div>
-        <button class="btn btn-primary" onclick="addPlayerToRegistry()" style="height:40px;">Add Player</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- DATA INTEGRITY CONSOLE -->
-  <div class="entry-saved-card" style="margin-top:20px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--border);">
-      <div class="entry-saved-title" style="margin:0;padding:0;border:none;">🔬 Data Integrity Console</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="btn btn-sm" style="background:var(--green);color:white;" onclick="runIntegrityCheck()">▶ Run Check</button>
-        <button class="btn btn-sm" style="background:var(--charcoal);color:white;" onclick="recomputeAllPlayerScores()">↻ Rebuild All Scores</button>
-        <button class="btn btn-sm" style="background:#7c5c00;color:white;" onclick="runPlayerColumnMigration()">🔀 Migrate Player Columns</button>
-      </div>
-    </div>
-    <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Checks match counts, score totals, unknown player names, and missing score rows. Use "Recompute" buttons to fix issues found.</p>
-    <div id="integrity-output"><p style="color:var(--muted);font-size:13px;padding:8px 0;">Click "Run Check" to analyse database integrity.</p></div>
-  </div>
-
-
-</div><!-- /section -->
-</div><!-- /view-entry -->
+</div>
 
 <script>
 // ============================================================
@@ -1922,12 +1317,6 @@
 // ============================================================
 const DATA_URL = 'data.json';
 
-// Stub functions for backward compatibility with admin operations
-// These no-op in the static version — use admin.html to edit data
-async function sbGet(table, params='') { return []; }
-async function sbPost(table, body) { showAlert('⚠️ Read-only mode — use admin.html to edit data','info'); return []; }
-async function sbPatch(table, match, body) { showAlert('⚠️ Read-only mode — use admin.html to edit data','info'); return []; }
-async function sbDelete(table, match) { showAlert('⚠️ Read-only mode — use admin.html to edit data','info'); return true; }
 
 // ============================================================
 // GLOBAL DATA STORE
@@ -2703,10 +2092,9 @@ async function showTourById(tourId) {
     else if (pw === (tour.team2||'').toLowerCase().trim()) cyderCupName = tour.cap2||'';
   }
 
-  if (tourScores.length) {
-    const topScorer = [...tourScores].sort((a,b) => Number(b.points) - Number(a.points))[0];
-    if (topScorer && Number(topScorer.points) > 0) sealName = topScorer.player_name;
-  }
+  // Recorded awards win over the auto-derived captain; the Seal is never guessed
+  if (hasCup) cyderCupName = tour.cup_award;
+  sealName = hasSeal ? tour.seal_award : '';
 
   const showCup = !!cyderCupName;
   const showSeal = !!sealName;
@@ -2822,286 +2210,26 @@ function derivePlayoffWinner(tour) {
   } catch(e) { return tour.playoff_winner || ''; }
 }
 
-function togglePlayoffSection() {
-  const cb = document.getElementById('entry-is-playoff');
-  const fields = document.getElementById('playoff-fields');
-  if (fields) fields.style.display = cb?.checked ? 'block' : 'none';
-  if (cb?.checked) buildPlayoffGroupsUI();
-}
 
 /** Build the dynamic playoff groups UI with player pickers and score inputs. */
-function buildPlayoffGroupsUI(data) {
-  const container = document.getElementById('playoff-groups-container');
-  if (!container) return;
-  const groups = data || [{},{},{}];
-  const labels = ['Group 1','Group 2 <span style="font-weight:400;color:var(--muted);text-transform:none;font-size:11px;">(if Group 1 draws)</span>','Group 3 <span style="font-weight:400;color:var(--muted);text-transform:none;font-size:11px;">(optional)</span>'];
-  const team1 = document.getElementById('entry-team1')?.value || 'Red';
-  const team2 = document.getElementById('entry-team2')?.value || 'Blue';
-
-  container.innerHTML = groups.map((g, i) => {
-    const n = i + 1;
-    const redTotal = g.red_total != null ? g.red_total : '';
-    const blueTotal = g.blue_total != null ? g.blue_total : '';
-    return `
-    <div class="po-group-block" id="po-group-${n}" style="background:rgba(255,255,255,0.6);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:14px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-        <div style="font-size:13px;font-weight:700;color:var(--green);letter-spacing:1px;text-transform:uppercase;">${labels[i]}</div>
-        <div id="po-g${n}-result" style="font-size:13px;font-weight:700;letter-spacing:0.5px;"></div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px;">
-        <!-- Team 1 -->
-        <div style="background:rgba(214,48,48,0.05);border:1px solid rgba(214,48,48,0.15);border-radius:8px;padding:12px 14px;">
-          <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:10px;">${team1}</div>
-          <div style="display:grid;grid-template-columns:1fr 56px;gap:8px;align-items:end;margin-bottom:8px;">
-            <div><div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:3px;">Player A</div><div id="po-g${n}-ra-cell"></div></div>
-            <div><div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:3px;">Score</div><input type="number" id="po-g${n}-score-ra" class="e-input" placeholder="—" step="1" value="${g.score_ra||''}" oninput="updatePlayoffGroupResult(${n})" style="border:1.5px solid var(--border);border-radius:6px;padding:7px 4px;text-align:center;width:100%;"></div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 56px;gap:8px;align-items:end;margin-bottom:10px;">
-            <div><div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:3px;">Player B</div><div id="po-g${n}-rb-cell"></div></div>
-            <div><div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:3px;">Score</div><input type="number" id="po-g${n}-score-rb" class="e-input" placeholder="—" step="1" value="${g.score_rb||''}" oninput="updatePlayoffGroupResult(${n})" style="border:1.5px solid var(--border);border-radius:6px;padding:7px 4px;text-align:center;width:100%;"></div>
-          </div>
-          <div style="border-top:1px solid rgba(214,48,48,0.2);padding-top:8px;display:flex;align-items:center;justify-content:space-between;">
-            <span style="font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:1px;">Total</span>
-            <input type="number" id="po-g${n}-red-total" class="e-input" placeholder="—" step="1" value="${redTotal}" oninput="updatePlayoffGroupResult(${n})" style="width:56px;text-align:center;font-weight:700;font-size:16px;border:1.5px solid var(--border);border-radius:6px;padding:4px;">
-          </div>
-        </div>
-        <!-- Team 2 -->
-        <div style="background:rgba(59,125,216,0.05);border:1px solid rgba(59,125,216,0.15);border-radius:8px;padding:12px 14px;">
-          <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:10px;">${team2}</div>
-          <div style="display:grid;grid-template-columns:1fr 56px;gap:8px;align-items:end;margin-bottom:8px;">
-            <div><div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:3px;">Player A</div><div id="po-g${n}-ba-cell"></div></div>
-            <div><div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:3px;">Score</div><input type="number" id="po-g${n}-score-ba" class="e-input" placeholder="—" step="1" value="${g.score_ba||''}" oninput="updatePlayoffGroupResult(${n})" style="border:1.5px solid var(--border);border-radius:6px;padding:7px 4px;text-align:center;width:100%;"></div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 56px;gap:8px;align-items:end;margin-bottom:10px;">
-            <div><div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:3px;">Player B</div><div id="po-g${n}-bb-cell"></div></div>
-            <div><div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:3px;">Score</div><input type="number" id="po-g${n}-score-bb" class="e-input" placeholder="—" step="1" value="${g.score_bb||''}" oninput="updatePlayoffGroupResult(${n})" style="border:1.5px solid var(--border);border-radius:6px;padding:7px 4px;text-align:center;width:100%;"></div>
-          </div>
-          <div style="border-top:1px solid rgba(59,125,216,0.2);padding-top:8px;display:flex;align-items:center;justify-content:space-between;">
-            <span style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;">Total</span>
-            <input type="number" id="po-g${n}-blue-total" class="e-input" placeholder="—" step="1" value="${blueTotal}" oninput="updatePlayoffGroupResult(${n})" style="width:56px;text-align:center;font-weight:700;font-size:16px;border:1.5px solid var(--border);border-radius:6px;padding:4px;">
-          </div>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
-
-  // Inject player pickers into cells
-  groups.forEach((g, i) => {
-    const n = i + 1;
-    const raCell = document.getElementById(`po-g${n}-ra-cell`);
-    const rbCell = document.getElementById(`po-g${n}-rb-cell`);
-    const baCell = document.getElementById(`po-g${n}-ba-cell`);
-    const bbCell = document.getElementById(`po-g${n}-bb-cell`);
-    if (raCell) raCell.innerHTML = makePlayoffPlayerInput(`po-g${n}-ra`, 'Player', g.red_a||'', 'red');
-    if (rbCell) rbCell.innerHTML = makePlayoffPlayerInput(`po-g${n}-rb`, 'Player', g.red_b||'', 'red');
-    if (baCell) baCell.innerHTML = makePlayoffPlayerInput(`po-g${n}-ba`, 'Player', g.blue_a||'', 'blue');
-    if (bbCell) bbCell.innerHTML = makePlayoffPlayerInput(`po-g${n}-bb`, 'Player', g.blue_b||'', 'blue');
-    updatePlayoffGroupResult(n);
-  });
-
-  // Update overall playoff winner summary
-  updatePlayoffOverallWinner();
-}
 
 /** Player picker for playoff fields — reuses the same autocomplete system. */
-function makePlayoffPlayerInput(id, placeholder, val, side) {
-  const borderHint = side==='red'
-    ? 'border-top:2px solid rgba(214,48,48,0.3)'
-    : 'border-top:2px solid rgba(59,125,216,0.3)';
-  return `<div class="player-picker" style="position:relative;">
-    <input class="e-input player-picker-input" id="${id}"
-      placeholder="${placeholder}" value="${val||''}" autocomplete="off"
-      data-chosen="${val||''}" data-side="${side}"
-      style="${borderHint};border:1.5px solid var(--border);border-radius:6px;padding:7px 10px;"
-      oninput="poPickerOnInput(this)"
-      onblur="pickerOnBlur(this)"
-      onkeydown="poPickerOnKeydown(event,this)">
-    <div class="player-picker-status" id="${id}-status"></div>
-    <div class="ac-dropdown" id="${id}-ac" style="display:none;" role="listbox"></div>
-  </div>`;
-}
 
 /** Autocomplete input handler for playoff player pickers. */
-function poPickerOnInput(input) {
-  const q = input.value.trim().toLowerCase();
-  input.dataset.chosen = '';
-  updatePickerStatus(input, 'typing');
-  const side = input.dataset.side || 'red';
-  const players = getPlayersForSide(side);
-  const dd = document.getElementById(input.id + '-ac');
-  if (!dd) return;
-  if (!q) { dd.style.display = 'none'; return; }
-  const startsWith = players.filter(n => n.toLowerCase().startsWith(q));
-  const contains   = players.filter(n => !n.toLowerCase().startsWith(q) && n.toLowerCase().includes(q));
-  const matches    = [...startsWith, ...contains].slice(0, 8);
-  if (!matches.length) {
-    dd.innerHTML = `<div class="ac-item ac-no-match">No players found</div>`;
-    dd.style.display = 'block'; return;
-  }
-  dd.innerHTML = matches.map(n => {
-    const hl = highlightMatch(n, q);
-    return `<div class="ac-item" role="option" data-name="${escHtml(n)}"
-      onmousedown="poPickerPick(event,'${input.id}','${escHtml(n)}')">${hl}</div>`;
-  }).join('');
-  dd.style.display = 'block';
-}
 
-function poPickerOnKeydown(e, input) {
-  const dd = document.getElementById(input.id + '-ac');
-  if (!dd || dd.style.display === 'none') {
-    if (e.key === 'ArrowDown') poPickerOnInput(input);
-    return;
-  }
-  const items = [...dd.querySelectorAll('.ac-item:not(.ac-no-match)')];
-  let cur = dd.querySelector('.ac-item.active');
-  if (e.key === 'ArrowDown') {
-    e.preventDefault();
-    if (!cur) items[0]?.classList.add('active');
-    else { cur.classList.remove('active'); (cur.nextElementSibling || items[0])?.classList.add('active'); }
-  } else if (e.key === 'ArrowUp') {
-    e.preventDefault();
-    if (cur) { cur.classList.remove('active'); (cur.previousElementSibling || items[items.length-1])?.classList.add('active'); }
-  } else if (e.key === 'Enter' || e.key === 'Tab') {
-    if (cur && cur.dataset.name) { e.preventDefault(); poPickerPick(null, input.id, cur.dataset.name); }
-  } else if (e.key === 'Escape') { dd.style.display = 'none'; }
-}
 
-function poPickerPick(e, inputId, name) {
-  if (e) e.preventDefault();
-  const input = document.getElementById(inputId);
-  const dd = document.getElementById(inputId + '-ac');
-  if (input) { input.value = name; input.dataset.chosen = name; updatePickerStatus(input, 'valid'); }
-  if (dd) dd.style.display = 'none';
-}
 
 /** Compute and display the result for a single playoff group. */
-function updatePlayoffGroupResult(n) {
-  const redTotal = parseInt(document.getElementById(`po-g${n}-red-total`)?.value);
-  const blueTotal = parseInt(document.getElementById(`po-g${n}-blue-total`)?.value);
-  const resultEl = document.getElementById(`po-g${n}-result`);
-  if (!resultEl) return;
-  const team1 = document.getElementById('entry-team1')?.value || 'Red';
-  const team2 = document.getElementById('entry-team2')?.value || 'Blue';
-
-  if (isNaN(redTotal) || isNaN(blueTotal)) {
-    resultEl.innerHTML = '';
-  } else if (redTotal === blueTotal) {
-    resultEl.innerHTML = `<span style="color:var(--muted);">A/S (${redTotal} v ${blueTotal})</span>`;
-  } else {
-    const winner = redTotal < blueTotal ? team1 : team2;
-    const winColour = redTotal < blueTotal ? 'var(--red)' : 'var(--blue)';
-    resultEl.innerHTML = `<span style="color:${winColour};">${winner} Win (${redTotal} v ${blueTotal})</span>`;
-  }
-  updatePlayoffOverallWinner();
-}
 
 /** Determine the overall playoff winner across all groups and show summary. */
-function updatePlayoffOverallWinner() {
-  const team1 = document.getElementById('entry-team1')?.value || 'Red';
-  const team2 = document.getElementById('entry-team2')?.value || 'Blue';
-  let t1Wins = 0, t2Wins = 0;
-  for (let n = 1; n <= 3; n++) {
-    const r = parseInt(document.getElementById(`po-g${n}-red-total`)?.value);
-    const b = parseInt(document.getElementById(`po-g${n}-blue-total`)?.value);
-    if (isNaN(r) || isNaN(b)) continue;
-    if (r < b) t1Wins++;
-    else if (b < r) t2Wins++;
-  }
-  // Show overall summary
-  let summaryEl = document.getElementById('po-overall-summary');
-  if (!summaryEl) {
-    const container = document.getElementById('playoff-groups-container');
-    if (container) {
-      summaryEl = document.createElement('div');
-      summaryEl.id = 'po-overall-summary';
-      summaryEl.style.cssText = 'margin-top:10px;padding:10px 14px;border-radius:8px;font-weight:700;font-size:14px;text-align:center;';
-      container.appendChild(summaryEl);
-    }
-  }
-  if (summaryEl) {
-    if (t1Wins > t2Wins) {
-      summaryEl.style.background = 'rgba(214,48,48,0.1)';
-      summaryEl.style.color = 'var(--red)';
-      summaryEl.innerHTML = `🏆 Playoff Winner: ${team1}`;
-    } else if (t2Wins > t1Wins) {
-      summaryEl.style.background = 'rgba(59,125,216,0.1)';
-      summaryEl.style.color = 'var(--blue)';
-      summaryEl.innerHTML = `🏆 Playoff Winner: ${team2}`;
-    } else if (t1Wins === 0 && t2Wins === 0) {
-      summaryEl.innerHTML = '';
-      summaryEl.style.background = 'transparent';
-    } else {
-      summaryEl.style.background = 'rgba(107,107,107,0.1)';
-      summaryEl.style.color = 'var(--muted)';
-      summaryEl.innerHTML = `🤝 Playoff Tied — enter next group`;
-    }
-  }
-}
 
 /** Build player selection chips for team assignment in tour setup. */
-function renderTeamChips() {
-  const t1el = document.getElementById('team1-player-chips');
-  const t2el = document.getElementById('team2-player-chips');
-  if (!t1el || !t2el) return;
 
-  const players = getActivePlayers();
-  // Read currently assigned players (stored as data attributes on chip containers)
-  const t1set = new Set((t1el.dataset.players||'').split(',').filter(Boolean));
-  const t2set = new Set((t2el.dataset.players||'').split(',').filter(Boolean));
 
-  const makeChip = (name, team, assigned) => {
-    const col = team===1 ? (assigned?'#c84040':'#ccc') : (assigned?'#4a8fd4':'#ccc');
-    const bg  = team===1 ? (assigned?'rgba(200,64,64,0.12)':'transparent') : (assigned?'rgba(74,143,212,0.12)':'transparent');
-    return `<span onclick="toggleTeamPlayer('${name}',${team})"
-      title="${name}" data-name="${name}"
-      style="cursor:pointer;padding:4px 10px;border-radius:100px;font-size:12px;font-weight:${assigned?'700':'400'};
-             border:1.5px solid ${col};color:${assigned?col:'#999'};background:${bg};transition:all 0.15s;">
-      ${shortName(name)}${assigned?'':''}
-    </span>`;
-  };
-
-  t1el.innerHTML = players.map(p => makeChip(p, 1, t1set.has(p))).join('');
-  t2el.innerHTML = players.map(p => makeChip(p, 2, t2set.has(p))).join('');
-}
-
-function toggleTeamPlayer(name, team) {
-  const el1 = document.getElementById('team1-player-chips');
-  const el2 = document.getElementById('team2-player-chips');
-  const t1set = new Set((el1?.dataset.players||'').split(',').filter(Boolean));
-  const t2set = new Set((el2?.dataset.players||'').split(',').filter(Boolean));
-
-  if (team===1) {
-    t1set.has(name) ? t1set.delete(name) : t1set.add(name);
-    t2set.delete(name); // remove from other team
-  } else {
-    t2set.has(name) ? t2set.delete(name) : t2set.add(name);
-    t1set.delete(name);
-  }
-  if (el1) el1.dataset.players = [...t1set].join(',');
-  if (el2) el2.dataset.players = [...t2set].join(',');
-  renderTeamChips();
-  // Update picker lists to reflect team constraints
-  refreshAllPickerConstraints();
-}
-
-function onTeamNameChange() {
-  // Re-render chips (label colour doesn't change but keep in sync)
-  renderTeamChips();
-}
 
 /** Return active players for a given side, filtered to that team if chips set. */
-function getPlayersForSide(side) {
-  const el = document.getElementById(side==='red' ? 'team1-player-chips' : 'team2-player-chips');
-  const assigned = (el?.dataset.players||'').split(',').filter(Boolean);
-  if (assigned.length > 0) return assigned;
-  return getActivePlayers(); // no constraint set — show all
-}
 
 /** Called after team chips change — refreshes constraint on any open picker. */
-function refreshAllPickerConstraints() {
-  // Pickers will read getPlayersForSide() on next keystroke — nothing to do proactively
-}
 
 // ============================================================
 // NAV
@@ -3274,6 +2402,7 @@ function showPlayerProfile(name) {
     </div>
     ${nemesisHtml}
     ${swHtml}
+    ${buildProfileExtras(name)}
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;" class="profile-2col">
       <div class="form-card">
         <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:var(--green);letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--border);">📊 By Format <span style="font-size:11px;font-weight:400;color:var(--muted);text-transform:none;">— click to expand</span></h3>
@@ -3309,7 +2438,7 @@ function showPlayerProfile(name) {
 
   showView('tour',true);
   document.getElementById('nav-tours').classList.add('active');
-  setTimeout(()=>renderHcpChart(name),50);
+  setTimeout(()=>{ renderHcpChart(name); renderPointsPerTourChart(name); },50);
 }
 
 // ============================================================
@@ -3543,74 +2672,8 @@ function toggleFearDrill(id,card){
 // PLAYERS REGISTRY UI
 // ============================================================
 
-function renderPlayersRegistry() {
-  const list = document.getElementById('players-registry-list');
-  if (!list) return;
-  const form = document.getElementById('add-player-form');
-  if (form) form.style.display = _adminMode ? 'block' : 'none';
 
-  if (!DB.players.length) {
-    list.innerHTML = '<p style="color:var(--muted);font-size:13px;">No players loaded yet.</p>';
-    return;
-  }
 
-  const sorted = [...DB.players].sort((a,b) => a.full_name.localeCompare(b.full_name));
-  list.innerHTML = sorted.map(p => {
-    const aliases = (p.aliases||[]).join(', ') || '—';
-    const rowCls  = p.active === false ? 'registry-player-row registry-player-inactive' : 'registry-player-row';
-    const badge   = p.active !== false
-      ? '<span class="registry-badge-active">Active</span>'
-      : '<span class="registry-badge-inactive">Inactive</span>';
-    const adminBtns = _adminMode ? `
-      <button class="btn btn-sm" style="font-size:11px;padding:3px 8px;background:var(--cream);border:1px solid var(--border);"
-        onclick="togglePlayerActive('${p.id}','${p.full_name}',${p.active !== false})">
-        ${p.active !== false ? 'Deactivate' : 'Reactivate'}
-      </button>` : '';
-
-    return `<div class="${rowCls}">
-      <div class="registry-player-name">${p.full_name}</div>
-      <div class="registry-aliases">🏷 ${aliases}</div>
-      ${badge}
-      ${adminBtns}
-    </div>`;
-  }).join('');
-}
-
-async function addPlayerToRegistry() {
-  const nameEl    = document.getElementById('new-player-name');
-  const aliasesEl = document.getElementById('new-player-aliases');
-  const name    = (nameEl?.value||'').trim();
-  const aliases = (aliasesEl?.value||'').split(',').map(s=>s.trim()).filter(Boolean);
-
-  if (!name) { showAlert('Enter a full name.','info'); return; }
-  if (DB.players.some(p => p.full_name.toLowerCase() === name.toLowerCase())) {
-    showAlert(`"${name}" already exists in registry.`,'info'); return;
-  }
-
-  try {
-    const rows = await sbPost('cc_players', { full_name: name, active: true, aliases });
-    DB.players.push(rows[0]);
-    DB.players.sort((a,b) => a.full_name.localeCompare(b.full_name));
-    if (nameEl)    nameEl.value    = '';
-    if (aliasesEl) aliasesEl.value = '';
-    renderPlayersRegistry();
-    showAlert(`✅ "${name}" added to registry.`, 'success');
-  } catch(err) {
-    showAlert(`❌ ${err.message}`, 'info');
-  }
-}
-
-async function togglePlayerActive(playerId, name, currentlyActive) {
-  try {
-    await sbPatch('cc_players', `id=eq.${playerId}`, { active: !currentlyActive });
-    const p = DB.players.find(p => p.id === playerId);
-    if (p) p.active = !currentlyActive;
-    renderPlayersRegistry();
-    showAlert(`${currentlyActive ? 'Deactivated' : 'Reactivated'} ${name}.`, 'success');
-  } catch(err) {
-    showAlert(`❌ ${err.message}`, 'info');
-  }
-}
 
 // ============================================================
 // CLIENT-SIDE MIGRATION: backfill red_p1/red_p2/blue_p1/blue_p2
@@ -3622,64 +2685,6 @@ async function togglePlayerActive(playerId, name, currentlyActive) {
  * Reads all cc_matches, splits the legacy string columns, applies
  * normalizePlayerName(), and PATCHes each row with structured values.
  */
-async function runPlayerColumnMigration() {
-  if (!DB.loaded || !DB.matches.length) {
-    showAlert('Load database first (open in browser).','info'); return;
-  }
-
-  // Only migrate rows that don't already have red_p1 populated
-  const toMigrate = DB.matches.filter(m => !m.red_p1 && m.red_players);
-  if (!toMigrate.length) {
-    showAlert('Nothing to migrate — all rows already have structured player columns.','info');
-    return;
-  }
-
-  if (!confirm(
-    `Migrate ${toMigrate.length} match rows?\n\n` +
-    `This will split "red_players" / "blue_players" text into ` +
-    `red_p1, red_p2, blue_p1, blue_p2 using normalizePlayerName().\n\n` +
-    `Unknown names will be left as-is (fixable via entry form).`
-  )) return;
-
-  const panel = document.getElementById('integrity-output');
-  if (panel) panel.innerHTML = `<p style="color:var(--muted);font-size:13px;">Migrating ${toMigrate.length} rows…</p>`;
-
-  let ok=0, warn=0, errors=[];
-
-  for (const m of toMigrate) {
-    try {
-      const [rp1,rp2] = splitLegacyPlayers(m.red_players||'');
-      const [bp1,bp2] = splitLegacyPlayers(m.blue_players||'');
-
-      // Flag any unresolved names
-      [rp1,rp2,bp1,bp2].filter(Boolean).forEach(n => {
-        if (!normalizePlayerName(n))
-          errors.push(`Match ${m.id} (${m.round_name}): unknown "${n}"`);
-      });
-
-      await sbPatch('cc_matches', `id=eq.${m.id}`, {
-        red_p1: rp1, red_p2: rp2, blue_p1: bp1, blue_p2: bp2
-      });
-      ok++;
-    } catch(e) {
-      errors.push(`Match ${m.id}: ${e.message}`);
-      warn++;
-    }
-  }
-
-  await loadAllData();
-  showAlert(`✅ Migration complete: ${ok} rows updated, ${warn} errors.`, ok>0?'success':'info');
-
-  if (panel) {
-    const summary = errors.length
-      ? `<div style="background:#fff8e8;border:1px solid var(--gold);border-radius:8px;padding:14px 16px;margin-top:12px;">
-           <strong style="color:#7c5c00;">⚠️ ${errors.length} warnings (rows still have legacy fallback):</strong>
-           <pre style="font-size:11px;margin-top:8px;overflow-x:auto;">${errors.join('\n')}</pre>
-         </div>`
-      : '<p style="color:var(--green-mid);padding:12px 0;font-weight:600;">✅ All rows migrated cleanly — no unknown player names.</p>';
-    panel.innerHTML = `<p style="color:var(--green-mid);font-weight:600;">Migration complete: ${ok} rows updated.</p>${summary}`;
-  }
-}
 
 // ============================================================
 // DATA INTEGRITY CONSOLE
@@ -3689,274 +2694,19 @@ async function runPlayerColumnMigration() {
  * Run all integrity checks and render the console panel.
  * Called when "Run Integrity Check" button is clicked.
  */
-async function runIntegrityCheck() {
-  const panel = document.getElementById('integrity-output');
-  if (!panel) return;
-  panel.innerHTML = '<p style="color:var(--muted);font-size:13px;padding:12px 0;">Running checks…</p>';
-
-  if (!DB.loaded) {
-    panel.innerHTML = '<p style="color:var(--muted);font-size:13px;">Database not loaded yet.</p>';
-    return;
-  }
-
-  const issues = [];   // { severity:'error'|'warn'|'info', tour, message }
-  const tourReports = [];
-
-  for (const tour of DB.tours) {
-    const tourMatches = DB.matches.filter(m => m.tour_id === tour.id);
-    const tourScores  = DB.scores.filter(s => s.tour_id === tour.id);
-    const label = `${tour.year} ${tour.location}`;
-
-    // --- 1. Match count ---
-    const matchCount = tourMatches.length;
-
-    // --- 2. Compute Red/Blue totals from matches ---
-    let compRed=0, compBlue=0, invalidWinner=[];
-    tourMatches.forEach(m => {
-      if (m.winner==='red')       compRed++;
-      else if (m.winner==='blue') compBlue++;
-      else if (m.winner==='draw'){compRed+=0.5;compBlue+=0.5;}
-      else invalidWinner.push(m.id);
-    });
-
-    // --- 3. Compare computed vs stored totals ---
-    const storedRed  = parseFloat(tour.score1);
-    const storedBlue = parseFloat(tour.score2);
-    const scoreMismatch = !isNaN(storedRed) && (Math.abs(compRed-storedRed)>0.01 || Math.abs(compBlue-storedBlue)>0.01);
-
-    if (scoreMismatch) {
-      issues.push({severity:'error', tour:label,
-        message:`Score mismatch: DB says ${storedRed}–${storedBlue} but matches compute to ${compRed}–${compBlue}`});
-    }
-    if (invalidWinner.length) {
-      issues.push({severity:'error', tour:label,
-        message:`${invalidWinner.length} match(es) have no winner set (missing result)`});
-    }
-
-    // --- 4. Unknown / unresolved player names ---
-    const unknownPlayers = new Set();
-    tourMatches.forEach(m => {
-      // Check both structured and legacy for unknown names
-      const redStr=m.red_p1?[m.red_p1,m.red_p2].filter(Boolean).join(' & '):m.red_players;
-      const blueStr=m.blue_p1?[m.blue_p1,m.blue_p2].filter(Boolean).join(' & '):m.blue_players;
-      parsePlayersResolved(redStr).forEach(p=>{ if(p.unknown) unknownPlayers.add(p.raw); });
-      parsePlayersResolved(blueStr).forEach(p=>{ if(p.unknown) unknownPlayers.add(p.raw); });
-    });
-    if (unknownPlayers.size) {
-      issues.push({severity:'warn', tour:label,
-        message:`Unknown player names in matches: ${[...unknownPlayers].join(', ')}`});
-    }
-
-    // --- 5. Players in matches but missing from cc_player_scores ---
-    const playersInMatches = new Set();
-    tourMatches.forEach(m => {
-      parseMatchPlayers(m,'red').forEach(p=>playersInMatches.add(p));
-      parseMatchPlayers(m,'blue').forEach(p=>playersInMatches.add(p));
-    });
-    const playersInScores = new Set(tourScores.map(s=>s.player_name));
-
-    const missingFromScores = [...playersInMatches].filter(p=>!playersInScores.has(p));
-    const extraInScores     = [...playersInScores].filter(p=>!playersInMatches.has(p));
-
-    if (missingFromScores.length) {
-      issues.push({severity:'warn', tour:label,
-        message:`In matches but no score row: ${missingFromScores.join(', ')}`});
-    }
-    if (extraInScores.length) {
-      issues.push({severity:'info', tour:label,
-        message:`Score rows with no match appearances: ${extraInScores.join(', ')}`});
-    }
-
-    // --- 6. Format-specific team size checks ---
-    const sizeBadRows = [];
-    tourMatches.forEach(m => {
-      const redC=parseMatchPlayers(m,'red').length, blueC=parseMatchPlayers(m,'blue').length;
-      if (m.format==='Singles' && (redC!==1||blueC!==1))
-        sizeBadRows.push(`Row sort_order=${m.sort_order}: Singles expects 1v1, got ${redC}v${blueC}`);
-      if ((m.format==='Fourball'||m.format==='Scramble'||m.format==='Foursomes') && (redC!==2||blueC!==2))
-        sizeBadRows.push(`Row sort_order=${m.sort_order}: ${m.format} expects 2v2, got ${redC}v${blueC}`);
-    });
-    if (sizeBadRows.length) {
-      issues.push({severity:'warn', tour:label, message:`Team size issues: ${sizeBadRows.join(' | ')}`});
-    }
-
-    tourReports.push({
-      tour, label, matchCount, compRed, compBlue,
-      storedRed, storedBlue, scoreMismatch,
-      unknownCount: unknownPlayers.size, unknownNames: [...unknownPlayers],
-      missingFromScores, extraInScores, invalidWinner: invalidWinner.length, sizeBadRows
-    });
-  }
-
-  // Render tour-by-tour checklist
-  const checklistHtml = tourReports.map(r => {
-    const ok = !r.scoreMismatch && !r.unknownCount && !r.missingFromScores.length && !r.invalidWinner && !r.sizeBadRows.length;
-    const icon = ok ? '✅' : r.scoreMismatch || r.invalidWinner ? '❌' : '⚠️';
-    const scoreStatus = isNaN(r.storedRed) ? '<span style="color:var(--muted)">upcoming</span>'
-      : r.scoreMismatch
-        ? `<span style="color:var(--red);font-weight:700;">MISMATCH: stored ${r.storedRed}–${r.storedBlue} vs computed ${r.compRed}–${r.compBlue}</span>`
-        : `<span style="color:var(--green-mid);">✓ ${r.compRed}–${r.compBlue}</span>`;
-
-    return `<div style="padding:12px 0;border-bottom:1px solid var(--border);">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;">
-        <span style="font-size:16px;">${icon}</span>
-        <strong>${r.label}</strong>
-        <span style="color:var(--muted);font-size:12px;">${r.matchCount} matches</span>
-        <span style="margin-left:auto;font-size:12px;">${scoreStatus}</span>
-        <button class="btn btn-sm" style="background:var(--green-mid);color:white;font-size:11px;padding:4px 10px;" onclick="recomputeScores('${r.tour.id}','${r.label}')">↻ Recompute Score</button>
-        <button class="btn btn-sm" style="background:var(--blue);color:white;font-size:11px;padding:4px 10px;" onclick="recomputePlayerScores('${r.tour.id}','${r.label}')">↻ Rebuild Player Scores</button>
-      </div>
-      ${r.unknownNames.length?`<div style="font-size:12px;color:#b8870a;margin-top:4px;">⚠️ Unknown players: ${r.unknownNames.join(', ')}</div>`:''}
-      ${r.missingFromScores.length?`<div style="font-size:12px;color:#b8870a;margin-top:4px;">⚠️ Missing score rows: ${r.missingFromScores.join(', ')}</div>`:''}
-      ${r.sizeBadRows.length?`<div style="font-size:12px;color:#b8870a;margin-top:4px;">⚠️ Team sizes: ${r.sizeBadRows.join(' | ')}</div>`:''}
-      ${r.invalidWinner?`<div style="font-size:12px;color:var(--red);margin-top:4px;">❌ ${r.invalidWinner} match(es) missing winner</div>`:''}
-    </div>`;
-  }).join('');
-
-  // Summary issues panel
-  const errorCount  = issues.filter(i=>i.severity==='error').length;
-  const warnCount   = issues.filter(i=>i.severity==='warn').length;
-  const summaryColour = errorCount ? 'var(--red)' : warnCount ? '#b8870a' : 'var(--green-mid)';
-  const summaryText = errorCount ? `${errorCount} error(s), ${warnCount} warning(s) found`
-    : warnCount ? `${warnCount} warning(s) found`
-    : 'All checks passed ✅';
-
-  panel.innerHTML = `
-    <div style="background:${summaryColour}18;border:1px solid ${summaryColour};border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-      <span style="font-weight:700;color:${summaryColour};">${summaryText}</span>
-      <button class="btn btn-sm" style="background:var(--charcoal);color:white;font-size:11px;" onclick="exportIntegrityReport()">📥 Export JSON Report</button>
-    </div>
-    <div style="margin-bottom:20px;">${checklistHtml}</div>`;
-
-  // Store for export
-  window._lastIntegrityReport = { generated: new Date().toISOString(), issues, tourReports };
-}
 
 /** Recompute score1/score2 on a tour from its match winners and PATCH to DB. */
-async function recomputeScores(tourId, label) {
-  const tourMatches = DB.matches.filter(m=>m.tour_id===tourId);
-  let red=0,blue=0;
-  tourMatches.forEach(m=>{
-    if(m.winner==='red')red++;else if(m.winner==='blue')blue++;else if(m.winner==='draw'){red+=0.5;blue+=0.5;}
-  });
-  try {
-    await sbPatch('cc_tours',`id=eq.${tourId}`,{score1:formatScore(red),score2:formatScore(blue)});
-    showAlert(`✅ ${label}: score updated to ${formatScore(red)}–${formatScore(blue)}`,'success');
-    await loadAllData(); await refreshAllViews();
-    await runIntegrityCheck();
-  } catch(e){showAlert('❌ '+e.message,'info');}
-}
 
 /** Rebuild cc_player_scores for a tour from cc_matches. */
-async function recomputePlayerScores(tourId, label) {
-  const tourMatches = DB.matches.filter(m=>m.tour_id===tourId);
-  // Gather all canonical players from match data
-  const playerMatchMap = {};
-  tourMatches.forEach(m => {
-    const process = (names, side) => parsePlayers(names).forEach(p => {
-      if(!playerMatchMap[p]) playerMatchMap[p]={wins:0,losses:0,draws:0};
-      const onRed = side==='red';
-      if(m.winner==='draw') playerMatchMap[p].draws++;
-      else if((onRed&&m.winner==='red')||(!onRed&&m.winner==='blue')) playerMatchMap[p].wins++;
-      else playerMatchMap[p].losses++;
-    });
-    parseMatchPlayers(m,'red').forEach(p=>{
-      if(!playerMatchMap[p]) playerMatchMap[p]={wins:0,losses:0,draws:0};
-      const onRed=true;
-      if(m.winner==='draw')playerMatchMap[p].draws++;else if(m.winner==='red')playerMatchMap[p].wins++;else playerMatchMap[p].losses++;
-    });
-    parseMatchPlayers(m,'blue').forEach(p=>{
-      if(!playerMatchMap[p]) playerMatchMap[p]={wins:0,losses:0,draws:0};
-      if(m.winner==='draw')playerMatchMap[p].draws++;else if(m.winner==='blue')playerMatchMap[p].wins++;else playerMatchMap[p].losses++;
-    });
-  });
-
-  const rows = Object.entries(playerMatchMap).map(([pn,s])=>({
-    tour_id: tourId, player_name: pn,
-    matches: s.wins+s.losses+s.draws,
-    points: s.wins + s.draws*0.5,
-    stars: false, // preserve existing star values
-  }));
-
-  try {
-    // Delete existing then re-insert
-    await sbDelete('cc_player_scores',`tour_id=eq.${tourId}`);
-    if(rows.length) await sbPost('cc_player_scores', rows);
-    showAlert(`✅ ${label}: rebuilt ${rows.length} player score rows`,'success');
-    await loadAllData(); await refreshAllViews();
-    await runIntegrityCheck();
-  } catch(e){showAlert('❌ '+e.message,'info');}
-}
 
 /** Recompute ALL tours' player scores in one pass. */
-async function recomputeAllPlayerScores() {
-  if(!confirm('Rebuild all player scores from scratch? Stars data will be lost.')) return;
-  for(const tour of DB.tours) {
-    await recomputePlayerScores(tour.id, `${tour.year} ${tour.location}`);
-  }
-  showAlert('✅ All player scores rebuilt.','success');
-}
 
-function exportIntegrityReport() {
-  const data = window._lastIntegrityReport || {error:'No report generated yet'};
-  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href=url; a.download='cyder-cup-integrity.json'; a.click();
-  URL.revokeObjectURL(url);
-}
 
 // ============================================================
 // RESULTS ENTRY — with pre-save validation
 // ============================================================
 // PLAYER_AUTOCOMPLETE is now dynamic — see getActivePlayers()
 
-function validateEntryForm() {
-  // Returns array of warning strings; empty = OK to save
-  const warnings = [];
-  const year  = document.getElementById('entry-year')?.value;
-  const loc   = document.getElementById('entry-location')?.value;
-  if (!year) warnings.push('Year is required');
-  if (!loc)  warnings.push('Location is required');
-
-  let rowCount=0, missingWinner=0, missingPlayers=0, unknownNames=[], sizeBad=[];
-  document.querySelectorAll('#sheet-body tr:not(.round-sep-row)').forEach(tr => {
-    const roundEl=tr.querySelector('[id^="sr-round-"]'); if(!roundEl) return;
-    rowCount++;
-    const winner=tr.querySelector('[id^="sr-winner-"]')?.value||'';
-    const rowId = tr.id.replace('sr-','');
-    const fmt=tr.querySelector('[id^="sr-format-"]')?.value||'';
-    const isSingles = fmt==='Singles';
-    const rp1=getPickedPlayer('sr-r1-'+rowId);
-    const rp2=isSingles?'':getPickedPlayer('sr-r2-'+rowId);
-    const bp1=getPickedPlayer('sr-b1-'+rowId);
-    const bp2=isSingles?'':getPickedPlayer('sr-b2-'+rowId);
-    // Also check raw input values for anything unresolved
-    const rawRp1=(document.getElementById('sr-r1-'+rowId)?.value||'').trim();
-    const rawBp1=(document.getElementById('sr-b1-'+rowId)?.value||'').trim();
-
-    if(!winner) missingWinner++;
-    if(!rp1&&rawRp1) unknownNames.push(rawRp1); // typed but not in registry
-    if(!bp1&&rawBp1) unknownNames.push(rawBp1);
-    if(!rp1||!bp1) missingPlayers++;
-
-    // Duplicate player checks
-    const allInRow=[rp1,rp2,bp1,bp2].filter(Boolean).map(p=>p.toLowerCase());
-    const dupes=allInRow.filter((v,i)=>allInRow.indexOf(v)!==i);
-    if(dupes.length) sizeBad.push(`Duplicate player in row ${rowCount}: ${dupes[0]}`);
-
-    // Format-specific team sizes
-    const rc=[rp1,rp2].filter(Boolean).length, bc=[bp1,bp2].filter(Boolean).length;
-    if(!isSingles&&(rc!==2||bc!==2)) sizeBad.push(`Row ${rowCount}: ${fmt} needs 2v2, got ${rc}v${bc}`);
-    if(isSingles&&(rc!==1||bc!==1)) sizeBad.push(`Row ${rowCount}: Singles needs 1v1, got ${rc}v${bc}`);
-  });
-
-  if(rowCount===0) warnings.push('No match rows entered');
-  if(missingWinner>0) warnings.push(`${missingWinner} row(s) are missing a winner`);
-  if(missingPlayers>0) warnings.push(`${missingPlayers} row(s) are missing player names`);
-  if(unknownNames.length) warnings.push(`Unknown player names (won't appear in stats): ${[...new Set(unknownNames)].join(', ')}`);
-  if(sizeBad.length) warnings.push(...sizeBad);
-  return warnings;
-}
 
 // ============================================================
 // PLAYER PICKER — strictly constrained autocomplete
@@ -3964,13 +2714,6 @@ function validateEntryForm() {
 // Admin mode allows adding new players inline.
 // ============================================================
 
-let _adminMode = false;
-function setAdminMode(on) {
-  _adminMode = on;
-  const btn = document.getElementById('admin-mode-toggle');
-  if (btn) btn.textContent = on ? '🔓 Admin ON' : '🔒 Admin OFF';
-  if (btn) btn.style.background = on ? 'var(--red)' : 'var(--charcoal)';
-}
 
 /**
  * Build the picker HTML for a player slot.
@@ -3979,487 +2722,46 @@ function setAdminMode(on) {
  * @param {string} val     - initial canonical name
  * @param {string} side    - 'red' | 'blue'
  */
-function makePlayerInput(id, placeholder, val, side) {
-  const borderHint = side==='red'
-    ? 'border-top:2px solid rgba(214,48,48,0.3)'
-    : 'border-top:2px solid rgba(59,125,216,0.3)';
-  const rowId = id.replace(/sr-[rb][12]-/,'');
-  return `<div class="player-picker" style="position:relative;">
-    <input class="e-input player-picker-input" id="${id}"
-      placeholder="${placeholder}" value="${val||''}" autocomplete="off"
-      data-chosen="${val||''}" data-side="${side}"
-      style="${borderHint}"
-      oninput="pickerOnInput(this,'${rowId}')"
-      onblur="pickerOnBlur(this)"
-      onkeydown="pickerOnKeydown(event,this,'${rowId}')">
-    <div class="player-picker-status" id="${id}-status"></div>
-    <div class="ac-dropdown" id="${id}-ac" style="display:none;" role="listbox"></div>
-  </div>`;
-}
 
 /** Called on every keystroke — filter players and show dropdown. */
-function pickerOnInput(input, rowId) {
-  const q = input.value.trim().toLowerCase();
-  input.dataset.chosen = ''; // mark as unconfirmed while typing
-  updatePickerStatus(input, 'typing');
-
-  // Use team-constrained list if teams are assigned in tour setup
-  const side = input.dataset.side || 'red';
-  const players = getPlayersForSide(side);
-  const dd = document.getElementById(input.id + '-ac');
-  if (!dd) return;
-
-  if (!q) {
-    dd.style.display = 'none';
-    return;
-  }
-
-  // Filter: starts-with first, then contains
-  const startsWith = players.filter(n => n.toLowerCase().startsWith(q));
-  const contains   = players.filter(n => !n.toLowerCase().startsWith(q) && n.toLowerCase().includes(q));
-  const matches    = [...startsWith, ...contains].slice(0, 8); // max 8 visible
-
-  // Also show "Add new player" if admin and no exact match
-  const hasExact = players.some(n => n.toLowerCase() === q);
-  const addRow = (_adminMode && !hasExact && q.length >= 3)
-    ? `<div class="ac-item ac-add-player" onmousedown="pickerAddNew(event,'${input.id}','${rowId}')">
-         ➕ Add "<strong>${escHtml(input.value.trim())}</strong>" as new player
-       </div>`
-    : '';
-
-  if (!matches.length && !addRow) {
-    dd.innerHTML = `<div class="ac-item ac-no-match">No players found${_adminMode ? '' : ' — enable Admin to add'}</div>`;
-    dd.style.display = 'block';
-    return;
-  }
-
-  dd.innerHTML = matches.map((n,i) => {
-    const hl = highlightMatch(n, q);
-    return `<div class="ac-item" role="option" data-name="${escHtml(n)}"
-      onmousedown="pickerPick(event,'${input.id}','${escHtml(n)}','${rowId}')">${hl}</div>`;
-  }).join('') + addRow;
-  dd.style.display = 'block';
-}
 
 /** On blur: validate the field. If value isn't a known player, mark invalid. */
-function pickerOnBlur(input) {
-  setTimeout(() => {
-    const dd = document.getElementById(input.id + '-ac');
-    if (dd) dd.style.display = 'none';
-
-    const val = input.value.trim();
-    if (!val) {
-      input.dataset.chosen = '';
-      updatePickerStatus(input, 'empty');
-      return;
-    }
-
-    // Try to resolve
-    const canon = normalizePlayerName(val) || getActivePlayers().find(n => n.toLowerCase() === val.toLowerCase());
-    if (canon) {
-      input.value = canon;        // correct capitalisation
-      input.dataset.chosen = canon;
-      updatePickerStatus(input, 'valid');
-    } else {
-      input.dataset.chosen = '';
-      updatePickerStatus(input, 'invalid');
-    }
-  }, 180);
-}
 
 /** Keyboard navigation inside dropdown. */
-function pickerOnKeydown(e, input, rowId) {
-  const dd = document.getElementById(input.id + '-ac');
-  if (!dd || dd.style.display === 'none') {
-    if (e.key === 'ArrowDown') { pickerOnInput(input, rowId); }
-    return;
-  }
-  const items = [...dd.querySelectorAll('.ac-item:not(.ac-no-match)')];
-  let cur = dd.querySelector('.ac-item.active');
-
-  if (e.key === 'ArrowDown') {
-    e.preventDefault();
-    if (!cur) items[0]?.classList.add('active');
-    else { cur.classList.remove('active'); (cur.nextElementSibling || items[0])?.classList.add('active'); }
-  } else if (e.key === 'ArrowUp') {
-    e.preventDefault();
-    if (cur) { cur.classList.remove('active'); (cur.previousElementSibling || items[items.length-1])?.classList.add('active'); }
-  } else if (e.key === 'Enter' || e.key === 'Tab') {
-    if (cur && cur.dataset.name) {
-      e.preventDefault();
-      pickerPick(null, input.id, cur.dataset.name, rowId);
-    }
-  } else if (e.key === 'Escape') {
-    dd.style.display = 'none';
-  }
-}
 
 /** Pick a player from the dropdown. */
-function pickerPick(e, inputId, name, rowId) {
-  if (e) e.preventDefault();
-  const input = document.getElementById(inputId);
-  const dd    = document.getElementById(inputId + '-ac');
-  if (input) {
-    input.value = name;
-    input.dataset.chosen = name;
-    updatePickerStatus(input, 'valid');
-  }
-  if (dd) dd.style.display = 'none';
-  if (rowId) checkConflicts(rowId);
-}
 
 /** Admin-only: add a brand new player to cc_players then pick them. */
-async function pickerAddNew(e, inputId, rowId) {
-  if (e) e.preventDefault();
-  const input = document.getElementById(inputId);
-  if (!input) return;
-  const name = input.value.trim();
-  if (!name || name.length < 2) return;
-
-  if (!confirm(`Add "${name}" as a new player in the registry?`)) return;
-  try {
-    const rows = await sbPost('cc_players', { full_name: name, active: true, aliases: [] });
-    const newPlayer = rows[0];
-    DB.players.push(newPlayer); // add to local cache immediately
-    DB.players.sort((a,b) => a.full_name.localeCompare(b.full_name));
-    pickerPick(null, inputId, newPlayer.full_name, rowId);
-    showAlert(`✅ Player "${name}" added to registry.`, 'success');
-  } catch(err) {
-    showAlert(`❌ Could not add player: ${err.message}`, 'info');
-  }
-}
 
 /** Show a ✓ / ✗ / … status indicator next to the input. */
-function updatePickerStatus(input, state) {
-  const el = document.getElementById(input.id + '-status');
-  if (!el) return;
-  if (state === 'valid')   { el.textContent = '✓'; el.style.color = 'var(--green-mid)'; }
-  else if (state === 'invalid') { el.textContent = '✗'; el.style.color = 'var(--red)'; input.classList.add('player-conflict'); }
-  else { el.textContent = ''; input.classList.remove('player-conflict'); }
-  if (state !== 'invalid') input.classList.remove('player-conflict');
-}
 
 /** Highlight matching portion of a player name. */
-function highlightMatch(name, q) {
-  const i = name.toLowerCase().indexOf(q);
-  if (i < 0) return escHtml(name);
-  return escHtml(name.slice(0,i)) + '<strong>' + escHtml(name.slice(i, i+q.length)) + '</strong>' + escHtml(name.slice(i+q.length));
-}
 
-function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
 
 /** Returns the confirmed chosen player for an input, or '' if unconfirmed/invalid. */
-function getPickedPlayer(inputId) {
-  const el = document.getElementById(inputId);
-  if (!el) return '';
-  // If data-chosen is set and matches current value, it's valid
-  if (el.dataset.chosen && el.dataset.chosen === el.value.trim()) return el.dataset.chosen;
-  // Otherwise try to resolve current typed value
-  const canon = normalizePlayerName(el.value.trim());
-  if (canon) { el.dataset.chosen = canon; el.value = canon; return canon; }
-  return '';
-}
 
-let sheetRows=[],sheetRowId=0;
-function addSheetRow(data){
-  sheetRowId++;const id=sheetRowId;sheetRows.push(id);
-  const tbody=document.getElementById('sheet-body');if(!tbody) return;
-  const n=tbody.querySelectorAll('tr:not(.round-sep-row)').length+1;
-  const tr=document.createElement('tr');tr.id='sr-'+id;
-
-  // Determine initial format for P2 state
-  const fmt = data?.format || 'Fourball';
-  const isSingles = fmt === 'Singles';
-
-  tr.innerHTML=`
-    <td class="e-rownum">${n}</td>
-    <td><input class="e-input" id="sr-round-${id}" placeholder="Day 1 – Fourball" value="${data?.round||''}"></td>
-    <td><select class="e-select" id="sr-format-${id}" onchange="onFormatChange(${id})">
-      <option value="Fourball" ${fmt==='Fourball'?'selected':''}>Fourball</option>
-      <option value="Scramble" ${fmt==='Scramble'?'selected':''}>Scramble</option>
-      <option value="Singles" ${fmt==='Singles'?'selected':''}>Singles</option>
-      <option value="Foursomes" ${fmt==='Foursomes'?'selected':''}>Foursomes</option>
-    </select></td>
-    <td id="sr-r1-cell-${id}"></td>
-    <td id="sr-r2-cell-${id}"></td>
-    <td id="sr-b1-cell-${id}"></td>
-    <td id="sr-b2-cell-${id}"></td>
-    <td><input class="e-input" id="sr-score-${id}" placeholder="3&2" value="${data?.score||''}" style="width:68px;"></td>
-    <td><select class="e-select" id="sr-winner-${id}" onchange="updateTally()">
-      <option value="">—</option>
-      <option value="red" ${data?.winner==='red'?'selected':''}>🔴 Red</option>
-      <option value="blue" ${data?.winner==='blue'?'selected':''}>🔵 Blue</option>
-      <option value="draw" ${data?.winner==='draw'?'selected':''}>🤝 A/S</option>
-    </select></td>
-    <td><button class="e-delbtn" onclick="deleteSheetRow(${id},this)">✕</button></td>`;
-  tbody.appendChild(tr);
-
-  // Resolve initial player values from structured (preferred) or legacy string
-  const rp1 = data?.red_p1 || (data?.red ? splitLegacyPlayers(data.red)[0] : '');
-  const rp2 = data?.red_p2 || (data?.red ? splitLegacyPlayers(data.red)[1] : '');
-  const bp1 = data?.blue_p1 || (data?.blue ? splitLegacyPlayers(data.blue)[0] : '');
-  const bp2 = data?.blue_p2 || (data?.blue ? splitLegacyPlayers(data.blue)[1] : '');
-
-  // Inject autocomplete inputs
-  document.getElementById('sr-r1-cell-'+id).innerHTML = makePlayerInput('sr-r1-'+id,'Red 1',rp1,'red');
-  document.getElementById('sr-r2-cell-'+id).innerHTML = makePlayerInput('sr-r2-'+id,'Red 2',rp2,'red');
-  document.getElementById('sr-b1-cell-'+id).innerHTML = makePlayerInput('sr-b1-'+id,'Blue 1',bp1,'blue');
-  document.getElementById('sr-b2-cell-'+id).innerHTML = makePlayerInput('sr-b2-'+id,'Blue 2',bp2,'blue');
-
-  // Set correct P2 enabled/disabled state for this format
-  applyFormatState(id, fmt);
-  updateTally();
-}
 
 /**
  * Split a legacy "Name1 & Name2" string into [name1, name2].
  * Tries to map each part via normalizePlayerName.
  */
-function splitLegacyPlayers(str) {
-  if (!str) return ['',''];
-  const parts = str.split(/\s*[&,/]\s*|\sand\s/i).map(s=>s.trim()).filter(Boolean);
-  const p1 = normalizePlayerName(parts[0]) || parts[0] || '';
-  const p2 = parts[1] ? (normalizePlayerName(parts[1]) || parts[1]) : '';
-  return [p1, p2];
-}
 
 /**
  * Called when format dropdown changes on a row.
  */
-function onFormatChange(id) {
-  const fmt = document.getElementById('sr-format-'+id)?.value || 'Fourball';
-  applyFormatState(id, fmt);
-  checkConflicts(id);
-}
 
 /**
  * Enable/disable P2 cells based on format.
  * Singles: P2 fields disabled and cleared.
  * Team formats: P2 fields required.
  */
-function applyFormatState(id, fmt) {
-  const isSingles = fmt === 'Singles';
-  ['r2','b2'].forEach(key => {
-    const cell = document.getElementById(`sr-${key}-cell-${id}`);
-    const input = document.getElementById(`sr-${key}-${id}`);
-    if (!cell || !input) return;
-    if (isSingles) {
-      input.value = '';
-      input.disabled = true;
-      input.placeholder = '—';
-      cell.classList.add('p2-input','disabled');
-      cell.classList.remove('required');
-    } else {
-      input.disabled = false;
-      input.placeholder = key.startsWith('r') ? 'Red 2' : 'Blue 2';
-      cell.classList.add('p2-input','required');
-      cell.classList.remove('disabled');
-    }
-  });
-}
 
 /**
  * Conflict detection: highlight any input where the same player appears
  * in multiple positions within this row.
  */
-function checkConflicts(id) {
-  const ids = ['sr-r1-'+id,'sr-r2-'+id,'sr-b1-'+id,'sr-b2-'+id];
-  const vals = ids.map(i => (document.getElementById(i)?.value||'').trim().toLowerCase());
-  ids.forEach((inputId, i) => {
-    const el = document.getElementById(inputId);
-    if (!el || !vals[i]) return;
-    const conflict = vals.some((v,j) => j!==i && v && v===vals[i]);
-    el.classList.toggle('player-conflict', conflict);
-  });
-}
-function addRound(){
-  sheetRowId++;const id=sheetRowId;
-  const tbody=document.getElementById('sheet-body');if(!tbody)return;
-  const tr=document.createElement('tr');tr.id='sr-sep-'+id;tr.className='round-sep-row';
-  tr.innerHTML=`<td></td><td colspan="8"><input class="e-input" placeholder="Round name (e.g. Day 2 – Texas Scramble)" style="font-weight:700;color:var(--green);background:transparent;"></td><td><button class="e-delbtn" onclick="this.closest('tr').remove()">✕</button></td>`;
-  tbody.appendChild(tr);
-  addSheetRow();addSheetRow();addSheetRow();
-}
-function deleteSheetRow(id,btn){btn.closest('tr').remove();sheetRows=sheetRows.filter(r=>r!==id);updateTally();}
-function updateTally(){
-  let red=0,blue=0,draws=0;
-  document.querySelectorAll('[id^="sr-winner-"]').forEach(sel=>{
-    if(sel.value==='red')red++;else if(sel.value==='blue')blue++;else if(sel.value==='draw'){red+=0.5;blue+=0.5;draws++;}
-  });
-  const tr=document.getElementById('tally-red'),tb=document.getElementById('tally-blue'),td=document.getElementById('tally-draw');
-  if(tr)tr.textContent='Red '+red;if(tb)tb.textContent='Blue '+blue;if(td)td.textContent=draws>0?'('+draws+' halved)':'';
-}
-function clearSheet(){const tbody=document.getElementById('sheet-body');if(tbody)tbody.innerHTML='';sheetRows=[];updateTally();}
 
-async function saveTour(){
-  const year=document.getElementById('entry-year')?.value;
-  const location=document.getElementById('entry-location')?.value;
-  if(!year||!location){showAlert('Please fill in Year and Location.','info');return;}
 
-  // Pre-save validation
-  const warnings = validateEntryForm();
-  if(warnings.length){
-    const proceed = warnings.some(w=>w.includes('missing a winner')||w.includes('missing player'))
-      ? confirm(`⚠️ Issues found before saving:\n\n• ${warnings.join('\n• ')}\n\nSave anyway?`)
-      : confirm(`⚠️ Warnings:\n\n• ${warnings.join('\n• ')}\n\nContinue?`);
-    if(!proceed) return;
-  }
-
-  showAlert('Saving…','info'); setDbStatus(null,'Saving…');
-  try {
-    // Build playoff scores JSON
-    const isPlayoff = document.getElementById('entry-is-playoff')?.checked || false;
-    const playoffGroups = [];
-    if (isPlayoff) {
-      for (let n = 1; n <= 3; n++) {
-        const redTotal = document.getElementById(`po-g${n}-red-total`)?.value?.trim();
-        const blueTotal = document.getElementById(`po-g${n}-blue-total`)?.value?.trim();
-        if (!redTotal && !blueTotal) continue; // skip empty groups
-        const getPlayer = id => {
-          const el = document.getElementById(id);
-          return (el?.dataset?.chosen && el.dataset.chosen === el.value.trim()) ? el.dataset.chosen : el?.value?.trim() || '';
-        };
-        playoffGroups.push({
-          group: `${n===1?'1st':n===2?'2nd':'3rd'} Group`,
-          red_a: getPlayer(`po-g${n}-ra`),
-          red_b: getPlayer(`po-g${n}-rb`),
-          blue_a: getPlayer(`po-g${n}-ba`),
-          blue_b: getPlayer(`po-g${n}-bb`),
-          score_ra: document.getElementById(`po-g${n}-score-ra`)?.value?.trim()||'',
-          score_rb: document.getElementById(`po-g${n}-score-rb`)?.value?.trim()||'',
-          score_ba: document.getElementById(`po-g${n}-score-ba`)?.value?.trim()||'',
-          score_bb: document.getElementById(`po-g${n}-score-bb`)?.value?.trim()||'',
-          red_total: redTotal||'',
-          blue_total: blueTotal||'',
-          score: (() => {
-            const r = parseInt(redTotal), b = parseInt(blueTotal);
-            if (isNaN(r)||isNaN(b)) return '';
-            const t1 = document.getElementById('entry-team1')?.value||'Red';
-            const t2 = document.getElementById('entry-team2')?.value||'Blue';
-            if (r===b) return `A/S (${r} v ${b})`;
-            return `${r<b?t1:t2} Win (${Math.min(r,b)} v ${Math.max(r,b)})`;
-          })()
-        });
-      }
-    }
-
-    // Determine playoff winner from group results
-    let playoffWinner = '';
-    if (isPlayoff && playoffGroups.length) {
-      const t1 = document.getElementById('entry-team1')?.value||'Red';
-      const t2 = document.getElementById('entry-team2')?.value||'Blue';
-      let t1w=0, t2w=0;
-      playoffGroups.forEach(g => {
-        const r=parseInt(g.red_total), b=parseInt(g.blue_total);
-        if (!isNaN(r)&&!isNaN(b)) { if(r<b) t1w++; else if(b<r) t2w++; }
-      });
-      if (t1w>t2w) playoffWinner=t1;
-      else if (t2w>t1w) playoffWinner=t2;
-    }
-
-    // Auto-derive Cyder Cup = winning team's captain
-    const entryWinner = document.getElementById('entry-winner')?.value||'';
-    const entryTeam1 = document.getElementById('entry-team1')?.value||'Red';
-    const entryTeam2 = document.getElementById('entry-team2')?.value||'Blue';
-    const entryCap1 = document.getElementById('entry-cap1')?.value||'';
-    const entryCap2 = document.getElementById('entry-cap2')?.value||'';
-    const entryS1 = parseFloat(document.getElementById('entry-score1')?.value);
-    const entryS2 = parseFloat(document.getElementById('entry-score2')?.value);
-    let autoCup = '';
-    if (!isNaN(entryS1) && !isNaN(entryS2) && entryS1 !== entryS2) {
-      autoCup = entryS1 > entryS2 ? entryCap1 : entryCap2;
-    } else if (isPlayoff && playoffWinner) {
-      const pw = playoffWinner.toLowerCase().trim();
-      if (pw === entryTeam1.toLowerCase().trim()) autoCup = entryCap1;
-      else if (pw === entryTeam2.toLowerCase().trim()) autoCup = entryCap2;
-    }
-
-    const tourPayload={year:parseInt(year),location,flag:document.getElementById('entry-flag')?.value||'⛳',
-      team1:entryTeam1,team2:entryTeam2,
-      cap1:entryCap1,cap2:entryCap2,
-      score1:document.getElementById('entry-score1')?.value||'',score2:document.getElementById('entry-score2')?.value||'',
-      winner:entryWinner,
-      cup_award:autoCup,seal_award:'',
-      is_playoff: isPlayoff,
-      playoff_winner: isPlayoff ? playoffWinner : '',
-      playoff_scores: isPlayoff ? JSON.stringify(playoffGroups) : '[]'};
-
-    let tourRows=await sbGet('cc_tours',`year=eq.${year}&location=eq.${encodeURIComponent(location)}&select=id`);
-    let tourId;
-    if(tourRows.length>0){tourId=tourRows[0].id;await sbPatch('cc_tours',`id=eq.${tourId}`,tourPayload);}
-    else{const ins=await sbPost('cc_tours',tourPayload);tourId=ins[0].id;}
-
-    await sbDelete('cc_matches',`tour_id=eq.${tourId}`);
-    const matchRows=[];let order=0;
-    document.querySelectorAll('#sheet-body tr:not(.round-sep-row)').forEach(tr=>{
-      const roundEl=tr.querySelector('[id^="sr-round-"]');if(!roundEl) return;
-      const rowId = tr.id.replace('sr-','');
-      const fmt = tr.querySelector('[id^="sr-format-"]')?.value||'Fourball';
-      const isSingles = fmt==='Singles';
-      // Use getPickedPlayer which validates against registry
-      const rp1 = getPickedPlayer('sr-r1-'+rowId);
-      const rp2 = isSingles ? '' : getPickedPlayer('sr-r2-'+rowId);
-      const bp1 = getPickedPlayer('sr-b1-'+rowId);
-      const bp2 = isSingles ? '' : getPickedPlayer('sr-b2-'+rowId);
-      const winnerVal=tr.querySelector('[id^="sr-winner-"]')?.value||'';
-      // Build legacy combined string for backward compat
-      const redLegacy  = [rp1, rp2].filter(Boolean).join(' & ');
-      const blueLegacy = [bp1, bp2].filter(Boolean).join(' & ');
-      matchRows.push({
-        tour_id: tourId,
-        round_name: roundEl.value||'',
-        format: fmt,
-        // Structured columns (new)
-        red_p1: rp1, red_p2: rp2,
-        blue_p1: bp1, blue_p2: bp2,
-        // Legacy combined (kept for backward compat)
-        red_players: redLegacy, blue_players: blueLegacy,
-        score: tr.querySelector('[id^="sr-score-"]')?.value||'',
-        winner: winnerVal,
-        sort_order: order++
-      });
-    });
-    if(matchRows.length>0) await sbPost('cc_matches',matchRows);
-
-    setDbStatus(true,`✅ Saved — ${year} ${location} (${matchRows.length} matches)`);
-    showAlert(`✅ Saved to database (${matchRows.length} matches)`,'success');
-
-    // Show last-saved timestamp
-    const savedEl = document.getElementById('db-last-saved');
-    if (savedEl) {
-      const now = new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-      savedEl.textContent = `Last saved ${now}`;
-      savedEl.style.display = 'inline';
-      savedEl.style.color = 'var(--green-mid)';
-    }
-
-    // Reload everything so all pages reflect new data immediately
-    await loadAllData();
-
-    // Auto-compute seal_award (top scorer) from player scores
-    const freshScores = DB.scores.filter(s=>s.tour_id===tourId);
-    if (freshScores.length) {
-      const topScorer = [...freshScores].sort((a,b)=>Number(b.points)-Number(a.points))[0];
-      if (topScorer && Number(topScorer.points) > 0) {
-        await sbPatch('cc_tours',`id=eq.${tourId}`,{seal_award:topScorer.player_name});
-        const t = DB.tours.find(t=>t.id===tourId);
-        if (t) t.seal_award = topScorer.player_name;
-      }
-    }
-
-    buildLeaderboard();
-    renderToursGrid();
-    await refreshAllViews();
-  } catch(err){
-    console.error(err);setDbStatus(false,'Save failed — '+err.message);
-    showAlert('❌ Save failed: '+err.message,'info');
-  }
-}
-
-function saveName(){const name=document.getElementById('entry-editor-name')?.value?.trim();if(name){localStorage.setItem('cc_editor_name',name);showAlert('Name saved: '+name,'success');}}
-function getEditorName(){return localStorage.getItem('cc_editor_name')||'anonymous';}
 
 // ============================================================
 // REFRESH ALL VIEWS — call after any data change
@@ -4474,9 +2776,8 @@ async function refreshAllViews() {
   renderFormatCards();
   renderPairings();
   renderStatsNumbers();
-  renderPlayersRegistry();
-  await loadSavedTours();
-  await loadAuditLog();
+  renderHallOfFame();
+  renderRoundStats();
 }
 
 // ============================================================
@@ -4490,11 +2791,6 @@ function setDbStatus(ok,msg){
   else{dot.style.background='#d63030';if(bar){bar.style.background='#fde8e8';bar.style.borderColor='#f0a8a8';}}
   if(txt) txt.textContent=msg;
 }
-function showAlert(msg,type){
-  const el=document.getElementById('entry-alert');if(!el) return;
-  el.className='alert '+type;el.textContent=msg;
-  setTimeout(()=>{el.className='alert';},6000);
-}
 
 // ============================================================
 // DATA LOAD — fetches from local data.json
@@ -4505,8 +2801,13 @@ async function loadAllData(){
   const data = await r.json();
   DB.tours = data.tours || [];
   DB.matches = data.matches || [];
-  DB.scores = data.scores || [];
   DB.players = data.players || [];
+  DB.rounds = data.rounds || [];
+  // Matches are the source of truth: totals, winners, points and stars are derived here
+  const derived = CC.deriveAll({ tours: DB.tours, matches: DB.matches, players: DB.players });
+  DB.scores = derived.scores;
+  CC.validate({ tours: DB.tours, matches: DB.matches, players: DB.players })
+    .filter(i => i.level !== 'info').forEach(i => console.warn(`[data ${i.year}] ${i.msg}`));
   DB.loaded = true;
   // Load handicaps from data file
   if (data.handicaps) HANDICAP_HISTORY = data.handicaps;
@@ -4514,124 +2815,11 @@ async function loadAllData(){
   if (data.next_tour) DB.nextTour = data.next_tour;
 }
 
-async function loadSavedTours(){
-  const list=document.getElementById('saved-tours-list');if(!list) return;
-  try{
-    const tours=await sbGet('cc_tours','select=id,year,location,flag,team1,team2,score1,score2,winner&order=year.desc');
-    if(!tours.length){list.innerHTML='<p style="color:var(--muted);font-size:14px;padding:8px 0;">No saved tours yet.</p>';return;}
-    const mc=await sbGet('cc_matches','select=tour_id');
-    const countMap={};mc.forEach(m=>{countMap[m.tour_id]=(countMap[m.tour_id]||0)+1;});
-    list.innerHTML=tours.map(t=>`
-      <div class="saved-item" onclick="loadTourIntoForm('${t.id}')">
-        <div>
-          <div class="saved-item-name">${t.flag||'⛳'} ${t.year} — ${t.location}</div>
-          <div class="saved-item-meta">${t.team1||'Red'} ${t.score1||'?'} – ${t.score2||'?'} ${t.team2||'Blue'} · ${countMap[t.id]||0} matches · ${t.winner||''}</div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <span style="color:var(--green-mid);font-size:12px;font-weight:600;">Edit →</span>
-          <button class="saved-item-del" onclick="event.stopPropagation();deleteTourFromDb('${t.id}','${t.year} ${t.location}')">🗑</button>
-        </div>
-      </div>`).join('');
-  }catch(err){list.innerHTML=`<p style="color:var(--red);font-size:13px;">⚠️ ${err.message}</p>`;}
-}
 
-async function loadTourIntoForm(tourId){
-  showAlert('Loading tour…','info');
-  try{
-    const [tours,matches]=await Promise.all([sbGet('cc_tours',`id=eq.${tourId}&select=*`),sbGet('cc_matches',`tour_id=eq.${tourId}&order=sort_order.asc&select=*`)]);
-    if(!tours.length){showAlert('Tour not found','info');return;}
-    const t=tours[0];
-    const fm={'entry-year':t.year,'entry-location':t.location,'entry-flag':t.flag,'entry-team1':t.team1,'entry-cap1':t.cap1,'entry-team2':t.team2,'entry-cap2':t.cap2,'entry-score1':t.score1,'entry-score2':t.score2,'entry-winner':t.winner};
-    Object.entries(fm).forEach(([id,val])=>{const el=document.getElementById(id);if(el)el.value=val||'';});
-    clearSheet();matches.forEach(m=>addSheetRow({round:m.round_name,format:m.format,red_p1:m.red_p1||'',red_p2:m.red_p2||'',blue_p1:m.blue_p1||'',blue_p2:m.blue_p2||'',red:m.red_players||'',blue:m.blue_players||'',score:m.score,winner:m.winner}));
 
-    // Restore playoff fields
-    const isPO = document.getElementById('entry-is-playoff');
-    if (isPO) { isPO.checked = !!t.is_playoff; togglePlayoffSection(); }
-    if (t.is_playoff) {
-      try {
-        const groups = JSON.parse(t.playoff_scores||'[]');
-        // Pad to 3 groups
-        while (groups.length < 3) groups.push({});
-        buildPlayoffGroupsUI(groups);
-      } catch(e){ buildPlayoffGroupsUI(); }
-    }
 
-    // Restore team chips from match data
-    const t1chips = document.getElementById('team1-player-chips');
-    const t2chips = document.getElementById('team2-player-chips');
-    if (t1chips && t2chips) {
-      const t1set=new Set(), t2set=new Set();
-      matches.forEach(m => {
-        parseMatchPlayers(m,'red').forEach(p=>t1set.add(p));
-        parseMatchPlayers(m,'blue').forEach(p=>t2set.add(p));
-      });
-      t1chips.dataset.players = [...t1set].join(',');
-      t2chips.dataset.players = [...t2set].join(',');
-    }
-    renderTeamChips();
 
-    showView('entry',true);showAlert('Tour loaded — edit and save to update stats.','info');
-  }catch(err){showAlert('❌ '+err.message,'info');}
-}
 
-async function deleteTourFromDb(tourId,label){
-  if(!confirm(`Delete "${label}" and all its matches?`)) return;
-  try{
-    await sbDelete('cc_tours',`id=eq.${tourId}`);
-    showAlert('Tour deleted.','success');
-    await loadAllData(); await refreshAllViews();
-  }catch(err){showAlert('❌ '+err.message,'info');}
-}
-function deleteTour(){}
-
-async function loadAuditLog(){
-  const list=document.getElementById('audit-trail-list');if(!list) return;
-  const tf=document.getElementById('audit-filter-table')?.value||'';
-  let params='select=*&order=changed_at.desc&limit=50';
-  if(tf) params+=`&table_name=eq.${tf}`;
-  try{
-    const logs=await sbGet('cc_audit_log',params);
-    if(!logs.length){list.innerHTML='<p style="color:var(--muted);font-size:13px;padding:8px 0;">No audit entries yet.</p>';return;}
-    list.innerHTML=logs.map(entry=>{
-      const bc=entry.action==='INSERT'?'audit-insert':entry.action==='UPDATE'?'audit-update':'audit-delete';
-      const when=new Date(entry.changed_at).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
-      let diffHtml='';
-      if(entry.action==='UPDATE'&&entry.old_data&&entry.new_data){
-        const changes=[];Object.keys(entry.new_data).forEach(k=>{if(['id','created_at','updated_at','tour_id','sort_order'].includes(k))return;const ov=entry.old_data[k],nv=entry.new_data[k];if(String(ov)!==String(nv)&&ov!==undefined)changes.push(`<span class="audit-diff-old">${k}: ${ov}</span> → <span class="audit-diff-new">${nv}</span>`);});
-        if(changes.length) diffHtml=`<div class="audit-diff">${changes.slice(0,4).join('<br>')}</div>`;
-      }
-      const canUndo=(entry.action==='UPDATE'||entry.action==='DELETE')&&entry.old_data;
-      const undoBtn=canUndo?`<button class="audit-undo-btn" onclick="undoAuditEntry('${entry.id}','${entry.action}','${entry.table_name}',${JSON.stringify(JSON.stringify(entry.old_data)).replace(/'/g,'&apos;')})">↩ Undo</button>`:'';
-      const desc=entry.action==='INSERT'?`New ${entry.table_name==='cc_tours'?'tour':'match/score'} added`:entry.action==='DELETE'?'Deleted':entry.table_name==='cc_matches'?'Match result updated':'Tour updated';
-      return `<div class="audit-item">
-        <span class="audit-badge ${bc}">${entry.action}</span>
-        <div style="flex:1;"><div style="font-weight:600;">${desc}</div><div class="audit-meta">by ${entry.changed_by||'anonymous'} · ${when}</div>${diffHtml}</div>
-        ${undoBtn}
-      </div>`;
-    }).join('');
-  }catch(err){list.innerHTML=`<p style="color:var(--red);font-size:13px;">⚠️ ${err.message}</p>`;}
-}
-
-async function undoAuditEntry(auditId,action,tableName,oldDataJson){
-  let oldData;try{oldData=JSON.parse(oldDataJson);}catch{showAlert('Could not parse undo data.','info');return;}
-  if(!confirm('Undo this change?')) return;
-  try{
-    if(action==='DELETE'){const {id,created_at,updated_at,...ins}=oldData;await sbPost(tableName,{...ins,id});}
-    else if(action==='UPDATE'){const {id,created_at,...patch}=oldData;await sbPatch(tableName,`id=eq.${id}`,patch);}
-    showAlert('✅ Undone.','success');
-    await loadAllData(); await refreshAllViews();
-  }catch(err){showAlert('❌ Undo failed: '+err.message,'info');}
-}
-
-function clearEntryForm(){
-  ['entry-year','entry-location','entry-flag','entry-team1','entry-cap1','entry-team2','entry-cap2','entry-score1','entry-score2','entry-winner'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  const isPO = document.getElementById('entry-is-playoff');
-  if (isPO) { isPO.checked = false; togglePlayoffSection(); }
-  const poContainer = document.getElementById('playoff-groups-container');
-  if (poContainer) poContainer.innerHTML = '';
-  clearSheet();
-}
 
 // ============================================================
 // DB-DRIVEN STATS PAGE RENDERING
@@ -5350,17 +3538,525 @@ function renderPairings() {
 }
 
 // ============================================================
+// NEW FEATURES: Hall of Fame, tour recaps, match replays,
+// round stats (hole-by-hole data), richer player profiles
+// ============================================================
+
+const TEAM_COLOURS = { green:'#2d7a4f', blue:'#3b7dd8', pink:'#d94f93', red:'#d63030', navy:'#1f3a68', white:'#8f8a80', black:'#222', orange:'#e07b28', purple:'#7a4fb5', yellow:'#c9a84c' };
+function teamColour(tour, side) {
+  const name = String(side===1 ? tour.team1 : tour.team2 || '').toLowerCase();
+  for (const k in TEAM_COLOURS) if (name.includes(k)) return TEAM_COLOURS[k];
+  return side===1 ? '#d63030' : '#3b7dd8';
+}
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const surname = n => { const p = String(n).split(' '); return p.length>1 ? p.slice(1).join(' ') : n; };
+const plural = (n, w) => `${n} ${w}${n===1?'':'s'}`;
+const fmtPts = n => (Math.round(n*10)/10).toString();
+function completedTours() {
+  return DB.tours.filter(t => DB.matches.some(m=>m.tour_id===t.id) && t.year < nextTourYear()).sort((a,b)=>a.year-b.year);
+}
+function tourDerived(tour) { return CC.deriveTour(tour, DB.matches); }
+function playerLink(n) { return `<a href="#" onclick="showPlayerProfile('${String(n).replace(/'/g,"\\'")}');return false;" class="cc-plink">${esc(n)}</a>`; }
+function sessionsOf(ms) {
+  const order = []; const by = {};
+  ms.forEach(m => { const k = m.round_name || m.format; if (!by[k]) { by[k]=[]; order.push(k); } by[k].push(m); });
+  return order.map(k => ({ name:k, matches:by[k] }));
+}
+function ccCard(title, body, extra='') {
+  return `<div class="form-card cc-card" ${extra}><h3 class="cc-card-title">${title}</h3>${body}</div>`;
+}
+
+// ------------------------------------------------------------
+// HALL OF FAME
+// ------------------------------------------------------------
+function renderHallOfFame() {
+  const el = document.getElementById('hof-content');
+  if (!el) return;
+  const tours = completedTours().slice().reverse();
+  const valid = v => v && v!=='—' && v!=='TBD';
+  const tally = key => {
+    const c = {};
+    tours.forEach(t => { if (valid(t[key])) (c[t[key]] ||= []).push(t.year); });
+    return Object.entries(c).sort((a,b)=>b[1].length-a[1].length || a[0].localeCompare(b[0]));
+  };
+  const capWins = {};
+  tours.forEach(t => {
+    const d = tourDerived(t);
+    const cap = d.winnerSide===1 ? t.cap1 : d.winnerSide===2 ? t.cap2 : '';
+    if (cap) (capWins[cap] ||= []).push(t.year);
+  });
+  const board = (title, icon, rows) => ccCard(`${icon} ${title}`,
+    rows.length ? rows.map(([n,ys],i)=>`<div class="cc-hof-row"><span class="cc-hof-rank">${i+1}</span><span class="cc-hof-name">${playerLink(n)}</span><span class="cc-hof-count">${ys.length}×</span><span class="cc-hof-years">${ys.sort().join(', ')}</span></div>`).join('')
+    : '<p class="cc-muted">None recorded yet</p>');
+
+  const rows = tours.map(t => {
+    const d = tourDerived(t);
+    const winTeam = d.winnerSide===1 ? t.team1 : d.winnerSide===2 ? t.team2 : '';
+    const winCap = d.winnerSide===1 ? t.cap1 : d.winnerSide===2 ? t.cap2 : '';
+    const col = d.winnerSide ? teamColour(t, d.winnerSide) : 'var(--muted)';
+    const top = d.scores.length ? Math.max(...d.scores.map(s=>s.points)) : 0;
+    const tops = d.scores.filter(s=>s.points===top).map(s=>surname(s.player_name));
+    return `<tr onclick="showTourById('${t.id}')" style="cursor:pointer;">
+      <td><strong>${t.flag||'⛳'} ${t.year}</strong></td>
+      <td>${esc(t.location.split(',')[0])}</td>
+      <td><span class="cc-team-pill" style="background:${col}">${esc(winTeam||'Tied')}</span> ${fmtPts(d.score1)}–${fmtPts(d.score2)}${d.tied?' <span class="cc-muted">(playoff)</span>':''}</td>
+      <td>${winCap?esc(winCap):'—'}</td>
+      <td>${valid(t.cup_award)?`🥃 ${esc(t.cup_award)}`:'—'}</td>
+      <td>${valid(t.seal_award)?`🦭 ${esc(t.seal_award)}`:'—'}</td>
+      <td>${tops.join(', ')} <span class="cc-muted">(${fmtPts(top)})</span></td>
+    </tr>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div class="cc-grid-3">
+      ${board('Cyder Cup', '🥃', tally('cup_award'))}
+      ${board('The Seal', '🦭', tally('seal_award'))}
+      ${board('Winning Captains', '🎖️', Object.entries(capWins).sort((a,b)=>b[1].length-a[1].length))}
+    </div>
+    <div class="section-title" style="font-size:28px;margin:32px 0 8px;">📜 Roll of Honour</div>
+    <div class="divider"></div>
+    <div class="table-scroll-wrap">
+      <table class="leaderboard-table cc-hof-table">
+        <thead><tr><th>Year</th><th>Venue</th><th>Result</th><th>Winning Captain</th><th>Cyder Cup</th><th>The Seal</th><th>Top Scorer</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+// ------------------------------------------------------------
+// ROUND DATA + MATCH REPLAY
+// ------------------------------------------------------------
+function roundsForYear(y) { return (DB.rounds||[]).filter(r => r.year === y).sort((a,b)=>a.round-b.round); }
+function strokesOn(si, s) { s = Math.round(s||0); return (si<=s?1:0) + (si<=s-18?1:0) + (si<=s-36?1:0); }
+function roundPlayers(rd) { return rd.groups.flatMap(g => g.players||[]); }
+
+/** Replay a match hole by hole. Returns null if the round data doesn't cover it. */
+function replayMatch(tour, m) {
+  const rounds = roundsForYear(tour.year);
+  if (!rounds.length) return null;
+  const sessions = sessionsOf(CC.matchesFor(tour.id, DB.matches));
+  const sIdx = sessions.findIndex(s => s.matches.includes(m));
+  const rd = rounds.find(r => r.round === sIdx+1);
+  if (!rd) return null;
+  const red = CC.sidePlayers(m,'red'), blue = CC.sidePlayers(m,'blue');
+  let a, b;
+  if (rd.format === 'Scramble') {
+    const teams = rd.groups.flatMap(g => g.teams||[]);
+    const find = side => teams.find(t => side.every(p => t.players.includes(p)));
+    const ta = find(red), tb = find(blue);
+    if (!ta || !tb) return null;
+    a = ta.gross.map(x => x ?? 99); b = tb.gross.map(x => x ?? 99);
+  } else {
+    const byName = Object.fromEntries(roundPlayers(rd).map(p => [p.name, p]));
+    if (![...red, ...blue].every(n => byName[n])) return null;
+    const best = side => rd.si.map((si,h) => Math.min(...side.map(n => {
+      const p = byName[n], g = p.gross[h];
+      return g==null ? 99 : g - strokesOn(si, p.match_strokes);
+    })));
+    a = best(red); b = best(blue);
+  }
+  const holes = []; let lead = 0, endedAt = 18;
+  for (let h=0; h<18; h++) {
+    const res = a[h]<b[h] ? 'red' : b[h]<a[h] ? 'blue' : 'half';
+    lead += res==='red' ? 1 : res==='blue' ? -1 : 0;
+    holes.push({ hole:h+1, res, lead, a:a[h], b:b[h] });
+    if (Math.abs(lead) > 17-h) { endedAt = h+1; break; }
+  }
+  const final = lead===0 ? 'A/S' : `${Math.abs(lead)}&${18-endedAt}`;
+  const winner = lead>0 ? 'red' : lead<0 ? 'blue' : 'draw';
+  const maxRed = Math.max(0, ...holes.map(h=>h.lead)), maxBlue = Math.max(0, ...holes.map(h=>-h.lead));
+  const agrees = final===m.score && winner===m.winner;
+  return { holes, endedAt, final, winner, agrees, maxRed, maxBlue, round: rd, comeback: (winner==='red' && maxBlue>=2) || (winner==='blue' && maxRed>=2) || (winner==='draw' && Math.max(maxRed,maxBlue)>=3) };
+}
+
+function replayStrip(tour, m, rp, teams) {
+  const rt = CC.redTeam(m, teams), bt = 3-rt;
+  const cr = teamColour(tour, rt), cb = teamColour(tour, bt);
+  const status = l => l===0 ? 'AS' : `${Math.abs(l)}${l>0?'▲':'▼'}`;
+  const redN = CC.sidePlayers(m,'red').map(surname).join(' & '), blueN = CC.sidePlayers(m,'blue').map(surname).join(' & ');
+  const cells = rp.holes.map(h => {
+    const bg = h.res==='red' ? cr : h.res==='blue' ? cb : '#d9d4c7';
+    const col = h.lead>0 ? cr : h.lead<0 ? cb : 'var(--muted)';
+    const who = h.res==='half' ? 'halved' : `${h.res==='red'?redN:blueN} won`;
+    const st = h.lead===0 ? 'all square' : `${h.lead>0?redN:blueN} ${Math.abs(h.lead)} up`;
+    return `<div class="cc-hole" title="Hole ${h.hole}: ${esc(who)}, ${esc(st)}">
+      <div class="cc-hole-n">${h.hole}</div><div class="cc-hole-dot" style="background:${bg}"></div><div class="cc-hole-s" style="color:${col}">${Math.abs(h.lead)||'AS'}</div></div>`;
+  }).join('') + Array.from({length:18-rp.holes.length},(_,i)=>`<div class="cc-hole cc-hole-off"><div class="cc-hole-n">${rp.holes.length+i+1}</div><div class="cc-hole-dot"></div><div class="cc-hole-s"></div></div>`).join('');
+  const tag = rp.comeback ? '<span class="cc-tag">🔄 Comeback</span>' : (rp.endedAt===18 ? '<span class="cc-tag">⏱ Went the distance</span>' : '');
+  return `<div class="cc-replay">
+    <div class="cc-replay-head"><span><strong style="color:${cr}">${esc(redN)}</strong> v <strong style="color:${cb}">${esc(blueN)}</strong></span>
+      <span class="cc-muted">${esc(m.format)} · ${esc(m.score)} ${tag}</span></div>
+    <div class="cc-holes">${cells}</div>
+    ${rp.agrees ? '' : `<div class="cc-muted" style="font-size:11px;">Scorecard replay gives ${rp.final}, recorded as ${esc(m.score)}.</div>`}
+  </div>`;
+}
+
+// ------------------------------------------------------------
+// TOUR RECAP (added to the top of each tour page)
+// ------------------------------------------------------------
+const _origShowTourById = showTourById;
+showTourById = async function(tourId) {
+  await _origShowTourById(tourId);
+  try { addTourRecap(tourId); } catch (e) { console.error('Recap error', e); }
+};
+
+function addTourRecap(tourId) {
+  const tour = DB.tours.find(t=>t.id===tourId);
+  const hero = document.querySelector('#tour-detail-content .tour-hero');
+  if (!tour || !hero) return;
+  const d = tourDerived(tour);
+  if (!d.matches.length) return;
+  const c1 = teamColour(tour,1), c2 = teamColour(tour,2);
+
+  // Momentum: running margin (team1 minus team2) after each match
+  let run = 0; const pts = [0], labels = ['Start'];
+  const sessions = sessionsOf(d.matches);
+  const sessionRows = [];
+  let r1 = 0, r2 = 0;
+  sessions.forEach(s => {
+    let a=0, b=0;
+    s.matches.forEach((m,i) => { const [p1,p2] = CC.matchPoints(m, d.teams); a+=p1; b+=p2; run += p1-p2; pts.push(run); labels.push(`${s.name.replace(/^Day \d+ – /,'')} ${i+1}`); });
+    r1 += a; r2 += b;
+    sessionRows.push({ name:s.name, a, b, r1, r2 });
+  });
+  const biggestLead1 = Math.max(0,...pts), biggestLead2 = Math.max(0,...pts.map(x=>-x));
+
+  // Swing session: biggest single-session margin
+  const swing = [...sessionRows].sort((x,y)=>Math.abs(y.a-y.b)-Math.abs(x.a-x.b))[0];
+  // Top scorer(s) and unbeaten players
+  const top = Math.max(...d.scores.map(s=>s.points));
+  const tops = d.scores.filter(s=>s.points===top);
+  const unbeaten = d.scores.filter(s => d.matches.filter(m=>[...CC.sidePlayers(m,'red'),...CC.sidePlayers(m,'blue')].includes(s.player_name))
+    .every(m => m.winner==='draw' || CC.sidePlayers(m,m.winner).includes(s.player_name)));
+  const results = d.matches.map(describeMatchResult).filter(Boolean);
+  const biggest = [...results].sort((a,b)=>b.margin-a.margin||b.holesRemaining-a.holesRemaining)[0];
+
+  // Replays (only for years with hole-by-hole data)
+  const replays = d.matches.map(m => ({ m, rp: replayMatch(tour, m) })).filter(x => x.rp);
+  const comebacks = replays.filter(x=>x.rp.comeback);
+  const distance = replays.filter(x=>x.rp.endedAt===18).length;
+
+  const story = [
+    {icon:'🏅', t:'Top Scorer', v: tops.map(s=>playerLink(s.player_name)).join(', ') + ` <span class="cc-muted">${fmtPts(top)} from ${tops[0].matches}</span>`},
+    {icon:'💥', t:'Biggest Win', v: biggest ? `${esc(biggest.winners)} ${esc(biggest.score)} <span class="cc-muted">${esc(biggest.format)}</span>` : '—'},
+    {icon:'🌀', t:'Swing Session', v: swing ? `${esc(swing.name)} <span class="cc-muted">${fmtPts(swing.a)}–${fmtPts(swing.b)}</span>` : '—'},
+    {icon:'🛡️', t:'Unbeaten', v: unbeaten.length ? unbeaten.map(s=>esc(surname(s.player_name))).join(', ') : 'Nobody'},
+    {icon:'📈', t:'Biggest Leads', v: `<span style="color:${c1}">${esc(tour.team1)} +${fmtPts(biggestLead1)}</span> · <span style="color:${c2}">${esc(tour.team2)} +${fmtPts(biggestLead2)}</span>`},
+  ];
+  if (replays.length) story.push({icon:'⏱️', t:'To the 18th', v: `${distance} of ${replays.length} matches${comebacks.length?` · ${plural(comebacks.length,'comeback')}`:''}`});
+
+  const recap = document.createElement('div');
+  recap.className = 'cc-recap';
+  recap.innerHTML = `
+    <div class="section-title" style="font-size:28px;margin:28px 0 8px;">📖 Tour Story</div>
+    <div class="divider"></div>
+    <div class="cc-story">${story.map(s=>`<div class="cc-story-card"><div class="cc-story-icon">${s.icon}</div><div><div class="cc-story-t">${s.t}</div><div class="cc-story-v">${s.v}</div></div></div>`).join('')}</div>
+    <div class="cc-grid-2">
+      ${ccCard('📊 Session by Session', `<table class="cc-mini-table"><thead><tr><th>Session</th><th style="color:${c1}">${esc(tour.team1)}</th><th style="color:${c2}">${esc(tour.team2)}</th><th>Running</th></tr></thead><tbody>
+        ${sessionRows.map(r=>`<tr><td>${esc(r.name)}</td><td>${fmtPts(r.a)}</td><td>${fmtPts(r.b)}</td><td><strong>${fmtPts(r.r1)}–${fmtPts(r.r2)}</strong></td></tr>`).join('')}
+        ${d.tied && tour.playoff_winner ? `<tr><td>Playoff</td><td colspan="3"><strong>${esc(tour.playoff_winner)} win</strong></td></tr>`:''}
+      </tbody></table>`)}
+      ${ccCard('🎢 How the Lead Swung', `<div style="height:220px;"><canvas id="cc-momentum"></canvas></div><div class="cc-muted" style="font-size:11px;margin-top:6px;">Above the line = ${esc(tour.team1)} ahead, below = ${esc(tour.team2)}</div>`)}
+    </div>
+    ${replays.length ? `
+      <div class="section-title" style="font-size:28px;margin:28px 0 8px;">🔁 Match Replays</div>
+      <div class="divider"></div>
+      <div class="section-subtitle" style="margin-bottom:12px;">Rebuilt hole by hole from the scorecards. Dot = who won the hole, number = match status after it. <a href="#" onclick="showRoundStats(${tour.year});return false;">Full round stats →</a></div>
+      ${sessions.map(s => {
+        const list = replays.filter(x=>s.matches.includes(x.m));
+        return list.length ? `<div class="cc-card form-card" style="margin-bottom:14px;"><h3 class="cc-card-title">${esc(s.name)}</h3>${list.map(x=>replayStrip(tour,x.m,x.rp,d.teams)).join('')}</div>` : '';
+      }).join('')}` : ''}`;
+  hero.insertAdjacentElement('afterend', recap);
+
+  if (window.Chart) {
+    const ctx = document.getElementById('cc-momentum');
+    new Chart(ctx, { type:'line',
+      data:{ labels, datasets:[{ data:pts, borderColor:'#1a4a2e', borderWidth:2, pointRadius:3, tension:0.25,
+        pointBackgroundColor: pts.map(v=>v>0?c1:v<0?c2:'#999'),
+        fill:{ target:'origin', above:c1+'33', below:c2+'33' } }] },
+      options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false},
+        tooltip:{ callbacks:{ label: c => c.raw===0 ? 'All square' : `${c.raw>0?tour.team1:tour.team2} +${Math.abs(c.raw)}` } } },
+        scales:{ x:{ ticks:{ display:false }, grid:{display:false} }, y:{ ticks:{ callback:v=>v>0?`+${v}`:v } } } } });
+  }
+}
+
+// ------------------------------------------------------------
+// ROUND STATS VIEW
+// ------------------------------------------------------------
+let _roundYear = null;
+function showRoundStats(year) { _roundYear = year; renderRoundStats(); showView('rounds'); }
+
+function holeClass(g, par) {
+  if (g==null) return 'pu';
+  const d = g - par;
+  return d<=-2 ? 'eagle' : d===-1 ? 'birdie' : d===0 ? 'par' : d===1 ? 'bogey' : 'double';
+}
+
+function renderRoundStats() {
+  const el = document.getElementById('rounds-content');
+  if (!el) return;
+  const years = [...new Set((DB.rounds||[]).map(r=>r.year))].sort((a,b)=>b-a);
+  if (!years.length) { el.innerHTML = '<p class="cc-muted">No hole-by-hole data yet. It can be imported in admin.html.</p>'; return; }
+  const year = years.includes(_roundYear) ? _roundYear : years[0];
+  _roundYear = year;
+  const rounds = roundsForYear(year);
+  const indiv = rounds.filter(r => r.format !== 'Scramble');
+  const tour = DB.tours.find(t=>t.year===year);
+
+  // Per-player aggregation over individual rounds
+  const P = {};
+  const holeAgg = {}; // course -> hole -> stats
+  indiv.forEach(rd => {
+    const key = `${rd.round}`;
+    const ha = holeAgg[rd.course] ||= { par: rd.par, si: rd.si, rounds: new Set(), holes: rd.par.map(()=>({sum:0,n:0,birdies:0,blobs:0,pu:0})) };
+    ha.rounds.add(rd.round);
+    roundPlayers(rd).forEach(p => {
+      const s = P[p.name] ||= { name:p.name, rounds:{}, stab:0, strokeRel:0, grossRel:0, grossHoles:0, eagles:0, birdies:0, pars:0, bogeys:0, doubles:0, pickups:0, blobs:0, netBirdies:0,
+        par3:[0,0], par4:[0,0], par5:[0,0], front:0, back:0, bestHole:null, putts:null, puttRounds:0, threePutts:0, handicap:p.handicap };
+      const stabArr = p.stableford || [];
+      const stab = stabArr.reduce((x,y)=>x+(y||0),0);
+      s.rounds[key] = { stab, course: rd.course, gross: p.gross, stabArr, par: rd.par, pickedUp: p.picked_up };
+      s.stab += stab;
+      s.strokeRel += (p.stroke_total ?? 0);
+      s.front += stabArr.slice(0,9).reduce((x,y)=>x+(y||0),0);
+      s.back += stabArr.slice(9).reduce((x,y)=>x+(y||0),0);
+      p.gross.forEach((g,h) => {
+        const par = rd.par[h], hh = ha.holes[h];
+        const sp = stabArr[h];
+        if (sp === 0) s.blobs++;
+        if (sp >= 3) s.netBirdies++;
+        if (g == null) { s.pickups++; hh.pu++; hh.blobs++; return; }
+        hh.sum += g-par; hh.n++;
+        if (g-par<=-1) hh.birdies++;
+        s.grossRel += g-par; s.grossHoles++;
+        const dd = g-par;
+        if (dd<=-2) s.eagles++; else if (dd===-1) s.birdies++; else if (dd===0) s.pars++; else if (dd===1) s.bogeys++; else s.doubles++;
+        const bucket = par===3?'par3':par===4?'par4':'par5'; s[bucket][0]+=(sp||0); s[bucket][1]++;
+        if ((sp||0) >= 4) { s.fourPlus = (s.fourPlus||0)+1; if (!s.bestHole || sp > s.bestHole.pts || (sp===s.bestHole.pts && g-par < s.bestHole.gross-s.bestHole.par)) s.bestHole = { pts:sp, hole:h+1, course:rd.course, gross:g, par }; }
+      });
+      if (p.putts && p.putts.some(x=>x!=null)) {
+        s.putts = (s.putts||0) + p.putts.reduce((x,y)=>x+(y||0),0); s.puttRounds++;
+        s.threePutts += p.putts.filter(x=>x>=3).length;
+      }
+    });
+  });
+  const players = Object.values(P);
+  const nRounds = indiv.length;
+  const top = (arr, f, dir=-1) => { const v = arr.map(f); const best = dir<0 ? Math.max(...v) : Math.min(...v); return { v:best, who: arr.filter((x,i)=>v[i]===best) }; };
+  const names = list => list.map(p=>esc(surname(p.name))).join(', ');
+
+  // Headline cards
+  const stabChamp = top(players, p=>p.stab);
+  const lowGross = top(players, p=>p.strokeRel, 1);
+  const mostBirdies = top(players, p=>p.birdies+p.eagles);
+  const mostBlobs = top(players, p=>p.blobs);
+  const bestRound = (() => { let b=null; players.forEach(p=>Object.values(p.rounds).forEach(r=>{ if(!b||r.stab>b.stab) b={...r,name:p.name}; })); return b; })();
+  const bestHole = (() => { let b=null; players.forEach(p=>{ const h=p.bestHole; if(h && (!b||h.pts>b.pts||(h.pts===b.pts&&h.gross-h.par<b.gross-b.par))) b={...h,name:p.name}; }); return b; })();
+  const fourPlus = players.reduce((x,p)=>x+(p.fourPlus||0),0);
+  let hardest=null, easiest=null;
+  Object.entries(holeAgg).forEach(([course,ha]) => ha.holes.forEach((h,i)=>{ if(!h.n) return;
+    const avg = (h.sum + h.pu*3)/(h.n+h.pu); const o={course,hole:i+1,avg,par:ha.par[i],si:ha.si[i]};
+    if(!hardest||avg>hardest.avg) hardest=o; if(!easiest||avg<easiest.avg) easiest=o; }));
+  const scr = rounds.filter(r=>r.format==='Scramble').flatMap(r=>r.groups.flatMap(g=>(g.teams||[]).map(t=>({...t, par:r.par, course:r.course}))));
+  const bestScr = scr.length ? scr.reduce((b,t)=>{ const tot=t.gross.reduce((x,y)=>x+(y||0),0)-t.par.reduce((x,y)=>x+y,0); return (!b||tot<b.tot)?{...t,tot}:b; }, null) : null;
+
+  const cards = [
+    {i:'🏆', t:'Stableford Champion', v:`${names(stabChamp.who)} — ${stabChamp.v} pts over ${nRounds} rounds`},
+    {i:'🎯', t:'Strokeplay Champion', v:`${names(lowGross.who)} — +${lowGross.v} over ${nRounds} rounds`},
+    {i:'🐦', t:'Birdie King', v:`${names(mostBirdies.who)} — ${mostBirdies.v} gross birdies`},
+    {i:'🔥', t:'Best Round', v: bestRound ? `${esc(surname(bestRound.name))} — ${bestRound.stab} pts at ${esc(bestRound.course.split(' Golf')[0])}` : '—'},
+    {i:'💎', t:'Hole of the Tour', v: bestHole ? `${esc(surname(bestHole.name))} — ${bestHole.gross} on the par-${bestHole.par} ${bestHole.hole}${['st','nd','rd'][((bestHole.hole+90)%100-10)%10-1]||'th'} for ${bestHole.pts} pts <span class="cc-muted">(${fourPlus} four-pointers all tour)</span>` : '—'},
+    {i:'🥚', t:'Most Blobs', v:`${names(mostBlobs.who)} — ${mostBlobs.v} zero-pointers`},
+    {i:'😱', t:'Hardest Hole', v: hardest ? `${esc(hardest.course.split(' Golf')[0])} ${hardest.hole} (par ${hardest.par}, SI ${hardest.si}) — avg +${hardest.avg.toFixed(1)}` : '—'},
+    {i:'🧈', t:'Easiest Hole', v: easiest ? `${esc(easiest.course.split(' Golf')[0])} ${easiest.hole} (par ${easiest.par}, SI ${easiest.si}) — avg ${easiest.avg>=0?'+':''}${easiest.avg.toFixed(1)}` : '—'},
+  ];
+  if (bestScr) cards.push({i:'🤝', t:'Best Scramble', v:`${bestScr.players.map(surname).map(esc).join(' & ')} — ${bestScr.tot<0?'':'+'}${bestScr.tot}`});
+
+  // Stableford leaderboard
+  const rKeys = indiv.map(r=>String(r.round));
+  const stabRows = players.slice().sort((a,b)=>b.stab-a.stab).map((p,i) => {
+    const avg = p.stab/nRounds;
+    return `<tr><td>${i+1}</td><td><strong>${playerLink(p.name)}</strong></td>${rKeys.map(k=>`<td>${p.rounds[k]?.stab ?? '—'}</td>`).join('')}
+      <td><strong>${p.stab}</strong></td><td>${avg.toFixed(1)}</td><td>${p.strokeRel>0?'+':''}${p.strokeRel}</td><td>${p.front}–${p.back}</td></tr>`;
+  }).join('');
+
+  // Scoring breakdown
+  const sp = (a,b)=> b ? (a/b).toFixed(2) : '—';
+  const scoreRows = players.slice().sort((a,b)=>(b.birdies+b.eagles)-(a.birdies+a.eagles)||b.pars-a.pars).map(p =>
+    `<tr><td><strong>${esc(p.name)}</strong></td><td>${p.eagles||''}</td><td>${p.birdies}</td><td>${p.pars}</td><td>${p.bogeys}</td><td>${p.doubles}</td><td>${p.pickups}</td>
+      <td>${p.netBirdies}</td><td>${p.blobs}</td><td>${sp(...p.par3)}</td><td>${sp(...p.par4)}</td><td>${sp(...p.par5)}</td></tr>`).join('');
+
+  // Specialists
+  const spec = (k, label) => { const q = players.filter(p=>p[k][1]); const b = top(q, p=>p[k][0]/p[k][1]); return `<div class="cc-spec"><div class="cc-story-t">${label}</div><div>${names(b.who)} <span class="cc-muted">${b.v.toFixed(2)} Stableford pts per hole</span></div></div>`; };
+  const finisher = top(players, p=>p.back-p.front), starter = top(players, p=>p.front-p.back);
+
+  // Bandit watch: average Stableford vs 36
+  const bandit = players.map(p => ({ ...p, avg: p.stab/nRounds })).sort((a,b)=>b.avg-a.avg);
+  const fieldAvg = bandit.reduce((x,p)=>x+p.avg,0)/(bandit.length||1);
+  const banditRows = bandit.map(p => {
+    const diff = p.avg - fieldAvg;
+    const verdict = diff >= 5 ? '🚨 Bandit alert' : diff >= 2 ? '👀 One to watch' : diff > -2 ? '✅ Fair' : diff > -5 ? '📉 Off the pace' : '🎁 Needs shots';
+    const w = Math.min(100, Math.abs(diff)/12*100);
+    return `<div class="cc-bandit"><div class="cc-bandit-name">${esc(surname(p.name))} <span class="cc-muted">(${p.handicap??'?'})</span></div>
+      <div class="cc-bandit-bar"><div class="cc-bandit-mid"></div><div class="cc-bandit-fill" style="${diff>=0?`left:50%;width:${w/2}%;background:var(--red)`:`right:50%;width:${w/2}%;background:var(--green-mid)`}"></div></div>
+      <div class="cc-bandit-val">${p.avg.toFixed(1)}</div><div class="cc-bandit-v">${verdict}</div></div>`;
+  }).join('');
+
+  // Hole difficulty per course
+  const courseTables = Object.entries(holeAgg).map(([course, ha]) => {
+    const cells = ha.holes.map((h,i) => { const avg = h.n+h.pu ? (h.sum + h.pu*3)/(h.n+h.pu) : 0; return {i, avg, ...h}; });
+    const ranked = cells.slice().sort((a,b)=>b.avg-a.avg).map(c=>c.i);
+    const heat = v => v>=2 ? '#c0392b' : v>=1.5 ? '#e06c4f' : v>=1 ? '#f0a070' : v>=0.5 ? '#f5d39a' : '#b9dcc3';
+    return ccCard(`⛳ ${esc(course)}`, `<div class="table-scroll-wrap"><table class="cc-hole-table">
+      <tr><th>Hole</th>${cells.map(c=>`<td>${c.i+1}</td>`).join('')}</tr>
+      <tr><th>Par</th>${ha.par.map(p=>`<td>${p}</td>`).join('')}</tr>
+      <tr><th>SI</th>${ha.si.map(s=>`<td>${s}</td>`).join('')}</tr>
+      <tr><th>Played as</th>${cells.map(c=>`<td class="cc-rank">${ranked.indexOf(c.i)+1}</td>`).join('')}</tr>
+      <tr><th>Avg</th>${cells.map(c=>`<td style="background:${heat(c.avg)}">${c.avg>=0?'+':''}${c.avg.toFixed(1)}</td>`).join('')}</tr>
+      <tr><th>🐦</th>${cells.map(c=>`<td>${c.birdies||''}</td>`).join('')}</tr>
+    </table></div><div class="cc-muted" style="font-size:11px;margin-top:6px;">"Played as" ranks holes by how hard they actually played (1 = hardest). Pick-ups count as +3.</div>`, 'style="margin-bottom:16px;"');
+  }).join('');
+
+  // Scorecard viewer
+  const sel = players.slice().sort((a,b)=>a.name.localeCompare(b.name));
+  const cardPlayer = sel.find(p=>p.name===window._cardPlayer) || sel[0];
+
+  // Putting (only where tracked)
+  const putters = players.filter(p=>p.puttRounds);
+  const puttHtml = putters.length ? ccCard('🏌️ Putting', `<div class="cc-muted" style="font-size:12px;margin-bottom:8px;">Only tracked by ${plural(putters.length,'player')} in some rounds.</div>
+    <table class="cc-mini-table"><thead><tr><th>Player</th><th>Rounds</th><th>Putts/round</th><th>3-putts</th></tr></thead><tbody>
+    ${putters.sort((a,b)=>a.putts/a.puttRounds-b.putts/b.puttRounds).map(p=>`<tr><td>${esc(p.name)}</td><td>${p.puttRounds}</td><td>${(p.putts/p.puttRounds).toFixed(1)}</td><td>${p.threePutts}</td></tr>`).join('')}</tbody></table>`) : '';
+
+  const replayHtml = tour ? (() => {
+    const d = tourDerived(tour);
+    const list = d.matches.map(m=>({m, rp:replayMatch(tour,m)})).filter(x=>x.rp);
+    if (!list.length) return '';
+    return `<div class="section-title" style="font-size:28px;margin:32px 0 8px;">🔁 Match Replays</div><div class="divider"></div>
+      ${sessionsOf(d.matches).map(s=>{ const l=list.filter(x=>s.matches.includes(x.m)); return l.length?`<div class="form-card cc-card" style="margin-bottom:14px;"><h3 class="cc-card-title">${esc(s.name)}</h3>${l.map(x=>replayStrip(tour,x.m,x.rp,d.teams)).join('')}</div>`:''; }).join('')}`;
+  })() : '';
+
+  el.innerHTML = `
+    <div class="cc-round-head">
+      <div class="section-subtitle">${rounds.map(r=>`R${r.round} ${esc(r.course.replace(' Golf Resort',''))} (${esc(r.format)})`).join(' · ')}</div>
+      ${years.length>1?`<select onchange="_roundYear=+this.value;renderRoundStats()">${years.map(y=>`<option ${y===year?'selected':''}>${y}</option>`).join('')}</select>`:''}
+    </div>
+    <div class="cc-story">${cards.map(s=>`<div class="cc-story-card"><div class="cc-story-icon">${s.i}</div><div><div class="cc-story-t">${s.t}</div><div class="cc-story-v">${s.v}</div></div></div>`).join('')}</div>
+
+    <div class="section-title" style="font-size:28px;margin:32px 0 8px;">📋 Stableford Leaderboard</div><div class="divider"></div>
+    <div class="table-scroll-wrap"><table class="leaderboard-table">
+      <thead><tr><th>#</th><th>Player</th>${indiv.map(r=>`<th>R${r.round}</th>`).join('')}<th>Total</th><th>Avg</th><th>Strokeplay</th><th>Out–In</th></tr></thead>
+      <tbody>${stabRows}</tbody></table></div>
+    <div class="cc-muted" style="font-size:11px;margin-top:6px;">Individual rounds only (the scramble has no individual scores). Strokeplay is total over par as scored by the golf app, including its pick-up penalty.</div>
+
+    <div class="cc-grid-2" style="margin-top:24px;">
+      ${ccCard('🚔 Bandit Watch', `<div class="cc-muted" style="font-size:12px;margin-bottom:10px;">Average Stableford per round against the group average of ${fieldAvg.toFixed(1)}. Sandbaggers sit to the right. Strictly for entertainment.</div>${banditRows}`)}
+      ${ccCard('🧪 Specialists', `${spec('par3','Par 3 specialist')}${spec('par4','Par 4 specialist')}${spec('par5','Par 5 specialist')}
+        <div class="cc-spec"><div class="cc-story-t">Strong finisher (back 9 v front 9)</div><div>${names(finisher.who)} <span class="cc-muted">+${finisher.v} pts on the back</span></div></div>
+        <div class="cc-spec"><div class="cc-story-t">Fast starter</div><div>${names(starter.who)} <span class="cc-muted">+${starter.v} pts on the front</span></div></div>`)}
+    </div>
+
+    <div class="section-title" style="font-size:28px;margin:32px 0 8px;">🐦 Scoring Breakdown</div><div class="divider"></div>
+    <div class="table-scroll-wrap"><table class="leaderboard-table cc-compact">
+      <thead><tr><th>Player</th><th>Eagle</th><th>Birdie</th><th>Par</th><th>Bogey</th><th>Dbl+</th><th>Pick-up</th><th>Net birdie</th><th>Blob</th><th>Par 3</th><th>Par 4</th><th>Par 5</th></tr></thead>
+      <tbody>${scoreRows}</tbody></table></div>
+    <div class="cc-muted" style="font-size:11px;margin-top:6px;">Gross scores. Net birdie = 3+ Stableford points. Par 3/4/5 = average Stableford points per hole of that type (2 = net par).</div>
+
+    <div class="section-title" style="font-size:28px;margin:32px 0 8px;">🃏 Scorecards</div><div class="divider"></div>
+    <div class="form-card cc-card">
+      <select id="cc-card-player" onchange="window._cardPlayer=this.value;renderRoundStats();document.getElementById('cc-card-player').scrollIntoView({block:'center'})">
+        ${sel.map(p=>`<option ${p===cardPlayer?'selected':''}>${esc(p.name)}</option>`).join('')}</select>
+      ${Object.entries(cardPlayer.rounds).map(([k,r]) => `
+        <div class="cc-sc-title">R${k} · ${esc(r.course)} · <strong>${r.stab} pts</strong></div>
+        <div class="table-scroll-wrap"><table class="cc-sc">
+          <tr><th></th>${r.par.map((_,i)=>`<td>${i+1}</td>`).join('')}</tr>
+          <tr><th>Par</th>${r.par.map(p=>`<td>${p}</td>`).join('')}</tr>
+          <tr><th>Score</th>${r.gross.map((g,i)=>`<td><span class="cc-sc-cell ${holeClass(g,r.par[i])}">${g??'–'}</span></td>`).join('')}</tr>
+          <tr><th>Pts</th>${r.stabArr.map(p=>`<td class="cc-muted">${p??'–'}</td>`).join('')}</tr>
+        </table></div>`).join('')}
+      <div class="cc-legend"><span class="cc-sc-cell eagle">3</span> Eagle <span class="cc-sc-cell birdie">3</span> Birdie <span class="cc-sc-cell par">4</span> Par <span class="cc-sc-cell bogey">5</span> Bogey <span class="cc-sc-cell double">6</span> Double+ <span class="cc-sc-cell pu">–</span> Pick-up</div>
+    </div>
+
+    <div class="section-title" style="font-size:28px;margin:32px 0 8px;">🗺️ How the Holes Played</div><div class="divider"></div>
+    ${courseTables}
+    ${puttHtml}
+    ${replayHtml}`;
+}
+
+// ------------------------------------------------------------
+// PLAYER PROFILE EXTRAS
+// ------------------------------------------------------------
+function buildProfileExtras(name) {
+  const tours = completedTours();
+  // Partners and opponents
+  const partners = {}, opps = {};
+  DB.matches.forEach(m => ['red','blue'].forEach(side => {
+    const mine = CC.sidePlayers(m, side); if (!mine.includes(name)) return;
+    const o = m.winner===side ? 1 : m.winner==='draw' ? 0.5 : 0;
+    mine.filter(p=>p!==name).forEach(p => { const r = partners[p] ||= {n:0,pts:0}; r.n++; r.pts+=o; });
+    CC.sidePlayers(m, side==='red'?'blue':'red').forEach(p => { const r = opps[p] ||= {n:0,pts:0}; r.n++; r.pts+=o; });
+  }));
+  const rank = (obj, dir) => Object.entries(obj).filter(([,r])=>r.n>=2).map(([p,r])=>({p,...r,pct:r.pts/r.n}))
+    .sort((a,b)=>dir*(b.pct-a.pct) || b.n-a.n)[0];
+  const bestP = rank(partners, 1), worstP = rank(partners, -1), victim = rank(opps, 1);
+  // Debut
+  const debutTour = tours.find(t => tourDerived(t).scores.some(s=>s.player_name===name));
+  let debutHtml = '—';
+  if (debutTour) {
+    const d = tourDerived(debutTour); const s = d.scores.find(x=>x.player_name===name);
+    const ms = d.matches.filter(m=>[...CC.sidePlayers(m,'red'),...CC.sidePlayers(m,'blue')].includes(name));
+    const w = ms.filter(m=>CC.sidePlayers(m,m.winner).includes(name)).length, dr = ms.filter(m=>m.winner==='draw').length;
+    debutHtml = `${debutTour.flag||''} ${debutTour.year} ${esc(debutTour.location.split(',')[0])} <span class="cc-muted">${w}W ${dr}D ${ms.length-w-dr}L · ${fmtPts(s.points)} pts${s.stars?' · ⭐ won on debut':''}</span>`;
+  }
+  const line = (icon, label, val) => `<div class="cc-spec"><div class="cc-story-t">${icon} ${label}</div><div>${val}</div></div>`;
+  const pRec = r => r ? `${playerLink(r.p)} <span class="cc-muted">${fmtPts(r.pts)}/${r.n} (${Math.round(r.pct*100)}%)</span>` : '<span class="cc-muted">Needs 2+ matches together</span>';
+
+  // Round stats card for the latest year with data
+  let roundHtml = '';
+  const ry = [...new Set((DB.rounds||[]).map(r=>r.year))].sort((a,b)=>b-a).find(y => roundsForYear(y).some(r=>roundPlayers(r).some(p=>p.name===name)));
+  if (ry) {
+    let stab=0, n=0, birdies=0, pars=0, pu=0, best=null;
+    roundsForYear(ry).forEach(rd => roundPlayers(rd).filter(p=>p.name===name).forEach(p => {
+      const s = (p.stableford||[]).reduce((x,y)=>x+(y||0),0); stab+=s; n++;
+      if (!best || s>best.s) best = {s, course: rd.course};
+      p.gross.forEach((g,h)=>{ if(g==null) pu++; else if (g-rd.par[h]<=-1) birdies++; else if (g===rd.par[h]) pars++; });
+    }));
+    roundHtml = ccCard(`🃏 ${ry} Scorecards`, `
+      ${line('📋','Stableford', `${stab} pts over ${n} rounds <span class="cc-muted">(avg ${(stab/n).toFixed(1)})</span>`)}
+      ${line('🔥','Best round', `${best.s} pts at ${esc(best.course)}`)}
+      ${line('🐦','Birdies · Pars · Pick-ups', `${birdies} · ${pars} · ${pu}`)}
+      <a href="#" onclick="window._cardPlayer='${name.replace(/'/g,"\\'")}';showRoundStats(${ry});return false;">See full scorecards →</a>`);
+  }
+
+  return `<div class="cc-grid-2" style="margin-bottom:20px;">
+    ${ccCard('🤝 Partners & Rivals', `
+      ${line('💚','Best partner', pRec(bestP))}
+      ${line('💔','Worst partner', pRec(worstP && worstP.p!==bestP?.p ? worstP : null))}
+      ${line('🎯','Favourite opponent', pRec(victim))}
+      ${line('🐣','Debut', debutHtml)}`)}
+    ${ccCard('📊 Points per Tour', `<div style="height:210px;"><canvas id="cc-ppt-chart"></canvas></div>`)}
+  </div>${roundHtml ? `<div style="margin-bottom:20px;">${roundHtml}</div>` : ''}`;
+}
+
+function renderPointsPerTourChart(name) {
+  const ctx = document.getElementById('cc-ppt-chart');
+  if (!ctx || !window.Chart) return;
+  const tours = completedTours();
+  const rows = tours.map(t => { const s = tourDerived(t).scores.find(x=>x.player_name===name); return { y:t.year, pts: s?s.points:null, n: s?s.matches:null, star: s?.stars }; });
+  new Chart(ctx, { type:'bar', data:{ labels: rows.map(r=>r.y), datasets:[
+      { label:'Points', data: rows.map(r=>r.pts), backgroundColor: rows.map(r=>r.star?'#c9a84c':'#2d7a4f'), borderRadius:4 },
+      { label:'Played', data: rows.map(r=>r.n), backgroundColor:'#e0dbd0', borderRadius:4 } ] },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{size:11} } },
+      tooltip:{ callbacks:{ footer: items => rows[items[0].dataIndex].star ? '⭐ Won the tour' : (rows[items[0].dataIndex].pts==null?'Didn\'t play':'') } } },
+      scales:{ y:{ beginAtZero:true, ticks:{ stepSize:1 } }, x:{ grid:{display:false} } } } });
+}
+
+// ============================================================
 // INIT
 // ============================================================
 async function initApp(){
   try{
-    const savedName=localStorage.getItem('cc_editor_name');
-    const nameEl=document.getElementById('entry-editor-name');
-    if(savedName&&nameEl) nameEl.value=savedName;
-
     _navStack=['home'];
     buildLeaderboard();
-    for(let i=0;i<6;i++) addSheetRow();
 
     setDbStatus(null,'Loading data…');
     await loadAllData();
@@ -5370,7 +4066,6 @@ async function initApp(){
     const heroSub = document.querySelector('.hero-sub');
     if (heroSub) heroSub.textContent = `${DB.tours.length} Tours · ${DB.players.length} Players · Ryder Cup Format`;
     renderNextTour();
-    renderTeamChips();
     await refreshAllViews();
 
   }catch(err){

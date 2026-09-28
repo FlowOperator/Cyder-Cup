@@ -37,7 +37,7 @@
       "created_at": "2026-03-22T15:47:44.926379+00:00",
       "updated_at": "2026-03-31T18:17:32.53267+00:00",
       "is_playoff": true,
-      "playoff_winner": "Navy",
+      "playoff_winner": "Blue",
       "playoff_scores": "[{\"group\":\"1st Group\",\"red_a\":\"Jock Jamieson-Black\",\"red_b\":\"James Wheeler\",\"blue_a\":\"Jack Smart\",\"blue_b\":\"Andrew Newson\",\"score_ra\":\"5\",\"score_rb\":\"6\",\"score_ba\":\"5\",\"score_bb\":\"6\",\"red_total\":\"11\",\"blue_total\":\"11\",\"score\":\"A/S (11 v 11)\"},{\"group\":\"2nd Group\",\"red_a\":\"Simon Sexton\",\"red_b\":\"Nick Haynes\",\"blue_a\":\"Kier Roff-Stanion\",\"blue_b\":\"Ben Bruce\",\"score_ra\":\"6\",\"score_rb\":\"4\",\"score_ba\":\"6\",\"score_bb\":\"6\",\"red_total\":\"10\",\"blue_total\":\"12\",\"score\":\"Navy Win (12 v 10)\"}]"
     },
     {
@@ -111,7 +111,7 @@
       "cap2": "Jack Smart",
       "score1": "8.5",
       "score2": "8.5",
-      "winner": "Tied — Playoff Win Blue",
+      "winner": "Tied — Playoff Win Pink",
       "cup_award": "Ben Ringrose",
       "seal_award": "James Wheeler",
       "created_at": "2026-03-22T15:47:44.926379+00:00",
@@ -256,10 +256,10 @@
       "sort_order": 1,
       "created_at": "2026-03-22T17:22:42.709058+00:00",
       "updated_at": "2026-03-22T17:22:42.709058+00:00",
-      "red_p1": "",
-      "red_p2": "",
-      "blue_p1": "",
-      "blue_p2": ""
+      "red_p1": "Jack Smart",
+      "red_p2": "Simon Sexton",
+      "blue_p1": "Alex Duncliffe-Vines",
+      "blue_p2": "Luke Nelson"
     },
     {
       "id": "21e4a312-3129-4b3b-a549-349bc2379f42",
@@ -426,10 +426,10 @@
       "sort_order": 2,
       "created_at": "2026-03-22T17:22:42.709058+00:00",
       "updated_at": "2026-03-22T17:22:42.709058+00:00",
-      "red_p1": "",
-      "red_p2": "",
-      "blue_p1": "",
-      "blue_p2": ""
+      "red_p1": "Jock Jamieson-Black",
+      "red_p2": "Ben Bruce",
+      "blue_p1": "Andrew Newson",
+      "blue_p2": "Charlie Pascoe"
     },
     {
       "id": "2f6524a0-8566-4db9-b34d-64af3e5189d0",
@@ -528,10 +528,10 @@
       "sort_order": 3,
       "created_at": "2026-03-22T17:22:42.709058+00:00",
       "updated_at": "2026-03-22T17:22:42.709058+00:00",
-      "red_p1": "",
-      "red_p2": "",
-      "blue_p1": "",
-      "blue_p2": ""
+      "red_p1": "James Wheeler",
+      "red_p2": "Nick Haynes",
+      "blue_p1": "Ben Ringrose",
+      "blue_p2": "Kier Roff-Stanion"
     },
     {
       "id": "d5d97e5a-d3e2-48ce-9593-a2defb2dfdb6",
@@ -579,10 +579,10 @@
       "sort_order": 4,
       "created_at": "2026-03-22T17:22:42.709058+00:00",
       "updated_at": "2026-03-22T17:22:42.709058+00:00",
-      "red_p1": "",
-      "red_p2": "",
-      "blue_p1": "",
-      "blue_p2": ""
+      "red_p1": "Ben Bruce",
+      "red_p2": "James Wheeler",
+      "blue_p1": "Alex Duncliffe-Vines",
+      "blue_p2": "Kier Roff-Stanion"
     },
     {
       "id": "446146f8-a28b-46e2-b3df-dc4e0ca66567",
@@ -715,10 +715,10 @@
       "sort_order": 5,
       "created_at": "2026-03-22T17:22:42.709058+00:00",
       "updated_at": "2026-03-22T17:22:42.709058+00:00",
-      "red_p1": "",
-      "red_p2": "",
-      "blue_p1": "",
-      "blue_p2": ""
+      "red_p1": "Jack Smart",
+      "red_p2": "Jock Jamieson-Black",
+      "blue_p1": "Ben Ringrose",
+      "blue_p2": "Andrew Newson"
     },
     {
       "id": "a29310c8-eb23-4716-9283-7036b800218f",
@@ -783,10 +783,10 @@
       "sort_order": 6,
       "created_at": "2026-03-22T17:22:42.709058+00:00",
       "updated_at": "2026-03-22T17:22:42.709058+00:00",
-      "red_p1": "",
-      "red_p2": "",
-      "blue_p1": "",
-      "blue_p2": ""
+      "red_p1": "Simon Sexton",
+      "red_p2": "Nick Haynes",
+      "blue_p1": "Charlie Pascoe",
+      "blue_p2": "Luke Nelson"
     },
     {
       "id": "bb81e30f-f619-4c34-8bb3-8575b45aec9d",
@@ -851,10 +851,10 @@
       "sort_order": 7,
       "created_at": "2026-03-22T17:22:42.709058+00:00",
       "updated_at": "2026-03-22T17:22:42.709058+00:00",
-      "red_p1": "",
-      "red_p2": "",
-      "blue_p1": "",
-      "blue_p2": ""
+      "red_p1": "Jock Jamieson-Black",
+      "red_p2": "James Wheeler",
+      "blue_p1": "Kier Roff-Stanion",
+      "blue_p2": "Charlie Pascoe"
     },
     {
       "id": "3641563e-ef19-49cd-887e-6fcd3ab3b1e5",
@@ -987,10 +987,10 @@
       "sort_order": 8,
       "created_at": "2026-03-22T17:22:42.709058+00:00",
       "updated_at": "2026-03-22T17:22:42.709058+00:00",
-      "red_p1": "",
-      "red_p2": "",
-      "blue_p1": "",
-      "blue_p2": ""
+      "red_p1": "Jack Smart",
+      "red_p2": "Nick Haynes",
+      "blue_p1": "Andrew Newson",
+      "blue_p2": "Luke Nelson"
     },
     {
       "id": "8f719c21-8890-4c68-bc84-c88493d8947c",
@@ -1038,10 +1038,10 @@
       "sort_order": 9,
       "created_at": "2026-03-22T17:22:42.709058+00:00",
       "updated_at": "2026-03-22T17:22:42.709058+00:00",
-      "red_p1": "",
-      "red_p2": "",
-      "blue_p1": "",
-      "blue_p2": ""
+      "red_p1": "Ben Bruce",
+      "red_p2": "Simon Sexton",
+      "blue_p1": "Alex Duncliffe-Vines",
+      "blue_p2": "Ben Ringrose"
     },
     {
       "id": "5c341249-9b17-4d6e-9920-3d2faa8dd06a",
@@ -1089,9 +1089,9 @@
       "sort_order": 10,
       "created_at": "2026-03-22T17:22:42.709058+00:00",
       "updated_at": "2026-03-22T17:22:42.709058+00:00",
-      "red_p1": "",
+      "red_p1": "Jack Smart",
       "red_p2": "",
-      "blue_p1": "",
+      "blue_p1": "Ben Ringrose",
       "blue_p2": ""
     },
     {
@@ -1208,9 +1208,9 @@
       "sort_order": 11,
       "created_at": "2026-03-22T17:22:42.709058+00:00",
       "updated_at": "2026-03-22T17:22:42.709058+00:00",
-      "red_p1": "",
+      "red_p1": "Ben Bruce",
       "red_p2": "",
-      "blue_p1": "",
+      "blue_p1": "Charlie Pascoe",
       "blue_p2": ""
     },
     {
@@ -1225,9 +1225,9 @@
       "sort_order": 12,
       "created_at": "2026-03-22T17:22:42.709058+00:00",
       "updated_at": "2026-03-22T17:22:42.709058+00:00",
-      "red_p1": "",
+      "red_p1": "James Wheeler",
       "red_p2": "",
-      "blue_p1": "",
+      "blue_p1": "Luke Nelson",
       "blue_p2": ""
     },
     {
@@ -1310,9 +1310,9 @@
       "sort_order": 13,
       "created_at": "2026-03-22T17:22:42.709058+00:00",
       "updated_at": "2026-03-22T17:22:42.709058+00:00",
-      "red_p1": "",
+      "red_p1": "Simon Sexton",
       "red_p2": "",
-      "blue_p1": "",
+      "blue_p1": "Alex Duncliffe-Vines",
       "blue_p2": ""
     },
     {
@@ -1344,9 +1344,9 @@
       "sort_order": 14,
       "created_at": "2026-03-22T17:22:42.709058+00:00",
       "updated_at": "2026-03-22T17:22:42.709058+00:00",
-      "red_p1": "",
+      "red_p1": "Jock Jamieson-Black",
       "red_p2": "",
-      "blue_p1": "",
+      "blue_p1": "Andrew Newson",
       "blue_p2": ""
     },
     {
@@ -1378,9 +1378,9 @@
       "sort_order": 15,
       "created_at": "2026-03-22T17:22:42.709058+00:00",
       "updated_at": "2026-03-22T17:22:42.709058+00:00",
-      "red_p1": "",
+      "red_p1": "Nick Haynes",
       "red_p2": "",
-      "blue_p1": "",
+      "blue_p1": "Kier Roff-Stanion",
       "blue_p2": ""
     },
     {
